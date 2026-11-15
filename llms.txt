@@ -11,6 +11,9 @@
 - Cómo pedir: desde el navegador del celular en https://cilindroya.com/cliente (no hace falta descargar ninguna aplicación) o desde la portada en https://cilindroya.com/hogar/.
 - Pagos: al recibir en tu puerta, en efectivo (el repartidor lleva cambio), con código QR de DeUna o por transferencia, directo a quien entrega.
 - Canje universal: se recibe el cilindro vacío de cualquier marca o color en buen estado.
+- Tiempo de entrega: alrededor de 15 a 20 minutos desde que un distribuidor acepta el pedido, según la zona; se avisa por WhatsApp y se sigue el camión en el mapa.
+- Cantidad: se puede pedir más de un cilindro en el mismo pedido ($3,60 por cada uno).
+- Cilindro nuevo (envase) de 15 kg, para quien no tiene uno vacío que canjear: $42,00.
 
 ## Para distribuidores
 - Quién puede participar: solo distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra.

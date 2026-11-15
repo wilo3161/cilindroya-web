@@ -279,3 +279,4 @@ body:not(:has(#submitOrderBtn)) :is(input, select, textarea):focus { outline: no
   .registro-lado h1 { font-size: 26px; margin-bottom: 6px; }
   .registro-lado .lead { font-size: 15px; margin-bottom: 0; }
 }
+.cy-autor-meta { display: block; margin-top: 6px; font-size: 14px; color: #5F6C7B; }

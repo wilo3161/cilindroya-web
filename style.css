@@ -1,0 +1,365 @@
+/* static/style.css — Ecosistema Visual Oficial Gas Azul Express (Material Design 3 / Android Nativo Fintech) */
+
+/* ── 0. Tokens de Diseño Material Design 3 (Modo Día Default) ─────────────── */
+:root {
+  --md-primary: #005A9C;
+  --md-primary-dark: #004578;
+  --md-on-primary: #FFFFFF;
+  --md-primary-container: #D8E6FF;
+  --md-secondary: #00875A;
+  --md-secondary-dark: #006C47;
+  --md-tertiary: #D9480F;
+  --md-tertiary-dark: #B83A0A;
+  --md-tertiary-container: #FFE8DF;
+  --md-surface: #F8FAFC;
+  --md-surface-container: #FFFFFF;
+  --md-outline: #E2E8F0;
+  --md-outline-focus: #CBD5E1;
+  --md-error: #BA1A1A;
+}
+
+/* ── Iconografía Material Symbols Outlined ────────────────────────────────── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+/* ── 1. M3 Surface & Cards (Modo Día Default) ────────────────────────────── */
+body.cy-client:not(.dark-mode) {
+  background-color: var(--md-surface) !important;
+  color: #0F172A !important;
+}
+
+body.cy-client:not(.dark-mode) .bg-m3-surface {
+  background-color: var(--md-surface) !important;
+}
+
+body.cy-client:not(.dark-mode) .bg-m3-card,
+body.cy-client:not(.dark-mode) .card-pedido,
+body.cy-client:not(.dark-mode) .glass-card {
+  background-color: var(--md-surface-container) !important;
+  border: 1.5px solid var(--md-outline) !important;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03) !important;
+  color: #0F172A !important;
+}
+
+body.cy-client:not(.dark-mode) .m3-input {
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+}
+body.cy-client:not(.dark-mode) .m3-input:focus {
+  border-color: var(--md-primary) !important;
+  box-shadow: 0 0 0 3.5px rgba(0, 90, 156, 0.15) !important;
+}
+
+/* ── 2. Tema Oscuro Opcional (.dark-mode) ─────────────────────────────────── */
+.dark-mode {
+  background-color: #0F1419 !important;
+  color: #F0F4F8 !important;
+}
+.dark-mode .card-pedido,
+.dark-mode .glass-card,
+.dark-mode .bg-m3-card {
+  background: rgba(15, 20, 25, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 8px 24px rgba(0, 166, 244, 0.15), 0 0 12px rgba(56, 189, 248, 0.2) !important;
+  color: #F0F4F8 !important;
+}
+.dark-mode .m3-input {
+  background-color: #1A2028 !important;
+  border-color: #2A3542 !important;
+  color: #F0F4F8 !important;
+}
+
+/* Tarjeta Prioritaria */
+.card-prioritaria {
+  border-left: 4px solid var(--md-primary) !important;
+  animation: pulse-glow 2s infinite !important;
+}
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 12px rgba(0, 90, 156, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(0, 90, 156, 0.4); }
+  100% { box-shadow: 0 0 12px rgba(0, 90, 156, 0.2); }
+}
+
+/* Tarjeta En Camino */
+.card-en-camino {
+  background: linear-gradient(135deg, rgba(0,90,156,0.08), rgba(216,230,255,0.4)) !important;
+  border: 1.5px solid var(--md-primary) !important;
+}
+
+/* ── 3. Alerta de Proximidad Flotante (<500m) M3 ──────────────────────────── */
+.proximity-banner {
+  background: linear-gradient(135deg, #D9480F 0%, #EA580C 100%) !important;
+  border-radius: 24px !important;
+  padding: 18px 22px !important;
+  box-shadow: 0 12px 36px rgba(217, 72, 15, 0.45), 0 2px 8px rgba(217, 72, 15, 0.3) !important;
+  color: #FFFFFF !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+@keyframes truck-move {
+  0% { transform: translateX(-10px); }
+  50% { transform: translateX(8px); }
+  100% { transform: translateX(-10px); }
+}
+.truck-icon {
+  animation: truck-move 2s ease-in-out infinite;
+}
+@keyframes sonar {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+.sonar-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  animation: sonar 1.5s infinite ease-out;
+  pointer-events: none;
+}
+.sonar-ring-2 {
+  animation-delay: 0.75s;
+}
+@keyframes ringBell {
+  0%, 100% { transform: rotate(0deg); }
+  20%, 60% { transform: rotate(15deg); }
+  40%, 80% { transform: rotate(-15deg); }
+}
+.bell-oscillate {
+  animation: ringBell 1.4s infinite ease-in-out;
+  transform-origin: top center;
+}
+
+/* Halo / Radar de Pulsación del Camión en el Mapa */
+@keyframes mapRadarPulse {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.truck-radar-beacon {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 135, 90, 0.35);
+  border: 2px solid rgba(0, 135, 90, 0.7);
+  animation: mapRadarPulse 2s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+/* ── 4. Botones M3 y Accesibilidad para Adultos Mayores ───────────────────── */
+.btn-primary {
+  height: 64px !important;
+  min-height: 64px !important;
+  background: linear-gradient(180deg, var(--md-primary) 0%, var(--md-primary-dark) 100%) !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  border-radius: 20px !important;
+  color: var(--md-on-primary) !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 90, 156, 0.42), 0 2px 6px rgba(0, 90, 156, 0.2), inset 0 1px 0 rgba(255,255,255,0.3) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  filter: brightness(1.08) !important;
+  box-shadow: 0 10px 28px -4px rgba(0, 90, 156, 0.55) !important;
+}
+.btn-primary:active {
+  transform: scale(0.98) !important;
+}
+
+/* Botones de Cantidad 60x60px */
+.btn-qty {
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  min-height: 60px !important;
+  border-radius: 18px !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+.btn-qty:active {
+  transform: scale(0.92) !important;
+}
+
+/* Selector de Vuelto de Efectivo - Botones Pulidos */
+.btn-vuelto {
+  min-height: 52px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border: 2px solid #CBD5E1 !important;
+  border-radius: 16px !important;
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  user-select: none;
+}
+.btn-vuelto:hover {
+  border-color: var(--md-primary) !important;
+  background-color: #F0F6FF !important;
+  color: var(--md-primary) !important;
+  transform: translateY(-1px) !important;
+}
+.btn-vuelto.active {
+  border-color: var(--md-primary) !important;
+  background-color: var(--md-primary) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px -1px rgba(0, 90, 156, 0.4), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+  transform: scale(1.02) !important;
+}
+
+/* Micro-interacciones de tarjeta */
+.product-card {
+  transition: box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.15s ease !important;
+}
+.product-card:hover:not(.disabled-card) {
+  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04) !important;
+}
+
+.pay-option {
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
+}
+.pay-option:hover {
+  border-color: var(--md-primary) !important;
+  background-color: #F8FAFC !important;
+}
+.pay-option:active {
+  transform: scale(0.98) !important;
+}
+
+/* Checkmark animado para confirmación de pedido */
+@keyframes checkmarkDraw {
+  0% { stroke-dashoffset: 100; opacity: 0; transform: scale(0.7); }
+  50% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; transform: scale(1); }
+}
+.animated-checkmark {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation: checkmarkDraw 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── 5. Safe Areas (Notch & Home Indicator para PWA Móvil) ────────────────── */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+.safe-area-top {
+  padding-top: max(12px, env(safe-area-inset-top, 0px)) !important;
+}
+
+.safe-area-bottom {
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.safe-area-nav {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ── 6. Prevención de Zoom Accidental en iOS / Android (Mínimo 16px) ───────── */
+input, select, textarea, .m3-input {
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  touch-action: manipulation;
+}
+
+/* ── 7. Ergonomía de Cabina para Chofer (Modo Nocturno / Sol Directo) ─────── */
+.btn-touch-target {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.touch-btn-action {
+  min-height: 52px !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* ── 8. Aceleración por Hardware (GPU) & Microinteracciones Táctiles ──────── */
+button, [role="button"], .btn-primary, .btn-qty, .btn-vuelto, .btn-touch-target {
+  -webkit-tap-highlight-color: transparent;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+button:active:not(:disabled),
+.btn-primary:active,
+.btn-qty:active,
+.btn-vuelto:active,
+.btn-touch-target:active,
+[role="button"]:active {
+  transform: scale(0.96) translateZ(0) !important;
+  filter: brightness(0.94);
+  transition: transform 0.08s ease-out, filter 0.08s ease-out !important;
+}
+
+/* ── 9. Suavidad y Fluidez de Marcadores Leaflet.js (60 FPS) ──────────────── */
+.leaflet-marker-pane > * {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.leaflet-marker-icon {
+  transform-origin: center center;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .leaflet-control-zoom {
+    display: none !important; /* Ocultar controles de zoom redundantes en móviles para maximizar área visible */
+  }
+}
+

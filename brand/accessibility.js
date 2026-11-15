@@ -1,0 +1,1 @@
+const cyMenu=document.getElementById('mobileMenuBtn');const cyDrawer=document.getElementById('mobileDrawer');if(cyMenu&&cyDrawer){const cySync=()=>cyMenu.setAttribute('aria-expanded',String(!cyDrawer.classList.contains('hidden')));new MutationObserver(cySync).observe(cyDrawer,{attributes:true,attributeFilter:['class']});cySync();}

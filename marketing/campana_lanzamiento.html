@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaña de Lanzamiento — CilindroYa (Powered by Pomelli AI)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-cyan: #00F0FF;
+      --deep-blue: #002244;
+      --navy-dark: #0A0E17;
+      --surface-card: #131C2E;
+      --surface-border: #1E293B;
+      --accent-flame: #FF9900;
+      --text-light: #F8FAFC;
+      --text-muted: #94A3B8;
+      --font-heading: 'Montserrat', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--navy-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(0, 34, 68, 0.8) 0%, rgba(10, 14, 23, 0.95) 100%);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 30px 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid var(--primary-cyan);
+      color: var(--primary-cyan);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #FFF;
+      text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    h1 span { color: var(--primary-cyan); }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 650px;
+      margin: 8px auto 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* TABS */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--surface-border);
+    }
+    .tab-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .tab-btn:hover {
+      border-color: var(--primary-cyan);
+      color: #FFF;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+
+    /* GRID & CARDS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+    @media (max-width: 850px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 10px;
+    }
+
+    /* BRAND DNA EXPLORER */
+    .color-swatch-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .color-swatch {
+      flex: 1;
+      min-width: 100px;
+      background: #000;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .swatch-box {
+      height: 35px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .swatch-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* COPY BOX */
+    .copy-box {
+      background: #0B111E;
+      border: 1px solid #1E293B;
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+      margin-top: 12px;
+    }
+    .copy-text {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      color: #E2E8F0;
+    }
+    .btn-copy {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: var(--primary-cyan);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-copy:hover {
+      background: var(--primary-cyan);
+      color: #000;
+    }
+
+    /* PHOTOSHOOT PRESETS */
+    .prompt-card {
+      background: #0E1626;
+      border-left: 3px solid var(--primary-cyan);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 14px;
+    }
+    .prompt-title {
+      font-weight: 700;
+      color: var(--primary-cyan);
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+    .prompt-body {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: #94A3B8;
+      line-height: 1.4;
+    }
+
+    /* ACTIONS / LINKS */
+    .quick-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+    .btn-link {
+      background: var(--primary-cyan);
+      color: #000;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s ease;
+    }
+    .btn-link:hover { transform: translateY(-2px); }
+    .btn-secondary {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge-pill">Google Pomelli / Open-Pomelli Engine</div>
+    <h1>Campaña de Lanzamiento — <span>CilindroYa</span></h1>
+    <p class="subtitle">Ecosistema publicitario multicanal generado bajo ADN de Marca para el despliegue oficial en Ibarra.</p>
+    
+    <div class="quick-links" style="justify-content:center; margin-top: 15px;">
+      <a href="/marketing/volante" target="_blank" class="btn-link btn-secondary">🖨️ Ver Volante Físico A5</a>
+      <a href="/marketing/banner/feed" target="_blank" class="btn-link btn-secondary">🖼️ Banner Feed 1080x1080</a>
+      <a href="/marketing/banner/story" target="_blank" class="btn-link btn-secondary">📱 Banner Story 1080x1920</a>
+      <a href="/cliente" target="_blank" class="btn-link">🚀 Abrir App Clientes</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="tabs-nav" id="tabsNav">
+      <button class="tab-btn active" onclick="showTab('tab-schedule')">📅 Cronograma 7 Días</button>
+      <button class="tab-btn" onclick="showTab('tab-photoshoot')">📸 AI Photoshoots (Prompts)</button>
+      <button class="tab-btn" onclick="showTab('tab-brand-dna')">🧬 Business DNA (Marca)</button>
+      <button class="tab-btn" onclick="showTab('tab-flyer-plan')">🚚 Plan de Volanteo y Choferes</button>
+    </nav>
+
+    <!-- TAB 1: CRONOGRAMA 7 DÍAS -->
+    <div id="tab-schedule" class="tab-content">
+      <div class="grid-2" id="daysContainer">
+        <!-- Renderizado dinámicamente con JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 2: AI PHOTOSHOOT PROMPTS -->
+    <div id="tab-photoshoot" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2 class="card-title">📸 Prompts de Estudio Fotorrealista (Gemini Imagen 3 / IA)</h2>
+        <p style="color:var(--text-muted); margin-bottom:15px;">Generados para renderizar el cilindro de CilindroYa en contextos de máxima calidez y confianza:</p>
+        
+        <div class="prompt-card">
+          <div class="prompt-title">1. Cocina Familiar Acogedora (Formato 1:1)</div>
+          <div class="prompt-body">Commercial photography of a premium vibrant blue CilindroYa LP gas cylinder (15kg) standing neatly beside a polished modern wooden kitchen counter in a warm Ecuadorian home in Ibarra. In the background, a clean stove with steam rising from a stainless steel soup pot, soft morning sunlight through the window, ultra-detailed, 8k resolution, cinematic soft lighting, clean depth of field.</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-title">2. Chofer Repartidor y Confianza (Formato 9:16)</div>
+          <div class="prompt-body">Vertical commercial shot of a smiling professional delivery driver wearing a clean navy blue and cyan CilindroYa uniform, holding a brand new bright blue gas cylinder with a sealed valve cap, standing in a sunny picturesque cobblestone street in Ibarra near the green hills, cheerful family waving at the doorway, cinematic lighting, 4k photo.</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-title">3. Restaurante & Cilindro Industrial 45kg (Formato 1:1)</div>
+          <div class="prompt-body">Dramatic professional kitchen photography of a large tall industrial 45kg blue gas cylinder connected cleanly in a bustling restaurant kitchen, commercial grill with glowing blue flame in background, chef in white uniform seasoning food, volumetric rim light, high dynamic range, powerful industrial quality advertisement.</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-title">4. Inspección de Seguridad & Válvula Sin Fugas (Formato 1:1)</div>
+          <div class="prompt-body">Close-up macro advertising photo of a shiny brass premium gas regulator valve and reinforced hose attached to a pristine blue CilindroYa tank, water droplet bubble test showing zero leak perfection, crisp focus, safety certified seal sticker visible, glowing cyan backlight, tech-forward safety inspection aesthetic.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: BUSINESS DNA -->
+    <div id="tab-brand-dna" class="tab-content" style="display:none;">
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="card-title">🎨 Paleta Oficial de Colores</h2>
+          <div class="color-swatch-group">
+            <div class="color-swatch">
+              <div class="swatch-box" style="background:#00F0FF;"></div>
+              <div class="swatch-code">#00F0FF</div>
+              <div style="font-size:0.75rem; color:#94A3B8;">Cyan Primario</div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-box" style="background:#002244;"></div>
+              <div class="swatch-code">#002244</div>
+              <div style="font-size:0.75rem; color:#94A3B8;">Deep Navy</div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-box" style="background:#FF9900;"></div>
+              <div class="swatch-code">#FF9900</div>
+              <div style="font-size:0.75rem; color:#94A3B8;">Flame Amber</div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-box" style="background:#131C2E;"></div>
+              <div class="swatch-code">#131C2E</div>
+              <div style="font-size:0.75rem; color:#94A3B8;">Card Surface</div>
+            </div>
+          </div>
+
+          <h2 class="card-title" style="margin-top:25px;">🔤 Tipografías de Sistema</h2>
+          <p><strong>Titulares:</strong> Montserrat, 'Plus Jakarta Sans' (Bold 800)</p>
+          <p><strong>Textos y Copys:</strong> Inter, system-ui (Regular / Medium 500)</p>
+          <p><strong>Precios y Códigos:</strong> JetBrains Mono (SemiBold)</p>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">🗣️ Arquetipo & Voz de Marca</h2>
+          <p style="margin-bottom:10px;"><strong>Arquetipo:</strong> El Protector Eficiente & Amigo Confiable</p>
+          <p style="margin-bottom:10px;"><strong>Tono:</strong> Cálido, tecnológico, resolutivo, empático y 100% ibarreño.</p>
+          <p style="margin-bottom:10px;"><strong>Palabras Clave:</strong> 2 toques, express, sin demoras, chequeo gratis, peso exacto, Ibarra.</p>
+          <p><strong>Promesa Central:</strong> Nunca más esperarás con el almuerzo a medias. Tu cilindro llega en minutos con prueba de fuga gratuita y pagos DeUna o efectivo.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: PLAN DE VOLANTEO -->
+    <div id="tab-flyer-plan" class="tab-content" style="display:none;">
+      <div class="card">
+        <h2 class="card-title">🚚 Plan de Despliegue Físico & Choferes</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-top:15px;">
+          <div style="background:#0E1626; padding:18px; border-radius:8px;">
+            <h3 style="color:var(--primary-cyan); margin-bottom:8px;">1. En Mano en Cada Recarga</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">El repartidor entrega el volante A5 con código QR plastificado al momento de cobrar, incentivando a que el siguiente pedido lo hagan directo en 2 toques por WhatsApp.</p>
+          </div>
+          <div style="background:#0E1626; padding:18px; border-radius:8px;">
+            <h3 style="color:var(--primary-cyan); margin-bottom:8px;">2. Alianzas con Tiendas y Panaderías</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Dispensador de volantes en mostradores de tiendas de barrio en San Antonio, Caranqui, El Sagrario y Priorato.</p>
+          </div>
+          <div style="background:#0E1626; padding:18px; border-radius:8px;">
+            <h3 style="color:var(--primary-cyan); margin-bottom:8px;">3. QR Gigante en Camiones</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Adhesivo reflectivo lateral y trasero en los camiones: <em>"Pide tu gas al pasar escaneando este código"</em>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const scheduleDays = [
+      {
+        day: 1,
+        phase: "Teaser & Curiosidad",
+        title: "¿Cuánto tiempo esperas hoy por tu cilindro de gas?",
+        format: "Story / Reel (9:16)",
+        hook: "Se te acabó el gas a medio hervir el agua... y el repartidor no pasa. ⏱️❌",
+        copy: "¿Te ha pasado que te quedas con el almuerzo a medias y esperando horas? 🍲😫\n\nEn Ibarra se acabaron las esperas a ciegas. Algo nuevo, rápido y con tecnología de punta está por llegar a tu barrio.\n\nPrepárate para pedir tu gas en solo 2 toques desde el celular. 🔥✨\n#GasAzulExpress #Ibarra #InnovaciónHogar #GasSeguro",
+        cta: "Atento a la gran revelación mañana."
+      },
+      {
+        day: 2,
+        phase: "Gran Lanzamiento de la Plataforma",
+        title: "¡Llegó CilindroYa! Pide en 2 toques sin llamadas",
+        format: "Feed Post (1:1) + Story (9:16)",
+        hook: "¡Ibarra ya tiene su servicio de gas inteligente! 🚀🔵",
+        copy: "¡OFICIALMENTE EN VIVO! 🎉 Presentamos **CilindroYa**.\n\nOlvídate de gritar en la calle o esperar llamadas ocupadas. Ahora con nuestra nueva plataforma web y WhatsApp:\n\n✅ Pides en 2 toques desde tu teléfono.\n✅ Cilindros nuevos, limpios y con peso exacto garantizado (15kg y 45kg).\n✅ Chequeo gratuito de tu válvula y manguera en cada entrega.\n✅ Paga en efectivo o con DeUna Banco Pichincha.\n\n📲 Haz tu primer pedido hoy mismo en el enlace de la bio o tocando aquí 👇\n👉 http://localhost:8000/cliente\n\n#Ibarra #GasADomicilio #GasAzul #Imbabura #ServicioExpress",
+        cta: "Pide tu cilindro ahora y recibe instalación y chequeo gratis."
+      },
+      {
+        day: 3,
+        phase: "Oferta de Apertura & WhatsApp Broadcast",
+        title: "Bono de Bienvenida — Pedido Seguro en 15 minutos",
+        format: "WhatsApp Broadcast & Banner Feed",
+        hook: "🚚 *CILINDROYA — TU PEDIDO RÁPIDO EN IBARRA*",
+        copy: "Hola vecino de Ibarra 👋 ¡Es un gusto saludarte!\n\nTe presentamos la forma más cómoda y segura de pedir gas para tu cocina o negocio:\n\n🔥 *Cilindro Doméstico 15kg:* $3.50 puesto en tu cocina.\n🛡️ *Chequeo de seguridad gratis:* Revisamos tu regulador y manguera sin costo.\n⚡ *Tiempo promedio:* 15 a 25 minutos.\n\n📲 *Pide al instante tocando este enlace:* https://wa.me/593993052744?text=Hola%20Gas%20Azul%2C%20deseo%20un%20cilindro%20a%20domicilio\nO en nuestra web: http://localhost:8000/cliente\n\n¡CilindroYa: Siempre a tiempo en tu hogar!",
+        cta: "Toca el enlace para ordenar en 2 segundos."
+      },
+      {
+        day: 4,
+        phase: "Seguridad Primero (Educación y Confianza)",
+        title: "Tu Familia Protegida: La Prueba de la Burbuja Gratuita",
+        format: "Video Carrusel / Infografía Feed",
+        hook: "¿Sabías que el 70% de accidentes con gas ocurren por válvulas desgastadas? ⚠️",
+        copy: "En CilindroYa no solo te dejamos el cilindro en la puerta: **cuidamos a tu familia.** 🛡️💙\n\nEn cada entrega, nuestros repartidores certificados realizan:\n1️⃣ Conexión hermética de tu cilindro.\n2️⃣ Prueba de agua jabonosa para descartar microfugas.\n3️⃣ Verificación de vida útil de manguera y abrazaderas.\n\nTu tranquilidad no tiene precio, y con CilindroYa, este servicio es **100% GRATIS**.\n\n#SeguridadHogar #GasAzulIbarra #CeroFugas #FamiliaSegura",
+        cta: "Exige tu chequeo de seguridad gratis en cada pedido."
+      },
+      {
+        day: 5,
+        phase: "Sector Gastronómico y Negocios (Cilindros 45kg)",
+        title: "Para Asaderos, Restaurantes y Hoteles de Imbabura",
+        format: "LinkedIn & Facebook Post B2B",
+        hook: "La cocina de tu restaurante no puede detenerse ni un minuto. 🔥🍳",
+        copy: "Para los chefs, asaderos y negocios gastronómicos de Ibarra, el fuego constante es dinero.\n\nEn CilindroYa ofrecemos servicio corporativo B2B:\n🥩 Cilindros de 45kg industriales y baterías múltiples.\n📑 Facturación electrónica inmediata para deducción tributaria.\n🚚 Horarios de abastecimiento fijos antes de tu hora pico de cocina.\n💳 Crédito semanal y pagos digitales centralizados.\n\nCotiza tu convenio comercial directo con nuestro Gerente de Distribución al WhatsApp 📲.\n\n#RestaurantesIbarra #GastronomíaImbabura #GasIndustrial45kg",
+        cta: "Solicita tu visita técnica para tu restaurante hoy."
+      },
+      {
+        day: 6,
+        phase: "Testimonios y Facilidad Tecnológica",
+        title: "Así de fácil piden gas las familias en San Antonio y El Sagrario",
+        format: "Reels / TikTok (9:16)",
+        hook: "De '¡Se acabó el gas!' a '¡Ya llegó!' en 18 minutos cronometrados ⏱️✅",
+        copy: "Sin contratiempos, sin llamadas en espera. Abres la app o el chat de WhatsApp, mandas tu ubicación GPS y listo.\n\nMira cómo Carlos entrega con sonrisa, conecta el tanque y te cobra con el código QR de DeUna sin necesidad de buscar cambio suelto. 📱💵\n\nÚnete a los cientos de hogares en Ibarra que ya cambiaron a la forma inteligente de pedir gas.\n\n#IbarraEcuador #SanAntonioIbarra #TecnologíaLocal #GasExpress",
+        cta: "Guarda nuestro contacto y ten el gas a un toque."
+      },
+      {
+        day: 7,
+        phase: "Fidelización & Rutina de Fin de Semana",
+        title: "Domingo de Asado y Familia sin Preocupaciones",
+        format: "Feed 1:1 + Volante Impreso en Camiones",
+        hook: "El asado del domingo está listo. ¿Tienes suficiente gas para la semana? 🥩👨‍👩‍👧‍👦",
+        copy: "Termina tu semana con la despensa y la cocina listas para arrancar el lunes con todo.\n\nPide tu recarga preventiva de CilindroYa hoy domingo:\n🚚 Camiones recorriendo activamente Ibarra hasta las 19:00.\n📍 Cobertura: Caranqui, San Antonio, El Sagrario, Priorato, Yacucalle y La Victoria.\n\n📲 Pide ahora mismo: http://localhost:8000/cliente\nCilindroYa: Tu energía confiable siempre a tiempo.",
+        cta: "Haz tu pedido preventivo de domingo aquí."
+      }
+    ];
+
+    function renderDays() {
+      const container = document.getElementById('daysContainer');
+      container.innerHTML = scheduleDays.map(d => `
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+            <div>
+              <span class="badge-pill" style="font-size:0.7rem; padding:2px 10px;">Día ${d.day} — ${d.format}</span>
+              <h3 style="color:#FFF; font-size:1.15rem; margin-top:6px;">${d.title}</h3>
+            </div>
+          </div>
+          <p style="color:var(--primary-cyan); font-weight:600; font-size:0.9rem; margin-bottom:8px;">${d.hook}</p>
+          <div class="copy-box">
+            <button class="btn-copy" onclick="copyText(this)">Copiar</button>
+            <div class="copy-text">${escapeHtml(d.copy)}</div>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:10px;"><strong>Llamada a la acción (CTA):</strong> ${d.cta}</p>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function copyText(btn) {
+      const text = btn.parentElement.querySelector('.copy-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const oldText = btn.innerText;
+        btn.innerText = '¡Copiado!';
+        btn.style.background = '#22C55E';
+        btn.style.color = '#FFF';
+        setTimeout(() => {
+          btn.innerText = oldText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).style.display = 'block';
+      event.target.classList.add('active');
+    }
+
+    renderDays();
+  </script>
+</body>
+</html>

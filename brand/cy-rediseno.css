@@ -1,0 +1,428 @@
+/*
+ * brand/cy-rediseno.css - Rediseño de las páginas de clientes (29/10/2026).
+ * Patrones tomados de Rappi, PedidosYa, Uber Eats y EasyGas (docs/referentes/patrones_ux_2026-10-29.md):
+ * ubicación primero, botón principal fijo abajo, tarjetas grandes, seguimiento en pasos y hojas inferiores.
+ * Todo lo nuevo usa clases cyx-; las reglas sobre ids existentes solo cambian cómo se ven.
+ */
+:root {
+  --cyx-azul: #0A59DA;
+  --cyx-azul-osc: #0847AE;
+  --cyx-azul-suave: #EAF2FF;
+  --cyx-fondo: #F6F8FB;
+  --cyx-texto: #0F172A;
+  --cyx-gris: #64748B;
+  --cyx-borde: #E2E8F0;
+  --cyx-verde: #0B8A4A;
+  --cyx-radio: 20px;
+  --cyx-sombra: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06);
+}
+
+body.cy-client { background: var(--cyx-fondo) !important; }
+
+/* ── Tarjeta de ubicación (lo primero que se ve) ── */
+.cyx-ubicacion {
+  background: #fff;
+  border-radius: var(--cyx-radio);
+  box-shadow: var(--cyx-sombra);
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.cyx-ubicacion h1 {
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: var(--cyx-texto);
+  margin: 0 0 4px;
+  letter-spacing: -.01em;
+}
+.cyx-ubicacion .cyx-sub { color: var(--cyx-gris); font-size: 14px; margin: 0 0 14px; }
+.cyx-ubicacion #custAddressInput { font-size: 16px !important; min-height: 52px; }
+.cyx-ubicacion #cyDisponibilidad { margin: 12px 0 0 !important; }
+
+/* ── Pedir lo mismo de nuevo ── */
+.cyx-repetir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: linear-gradient(135deg, var(--cyx-azul) 0%, #2F7BF5 100%);
+  color: #fff;
+  border: 0;
+  border-radius: var(--cyx-radio);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 24px rgba(10, 89, 218, .25);
+  cursor: pointer;
+  min-height: 64px;
+  font: inherit;
+}
+.cyx-repetir[hidden] { display: none; }
+.cyx-repetir:active { transform: scale(.99); }
+.cyx-repetir .cyx-ico {
+  width: 40px; height: 40px; flex: 0 0 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .18);
+  display: flex; align-items: center; justify-content: center;
+}
+.cyx-repetir b { display: block; font-size: 16px; font-weight: 800; }
+.cyx-repetir small { display: block; font-size: 12px; opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cyx-repetir .cyx-txt { min-width: 0; flex: 1; }
+
+/* ── Secciones y tarjetas más limpias ── */
+#checkoutFormGrid section > .bg-white,
+#checkoutFormGrid section.bg-white,
+#activeOrderCard {
+  border-width: 0 !important;
+  border-radius: var(--cyx-radio) !important;
+  box-shadow: var(--cyx-sombra) !important;
+}
+#checkoutFormGrid h2 { letter-spacing: 0 !important; text-transform: none !important; font-size: 18px !important; color: var(--cyx-texto) !important; }
+
+.product-card {
+  border-radius: 18px !important;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  position: relative;
+  min-height: 132px;
+}
+.product-card.border-\[\#0A59DA\] { box-shadow: 0 8px 22px rgba(10, 89, 218, .18) !important; }
+.product-card.border-\[\#0A59DA\]::after {
+  content: "✓";
+  position: absolute; top: -8px; right: -8px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--cyx-azul); color: #fff;
+  font: 800 12px/24px system-ui, sans-serif; text-align: center;
+  box-shadow: 0 0 0 3px #fff;
+}
+#card_valvula.border-\[\#0A59DA\]::after { display: none; }
+
+#checkoutFormGrid input[type=text],
+#checkoutFormGrid input[type=tel],
+#checkoutFormGrid input[type=email] { min-height: 48px; border-width: 1.5px !important; }
+
+/* ── Bloques plegables "Más datos (opcional)" ── */
+.cyx-mas {
+  border: 1.5px dashed var(--cyx-borde);
+  border-radius: 16px;
+  padding: 0 14px;
+  background: #FBFCFE;
+}
+.cyx-mas > summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 700; font-size: 14px; color: var(--cyx-azul);
+}
+.cyx-mas > summary::-webkit-details-marker { display: none; }
+.cyx-mas > summary::after { content: "＋"; font-size: 18px; }
+.cyx-mas[open] > summary::after { content: "−"; }
+.cyx-mas[open] { padding-bottom: 14px; }
+.cyx-mas > .cyx-mas-cuerpo > * + * { margin-top: 16px; }
+
+/* ── Seguimiento en pasos ── */
+.cyx-pasos {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  counter-reset: paso;
+}
+.cyx-pasos li {
+  position: relative;
+  text-align: center;
+  font-size: 12px; /* escala de cy-sistema.css: nada por debajo de 12 px */
+  font-weight: 700;
+  color: #94A3B8;
+  padding-top: 34px;
+  line-height: 1.25;
+}
+.cyx-pasos li::before {
+  counter-increment: paso;
+  content: counter(paso);
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #E2E8F0; color: #64748B;
+  font: 800 12px/26px system-ui, sans-serif;
+  z-index: 1;
+}
+.cyx-pasos li::after {
+  content: "";
+  position: absolute; top: 12px; left: -50%; width: 100%; height: 3px;
+  background: #E2E8F0;
+}
+.cyx-pasos li:first-child::after { display: none; }
+.cyx-pasos li.cyx-hecho { color: var(--cyx-texto); }
+.cyx-pasos li.cyx-hecho::before { content: "✓"; background: var(--cyx-verde); color: #fff; }
+.cyx-pasos li.cyx-hecho::after,
+.cyx-pasos li.cyx-actual::after { background: var(--cyx-verde); }
+.cyx-pasos li.cyx-actual { color: var(--cyx-azul); }
+.cyx-pasos li.cyx-actual::before { background: var(--cyx-azul); color: #fff; box-shadow: 0 0 0 5px rgba(10, 89, 218, .18); }
+.cyx-pasos.cyx-cancelado li.cyx-actual { color: #B91C1C; }
+.cyx-pasos.cyx-cancelado li.cyx-actual::before { content: "✕"; background: #DC2626; box-shadow: none; }
+.cyx-espera { margin: 10px 0 0; font-size: 14px; color: #7A4A00; background: #FFF6E5; border-radius: 12px; padding: 10px 12px; }
+
+/* ── Barra fija abajo con total y botón principal (teléfono y tablet) ── */
+.cyx-barra { display: none; }
+@media (max-width: 1023px) {
+  .cyx-barra {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: saturate(160%) blur(10px);
+    -webkit-backdrop-filter: saturate(160%) blur(10px);
+    border-top: 1px solid var(--cyx-borde);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    box-shadow: 0 -8px 24px rgba(15, 23, 42, .08);
+  }
+  .cyx-barra[hidden] { display: none; }
+  .cyx-barra .cyx-total { display: flex; flex-direction: column; line-height: 1.1; }
+  .cyx-barra .cyx-total small { font-size: 12px; color: var(--cyx-gris); font-weight: 600; }
+  .cyx-barra .cyx-total b { font-size: 20px; font-weight: 800; color: var(--cyx-texto); }
+  .cyx-barra button {
+    flex: 1; min-height: 52px; border: 0; border-radius: 16px;
+    background: var(--cyx-azul); color: #fff;
+    font-family: inherit; font-size: 16px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 8px 20px rgba(10, 89, 218, .3);
+  }
+  .cyx-barra button:active { background: var(--cyx-azul-osc); transform: scale(.99); }
+  body.cyx-con-barra #cy-main { padding-bottom: 104px !important; }
+}
+
+/* ── Ventanas como hojas que suben desde abajo (teléfono) ── */
+@media (max-width: 639px) {
+  #confirmOrderModal, #cancelReasonModal, #welcomeAuthModal {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  #confirmOrderModal > div, #cancelReasonModal > div, #welcomeAuthModal > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+    max-height: 92vh;
+    overflow-y: auto;
+    animation: cyx-subir .22s ease-out;
+  }
+  #confirmOrderModal > div::before, #cancelReasonModal > div::before, #welcomeAuthModal > div::before {
+    content: ""; display: block; width: 40px; height: 4px; border-radius: 4px;
+    background: #CBD5E1; margin: -8px auto 12px;
+  }
+}
+@keyframes cyx-subir { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } }
+
+/* ── Página de entrada (hogar) ── */
+.cyx-hero {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: var(--cyx-sombra);
+  padding: 22px 18px;
+  margin: 16px auto;
+  max-width: 720px;
+}
+.cyx-hero h1 { font-size: clamp(26px, 6vw, 40px); line-height: 1.1; font-weight: 800; color: var(--cyx-texto); margin: 0 0 8px; letter-spacing: -.02em; }
+.cyx-hero p { color: var(--cyx-gris); font-size: 15.5px; margin: 0 0 14px; }
+.cyx-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 56px; border-radius: 16px;
+  background: var(--cyx-azul); color: #fff !important; text-decoration: none;
+  font-weight: 800; font-size: 18px;
+  box-shadow: 0 10px 24px rgba(10, 89, 218, .28);
+}
+.cyx-cta:active { background: var(--cyx-azul-osc); }
+.cyx-cta-sec { display: block; text-align: center; margin-top: 12px; font-weight: 700; color: var(--cyx-azul) !important; font-size: 14.5px; min-height: 44px; padding: 12px 0; line-height: 1.4; }
+.cyx-precio { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+.cyx-precio span { background: var(--cyx-azul-suave); color: var(--cyx-azul); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; font-weight: 700; }
+.cyx-como { max-width: 720px; margin: 8px auto 24px; padding: 0 2px; }
+.cyx-como h2 { font-size: 20px; font-weight: 800; color: var(--cyx-texto); margin: 0 0 12px; }
+.cyx-como ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+@media (min-width: 720px) { .cyx-como ol { grid-template-columns: repeat(3, 1fr); } }
+.cyx-como li { background: #fff; border-radius: 18px; box-shadow: var(--cyx-sombra); padding: 16px; display: flex; gap: 12px; align-items: flex-start; }
+.cyx-como li .cyx-n { flex: 0 0 34px; height: 34px; border-radius: 10px; background: var(--cyx-azul-suave); color: var(--cyx-azul); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.cyx-como li b { display: block; color: var(--cyx-texto); font-size: 16px; }
+.cyx-como li small { color: var(--cyx-gris); font-size: 13.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card, .cyx-repetir, .cyx-barra button { transition: none !important; }
+  #confirmOrderModal > div, #cancelReasonModal > div, #welcomeAuthModal > div { animation: none !important; }
+}
+
+/* ── Pulido 30/10/2026: cantidad, formas de pago y encabezado ── */
+.btn-qty {
+  width: 48px !important; height: 48px !important; min-width: 48px;
+  border-radius: 50% !important;
+  font-size: 24px !important; font-weight: 800 !important;
+  display: inline-flex !important; align-items: center; justify-content: center;
+  transition: transform .15s ease;
+}
+.btn-qty:active { transform: scale(.92); }
+#qtyLabel { font-size: 26px !important; }
+
+.pay-option {
+  border-radius: 16px !important;
+  min-height: 60px;
+  position: relative;
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.pay-option.border-\[\#0A59DA\] { box-shadow: 0 6px 18px rgba(10, 89, 218, .16) !important; }
+.pay-option.border-\[\#0A59DA\]::after {
+  content: "✓";
+  position: absolute; top: -7px; right: -7px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--cyx-azul); color: #fff;
+  font: 800 11px/20px system-ui, sans-serif; text-align: center;
+  box-shadow: 0 0 0 3px #fff;
+}
+
+.product-card .text-2xl, .product-card .text-xl { letter-spacing: -.01em; }
+
+@media (max-width: 639px) {
+  body.cy-client > header { padding-top: 8px !important; padding-bottom: 8px !important; }
+  body.cy-client > header .cy-logo { height: 38px !important; max-height: none; width: auto !important; }
+  body.cy-client > header .cy-brand-caption { display: none; }
+  #headerUserBtn { padding: 6px 12px !important; background: rgba(255, 255, 255, .14) !important; }
+}
+@media (max-width: 380px) {
+  #checkoutFormGrid .grid.grid-cols-3 { gap: 8px !important; }
+  .product-card { padding: 10px 6px !important; min-height: 120px; }
+}
+@media (prefers-reduced-motion: reduce) { .btn-qty, .pay-option { transition: none !important; } }
+
+/* ── Ronda 3 (30/10/2026): señales de confianza y foco de teclado ── */
+.cyx-confianza {
+  list-style: none; margin: 4px 0 2px; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+  font-size: 14px; font-weight: 600; color: var(--cyx-gris);
+}
+.cyx-confianza li { display: inline-flex; align-items: center; gap: 4px; }
+.cyx-confianza .material-symbols-outlined { font-size: 16px; color: var(--cyx-verde); }
+.product-card:focus-visible, .pay-option:focus-visible, .cyx-repetir:focus-visible, .cyx-barra button:focus-visible {
+  outline: 3px solid #F59E0B; outline-offset: 3px;
+}
+
+/* ── Ronda 4 (31/10/2026): contraste AA en la tarjeta "Próximamente" ── */
+.product-card.disabled-card, .product-card.disabled-card * { opacity: 1 !important; }
+.product-card.disabled-card { filter: grayscale(.35); }
+.product-card.disabled-card h3, .product-card.disabled-card .text-slate-400, .product-card.disabled-card .text-slate-500 { color: #475569 !important; }
+.product-card.disabled-card .text-amber-800, .product-card.disabled-card .text-amber-900 { color: #78350F !important; }
+.product-card.disabled-card .text-\[9px\] { font-size: 12px !important; }
+
+/* ── Identidad corporativa CilindroYa (31/10/2026) ──
+ * Paleta oficial (static/brand/brand.css): azul #0A59DA (acción principal), celeste #16B9E8,
+ * naranja #FF8A00 (el "Ya": lo elegido y lo que destaca) y azul noche #09294A (encabezado).
+ */
+:root { --cyx-naranja: #FF8A00; --cyx-celeste: #16B9E8; --cyx-noche: #09294A; }
+
+/* Encabezado: azul noche con brillo de marca y el logo blanco oficial, sin recuadro */
+body.cy-client > header {
+  background: linear-gradient(120deg, var(--cyx-noche) 0%, #0B3A73 60%, var(--cyx-azul) 130%) !important;
+  border-bottom: 3px solid var(--cyx-naranja);
+}
+body.cy-client > header .cyx-logo-blanco { background: transparent !important; padding: 0 !important; border-radius: 0 !important; }
+
+/* La llama de la marca acompaña el primer título */
+.cyx-ubicacion h1 { display: flex; align-items: center; gap: 10px; }
+.cyx-llama { width: 20px; height: 30px; flex: 0 0 20px; }
+
+/* Un solo lenguaje para "lo elegido": borde y ✓ naranja de marca (cilindro y forma de pago) */
+.product-card.border-\[\#0A59DA\]::after,
+.pay-option.border-\[\#0A59DA\]::after { background: var(--cyx-naranja); }
+.pay-option.border-\[\#0A59DA\] {
+  border-color: var(--cyx-naranja) !important;
+  background: #FFF8EF !important;
+  box-shadow: 0 6px 18px rgba(255, 138, 0, .16) !important;
+  --tw-ring-color: rgba(255, 138, 0, .12) !important;
+}
+
+/* "Pedir lo mismo de nuevo" con el degradado azul → celeste del logo */
+.cyx-repetir { background: linear-gradient(135deg, var(--cyx-azul) 0%, var(--cyx-celeste) 100%); }
+
+/* Paso actual del seguimiento en azul de marca, con halo celeste */
+.cyx-pasos li.cyx-actual::before { box-shadow: 0 0 0 5px rgba(22, 185, 232, .25); }
+
+/* ── Movimiento (31/10/2026): botones vivos y secciones que aparecen al bajar ──
+ * Todo respeta prefers-reduced-motion (bloque al final del archivo y abajo).
+ */
+.cyx-vivo { position: relative; overflow: hidden; transition: transform .16s ease, box-shadow .2s ease, filter .2s ease; }
+@media (hover: hover) {
+  .cyx-vivo:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 12px 28px rgba(10, 89, 218, .32) !important; }
+}
+.cyx-vivo:active { transform: translateY(0) scale(.98); }
+.cyx-onda {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  background: rgba(255, 255, 255, .45); transform: scale(0); animation: cyx-onda .55s ease-out forwards;
+}
+@keyframes cyx-onda { to { transform: scale(4); opacity: 0; } }
+
+/* Brillo que recorre el botón principal cada pocos segundos (llama la atención sin molestar) */
+.cyx-brillo::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, .35) 50%, transparent 100%);
+  transform: skewX(-18deg); animation: cyx-brillo 5.5s ease-in-out 2s infinite;
+}
+@keyframes cyx-brillo { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+
+/* Secciones y tarjetas que aparecen al bajar (la clase la pone cy-rediseno.js; sin JS todo se ve normal) */
+.cyx-revelar { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .7, .2, 1); }
+.cyx-revelar.cyx-visible { opacity: 1; transform: none; }
+
+/* Tarjeta destacada del registro guiado en la página de distribuidores */
+.cyx-registro-card {
+  display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff !important;
+  background: linear-gradient(135deg, #0A59DA 0%, #16B9E8 100%); border-radius: 22px; padding: 18px 20px;
+  box-shadow: 0 14px 34px rgba(10, 89, 218, .35); margin: 0 auto 28px; max-width: 720px;
+}
+.cyx-registro-card img { width: 34px; height: 50px; flex: 0 0 34px; filter: drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+.cyx-registro-card b { display: block; font-size: 18px; font-weight: 800; }
+.cyx-registro-card small { display: block; font-size: 14px; opacity: .92; margin-top: 2px; }
+.cyx-registro-card .cyx-flecha { margin-left: auto; font-size: 26px; font-weight: 800; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cyx-vivo, .cyx-revelar { transition: none !important; }
+  .cyx-revelar { opacity: 1 !important; transform: none !important; }
+  .cyx-brillo::after, .cyx-onda { animation: none !important; display: none; }
+}
+
+/* ── App profesional (31/10/2026, reglas de pantallas de app): mismo sistema que las páginas nuevas ──
+ * Esquinas rectas, superficies por tono (sin sombras ni degradados), letra mínima 12px, contraste AA,
+ * cifras tabulares. Movimiento con un pequeño rebote al final. */
+:root { --cyx-rebote: cubic-bezier(.34, 1.4, .64, 1); }
+body.cy-client > header { background: var(--cyx-noche) !important; }
+body.cy-client #cy-main .rounded-3xl, body.cy-client #cy-main .rounded-2xl, body.cy-client #cy-main .rounded-xl,
+body.cy-client #cy-main .rounded-lg, body.cy-client .btn-primary, body.cy-client .cyx-ubicacion, body.cy-client .cyx-repetir,
+body.cy-client .product-card, body.cy-client .pay-option, body.cy-client .cyx-barra button, body.cy-client .cyx-mas,
+body.cy-client #cy-main input, body.cy-client #cy-main select, body.cy-client #cy-main textarea,
+body.cy-client #confirmOrderModal > div, body.cy-client #cancelReasonModal > div, body.cy-client #welcomeAuthModal > div { border-radius: 0 !important; }
+body.cy-client #cy-main [class*="shadow"], body.cy-client .btn-primary, body.cy-client .cyx-barra button, body.cy-client .cyx-repetir,
+body.cy-client .product-card, body.cy-client .pay-option, body.cy-client .cyx-ubicacion, body.cy-client #activeOrderCard,
+body.cy-client #checkoutFormGrid section > .bg-white, body.cy-client #checkoutFormGrid section.bg-white { box-shadow: none !important; }
+body.cy-client .cyx-vivo:hover { box-shadow: none !important; }
+body.cy-client .product-card.border-\[\#0A59DA\], body.cy-client .pay-option.border-\[\#0A59DA\] { box-shadow: none !important; }
+body.cy-client [class*="text-[8px]"], body.cy-client [class*="text-[9px]"], body.cy-client [class*="text-[10px]"], body.cy-client [class*="text-[11px]"] { font-size: 12px !important; }
+body.cy-client .uppercase { text-transform: none !important; letter-spacing: 0 !important; }
+body.cy-client [class*="bg-[#25D366]"] { background-color: #128C4A !important; }
+body.cy-client .text-amber-500, body.cy-client .text-amber-400 { color: #B45309 !important; }
+body.cy-client #summaryTotalLabel, body.cy-client #cyxBarraTotal, body.cy-client #breakdownSubtotal, body.cy-client .product-card, body.cy-client #qtyLabel { font-variant-numeric: tabular-nums; }
+body.cy-client .cyx-repetir { background: var(--cyx-azul) !important; }
+
+/* Movimiento con vida: entradas con rebote leve y un respiro constante en Cili y el botón principal */
+.cyx-revelar { transition: opacity .55s ease, transform .6s var(--cyx-rebote) !important; }
+.paso, .cyx-pasos li.cyx-actual::before { transition-timing-function: var(--cyx-rebote); }
+.cyx-ubicacion h1 .cyx-llama { animation: cyx-flota 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes cyx-flota { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-3deg); } }
+.product-card.border-\[\#0A59DA\] img { animation: cyx-respira 3.6s ease-in-out infinite; }
+@keyframes cyx-respira { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .cyx-ubicacion h1 .cyx-llama, .product-card img { animation: none !important; } }
+body.cy-client button, body.cy-client .btn-primary, body.cy-client .btn-vuelto, body.cy-client .btn-vuelto.active, body.cy-client .btn-qty, body.cy-client > header { box-shadow: none !important; background-image: none !important; }
+body.cy-client .btn-primary { background-color: var(--cyx-azul) !important; border: 0 !important; letter-spacing: 0 !important; }
+body.cy-client .btn-primary:hover { background-color: #0743A6 !important; }
+body.cy-client .btn-vuelto, body.cy-client .btn-qty { border-radius: 0 !important; }
+body.cy-client .text-\[\#00875A\], body.cy-client .text-emerald-600 { color: #0B6E3F !important; }
+body.cy-client .text-amber-600 { color: #9A4A00 !important; }
+body.cy-client .cyx-confianza .material-symbols-outlined { color: #0B6E3F; }
+body.cy-client #cy-main .text-xs:not(.material-symbols-outlined) { font-size: 14px !important; }
+/* En el celular la barra fija ya tiene el botón de pedir: el de la página se oculta para no repetirlo */
+@media (max-width: 1023px) { body.cy-client #submitOrderBtn { display: none !important; } }
+body.cy-client #headerUserBtn { border-radius: 0 !important; }

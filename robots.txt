@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+# Buscadores con IA: bienvenidos
+User-agent: GPTBot
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /pwa/
+Disallow: /marketing/
+
+Sitemap: https://cilindroya.com/sitemap.xml

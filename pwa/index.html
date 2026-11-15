@@ -1,0 +1,2683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CilindroYa Chofer — Terminal de Reparto Pro</title>
+  
+  <!-- PWA & Mobile Metas -->
+  <link rel="manifest" href="/static/pwa/manifest.json">
+  <meta name="theme-color" content="#0B192C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CilindroYa Chofer">
+  
+  
+  
+
+  <!-- Google Material Symbols Outlined (CDN Oficial) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=account_balance,account_balance_wallet,add_card,attach_money,badge,block,call,cancel,celebration,chat,check_circle,close,cloud_sync,dark_mode,eco,event_busy,group,home,info,insights,inventory_2,key,light_mode,local_shipping,location_on,lock,logout,military_tech,navigation,payments,photo_camera,picture_as_pdf,play_circle,price_check,qr_code_2,receipt_long,satellite_alt,signpost,smartphone,sms,stop_circle,sync,turn_right,verified,warning&display=block" />
+
+  <!-- Google Fonts: Plus Jakarta Sans para máxima legibilidad en cabina -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+<!-- Leaflet CSS & JS for Driver Tracking -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Canvas Confetti for Level-Up & Delivery Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- GSAP 3.12 (GreenSock Animation Platform) Oficial CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Gamification Badges Helper -->
+  <script src="/static/assets/gamification_badges.js"></script>
+
+  <!-- Ecosistema Visual CilindroYa M3 Oficial -->
+  <link rel="stylesheet" href="/static/style.css?v=3.2">
+
+  <script>
+    // API del mismo origen; conservar la sesión del conductor.
+    if (!window._fetchIntercepted) {
+      window._fetchIntercepted = true;
+      const originalFetch = window.fetch.bind(window);
+      window.fetch = async function(url, opts = {}) {
+        const api = typeof url === 'string' && url.startsWith('/api/');
+        const token = localStorage.getItem('gasazul_token');
+        if (api) {
+          const headers = new Headers(opts.headers || {});
+          if (token && !headers.has('Authorization')) headers.set('Authorization','Bearer '+token);
+          opts = {...opts, headers};
+        }
+        const response = await originalFetch(url, opts);
+        const protectedRoute = api && (url.startsWith('/api/chofer/') || url.startsWith('/api/gas/chofer/'));
+        if (response.status === 401 && protectedRoute && !url.startsWith('/api/gas/chofer/verify-pin') && token === localStorage.getItem('gasazul_token')) {
+          cyDriverSessionExpired();
+        }
+        return response;
+      };
+    }
+  </script>
+  <style>
+    :root {
+      --chofer-petrol: #0B192C;
+      --chofer-surface: #0A1118;
+      --chofer-card: #1E293B;
+      --chofer-green: #00C853;
+      --chofer-greendark: #00A859;
+    }
+    body {
+      background-color: var(--chofer-surface);
+      color: #F8FAFC;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      -webkit-tap-highlight-color: transparent;
+      font-size: 16px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+    .driver-card {
+      background-color: var(--chofer-card);
+      border: 1.5px solid #334155;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
+      border-radius: 1.5rem;
+    }
+    
+    /* Modo Día / Alto Contraste para Choferes bajo el sol */
+    body.theme-day {
+      background-color: #F8FAFC !important;
+      color: #0F172A !important;
+    }
+    body.theme-day .driver-card, 
+    body.theme-day header,
+    body.theme-day .bg-slate-900,
+    body.theme-day .bg-darkcard {
+      background-color: #FFFFFF !important;
+      border-color: #CBD5E1 !important;
+      color: #0F172A !important;
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.08) !important;
+    }
+    body.theme-day text, body.theme-day p, body.theme-day span, body.theme-day h1, body.theme-day h2, body.theme-day h3 {
+      color: #0F172A !important;
+    }
+    body.theme-day .text-slate-400 {
+      color: #475569 !important;
+    }
+    body.theme-day .text-white {
+      color: #0F172A !important;
+    }
+
+    /* Laser Scanning Animation para Cross-Docking */
+    @keyframes laserSweep {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+    .laser-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #00C853;
+      box-shadow: 0 0 15px #00C853, 0 0 30px #00C853;
+      animation: laserSweep 2s ease-in-out infinite;
+    }
+    @keyframes cornerBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .corner-target {
+      animation: cornerBlink 1.5s ease-in-out infinite;
+    }
+
+    .pulse-dot {
+      animation: pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-animation {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .4; transform: scale(1.15); }
+    }
+    #driverMap {
+      height: 190px;
+      width: 100%;
+      border-radius: 1.25rem;
+      z-index: 10;
+    }
+    .touch-btn-60 {
+      min-height: 60px !important;
+      font-size: 1.05rem !important;
+      font-weight: 800 !important;
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="cilindroya-release" content="pwa-session-20261005">
+<style>#cy-pilot-panel button:disabled{opacity:.5;cursor:wait}</style>
+
+
+<link rel="icon" href="/static/favicon.ico?v=corporate-all-20261004" sizes="any"><link rel="icon" type="image/svg+xml" href="/static/favicon.svg?v=corporate-all-20261004"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png?v=corporate-all-20261004"><link rel="apple-touch-icon" sizes="180x180" href="/static/brand/icon-180.png?v=corporate-all-20261004">
+<link rel="stylesheet" href="/static/brand/brand.css?v=corporate-all-20261004">
+  <link rel="stylesheet" href="/static/brand/tw/pwa.css?v=db48ade9c9" data-tw>
+  <style id="cyx-app">
+    /* Rediseño 31/10/2026 (reglas de pantallas de app): botones planos de un color, nada de texto menor a 12px,
+       etiquetas en minúscula normal y contraste AA. Solo cambia cómo se ve; la lógica del panel no se toca. */
+    button, .touch-btn-60, [class*="bg-gradient-to"] { background-image: none !important; box-shadow: none !important; }
+    #loginSubmitBtn, .touch-btn-60.w-full { background-color: #0A59DA !important; color: #fff !important; }
+    #loginSubmitBtn:hover, .touch-btn-60.w-full:hover { background-color: #0743A6 !important; }
+    [class*="text-[8px]"], [class*="text-[9px]"], [class*="text-[10px]"], [class*="text-[11px]"] { font-size: 12px !important; }
+    .uppercase.tracking-wider, .uppercase.tracking-widest, .uppercase[class*="tracking-"] { text-transform: none !important; letter-spacing: 0 !important; }
+    [class*="text-slate-400"], [class*="text-gray-400"] { color: #5B6B80 !important; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #FF8A00 !important; outline-offset: 2px; }
+  </style>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
+</head>
+<body data-cy-portal="driver" class="bg-[#0A1118] text-slate-100 min-h-screen flex flex-col font-sans select-none pb-20 safe-area-bottom">
+
+  <!-- ── 1. Top App Bar Chofer (Azul Petróleo + Verde Operativo) ─────────────── -->
+  <header class="bg-[#0B192C] border-b border-slate-700/80 px-4 py-3 sticky top-0 z-40 flex items-center justify-between shadow-xl safe-area-top">
+    <div class="flex items-center space-x-3">
+      <img class="cy-logo cy-corporate-logo" src="/static/brand/logo-color.svg?v=flame-pin-20261004" alt="CilindroYa" width="430" height="120">
+      <div>
+        <h1 class="font-black text-base tracking-tight text-white leading-tight flex items-center space-x-1.5">
+          <span>Chofer</span>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-black px-1.5 py-0.2 rounded border border-emerald-500/30">PRO</span>
+        </h1>
+        <p id="driverNameLabel" class="text-xs text-slate-300 font-bold">Sin turno iniciado</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <!-- Botón Modo Día / Noche para cabina bajo el sol -->
+      <button onclick="toggleDayTheme()" id="themeToggleBtn" class="px-2.5 py-1.5 text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-xl flex items-center space-x-1 transition active:scale-95" title="Alternar modo día para sol">
+        <span class="material-symbols-outlined text-base">light_mode</span>
+        <span id="themeToggleText" class="hidden sm:inline">Día</span>
+      </button>
+
+      <!-- Botón Liquidación Excel / Factura -->
+      <button onclick="downloadMonthlyInvoice()" class="cy-solo-sesion px-2.5 py-1.5 text-sky-300 hover:text-white text-xs font-bold bg-[#0A59DA]/40 border border-sky-500/30 rounded-xl flex items-center space-x-1" title="Descargar liquidación">
+        <span class="material-symbols-outlined text-base">receipt_long</span>
+        <span class="hidden sm:inline">Caja</span>
+      </button>
+
+      <!-- Pill de Saldo Billetera Conductor -->
+      <button onclick="openRechargeModal()" id="headerWalletBtn" class="cy-solo-sesion inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition active:scale-95 hover:bg-emerald-500/30" title="Billetera Digital - Saldo de Despachos">
+        <span class="material-symbols-outlined text-sm mr-1">account_balance_wallet</span>
+        <span id="headerWalletVal">—</span>
+      </button>
+
+      <!-- Pill de Pendientes Offline -->
+      <button onclick="syncPendingDeliveries(true)" id="offlineSyncPill" class="hidden inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30 transition active:scale-95 hover:bg-amber-500/30" title="Entregas guardadas localmente esperando cobertura">
+        <span class="material-symbols-outlined text-sm mr-1">cloud_sync</span>
+        <span id="offlineSyncCount">0 pendientes</span>
+      </button>
+
+      <!-- Pill de Conexión -->
+      <span id="connStatusPill" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 pulse-dot"></span>
+        <span id="connStatusText">En línea</span>
+      </span>
+
+      <!-- Botón Salir -->
+      <button onclick="logout()" aria-label="Cerrar sesión" class="cy-solo-sesion p-2 text-slate-400 hover:text-white text-xs font-bold bg-slate-800 rounded-xl transition active:scale-95" title="Cerrar sesión">
+        <span class="material-symbols-outlined text-base">logout</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── 2. Vista de Login de Chofer ──────────────────────────────────────── -->
+  <main id="loginView" class="flex-1 flex items-center justify-center p-4">
+    <div class="w-full max-w-sm driver-card p-6 border-slate-700 shadow-2xl space-y-5">
+      <div class="text-center space-y-2">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-[#0B192C] border-2 border-emerald-500/40 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <span class="material-symbols-outlined text-4xl text-emerald-400">local_shipping</span>
+        </div>
+        <h2 class="text-xl font-black text-white tracking-tight">Entra a tu turno</h2>
+        <p class="text-xs text-slate-400 font-medium">Con tu celular: te llega un código por WhatsApp</p>
+      </div>
+
+      <div id="loginAlert" role="alert" class="hidden p-3 bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-bold rounded-2xl"></div>
+
+      <!-- Ingreso con el celular: el código llega por WhatsApp (sin contraseñas que olvidar) -->
+      <form id="celularForm" onsubmit="handleCelular(event)" class="space-y-4">
+        <div>
+          <label for="celularInput" class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-emerald-400" aria-hidden="true">smartphone</span>
+            <span>Tu número de celular</span>
+          </label>
+          <input id="celularInput" type="tel" inputmode="numeric" autocomplete="tel" required placeholder="09XXXXXXXX" maxlength="13" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-base text-white font-bold focus:outline-none focus:border-emerald-500">
+        </div>
+        <div id="codigoBloque" class="hidden">
+          <label for="codigoInput" class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-emerald-400" aria-hidden="true">sms</span>
+            <span>Código que te llegó por WhatsApp</span>
+          </label>
+          <input id="codigoInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 dígitos" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-2xl tracking-[.4em] text-center text-white font-black focus:outline-none focus:border-emerald-500">
+          <p id="codigoAyuda" class="text-xs text-slate-400 mt-2">Vence en 10 minutos.</p>
+        </div>
+        <button type="submit" id="celularBtn" class="touch-btn-60 w-full bg-gradient-to-r from-emerald-600 to-[#00A859] hover:from-emerald-500 hover:to-emerald-400 text-white rounded-2xl shadow-xl shadow-emerald-600/30 active:scale-95 transition flex items-center justify-center space-x-2">
+          <span class="material-symbols-outlined text-2xl" aria-hidden="true">chat</span>
+          <span id="celularBtnTexto">RECIBIR MI CÓDIGO</span>
+        </button>
+        <button type="button" onclick="alternarIngreso(true)" class="w-full text-sm text-slate-300 font-bold underline underline-offset-4 py-2">Entrar con usuario y contraseña</button>
+      </form>
+
+      <form id="claveForm" onsubmit="handleLogin(event)" class="space-y-4 hidden">
+        <div>
+          <label for="usernameSelect" class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-emerald-400" aria-hidden="true">badge</span>
+            <span>Usuario de chofer</span>
+          </label>
+          <input id="usernameSelect" autocomplete="username" required placeholder="Tu usuario de chofer" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-base text-white font-bold focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div>
+          <label for="passwordInput" class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-emerald-400" aria-hidden="true">key</span>
+            <span>Contraseña de turno</span>
+          </label>
+          <input id="passwordInput" type="password" autocomplete="current-password" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-base text-white font-bold focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <!-- Botón Gigante de Inicio de Turno (60px) -->
+        <button type="submit" id="loginSubmitBtn" class="touch-btn-60 w-full bg-gradient-to-r from-emerald-600 to-[#00A859] hover:from-emerald-500 hover:to-emerald-400 text-white rounded-2xl shadow-xl shadow-emerald-600/30 active:scale-95 transition flex items-center justify-center space-x-2">
+          <span class="material-symbols-outlined text-2xl">play_circle</span>
+          <span>INICIAR TURNO DE REPARTO</span>
+        </button>
+        <button type="button" onclick="alternarIngreso(false)" class="w-full text-sm text-slate-300 font-bold underline underline-offset-4 py-2">Entrar con mi celular</button>
+      </form>
+
+      <div class="text-center text-[11px] text-slate-500 font-bold">
+        CilindroYa Ibarra • Ecosistema M3 Chofer Pro
+      </div>
+    </div>
+  </main>
+
+
+
+  <!-- ── 2b. Overlay de PIN (Segunda Barrera de Seguridad) ───────────────── -->
+  <div id="pinOverlay" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-xs driver-card p-6 border-slate-700 shadow-2xl space-y-5 text-center">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-900/40 border-2 border-emerald-500/40 flex items-center justify-center">
+        <span class="material-symbols-outlined text-3xl text-emerald-400">lock</span>
+      </div>
+      <h3 class="text-lg font-black text-white">Código PIN de Turno</h3>
+      <p class="text-xs text-slate-400">Ingresa tu PIN de 4 dígitos para continuar</p>
+      <div id="pinAlert" class="hidden p-2 bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-bold rounded-xl"></div>
+      <div class="flex justify-center gap-3">
+        <input id="pinInput" type="password" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"
+          class="w-36 text-center text-2xl font-black tracking-widest bg-slate-900 border-2 border-slate-600 focus:border-emerald-500 rounded-2xl px-4 py-3 text-white focus:outline-none"
+          placeholder="• • • •" autocomplete="one-time-code" />
+      </div>
+      <div class="grid grid-cols-3 gap-2">
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('1')">1</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('2')">2</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('3')">3</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('4')">4</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('5')">5</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('6')">6</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('7')">7</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('8')">8</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('9')">9</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-rose-900 text-rose-400 font-bold rounded-2xl col-span-1" onclick="pinClear()">⌫</button>
+        <button class="pin-key touch-btn-60 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl" onclick="pinKey('0')">0</button>
+        <button id="pinSubmitBtn" class="touch-btn-60 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl" onclick="handlePinVerify()">✓</button>
+      </div>
+      <button class="text-xs text-slate-500 underline" onclick="pinLogout()">Cancelar / Salir</button>
+    </div>
+  </div>
+  <!-- ── 3. Vista Principal del Chofer (Autenticado) ────────────────────────── -->
+  <main id="appView" class="hidden flex-1 p-4 space-y-4 max-w-lg mx-auto w-full">
+
+    <!-- Tarjeta de Billetera Digital del Conductor (Driver Wallet & Despacho) -->
+    <section class="driver-card p-5 border-2 border-emerald-500/40 bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/30 shadow-xl space-y-3.5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
+            <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-extrabold block">Billetera Operativa Chofer</span>
+            <h3 class="text-sm font-black text-white">Saldo de Despachos CilindroYa</h3>
+          </div>
+        </div>
+        <div id="walletStatusBadge" class="px-3 py-1 rounded-full text-xs font-black flex items-center space-x-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-all duration-300">
+          <span id="walletStatusDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="walletStatusText">Saldo Óptimo</span>
+        </div>
+      </div>
+
+      <div class="flex items-end justify-between pt-1">
+        <div>
+          <span class="text-[11px] text-slate-400 font-bold block">Saldo Disponible</span>
+          <p id="walletBalanceVal" class="text-3xl font-black text-emerald-400 tracking-tight">$10.00</p>
+          <div class="flex items-center space-x-1.5 mt-1 text-[11px] text-slate-400">
+            <span class="text-slate-500">Tarifa plataforma:</span>
+            <span class="text-slate-300 font-bold">$0.10 / pedido</span>
+          </div>
+        </div>
+        <button onclick="openRechargeModal()" class="touch-btn-60 px-5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black text-xs rounded-2xl shadow-lg shadow-emerald-600/30 active:scale-95 transition flex items-center space-x-2">
+          <span class="material-symbols-outlined text-xl">add_card</span>
+          <span>RECARGAR SALDO</span>
+        </button>
+      </div>
+
+      <!-- Alerta Dinámica de Saldo Bajo / Bloqueo -->
+      <div id="walletSuspendedWarning" class="hidden p-3 rounded-2xl text-xs font-bold transition-all duration-300"></div>
+    </section>
+
+    <!-- 📊 Dashboard del Distribuidor: Ventas, Ahorro de Combustible & CRM -->
+    <section class="driver-card p-4 sm:p-5 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border-2 border-emerald-500/40 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+            <span class="material-symbols-outlined text-lg">insights</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-white leading-tight">Dashboard del Distribuidor</h3>
+            <span class="text-[10px] text-emerald-400 font-bold">Rendimiento en Vivo • CilindroYa Ibarra</span>
+          </div>
+        </div>
+        <button onclick="fetchCuadreDeCaja(); loadDriverWallet();" class="text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-xl font-bold flex items-center space-x-1 transition active:scale-95">
+          <span class="material-symbols-outlined text-xs">sync</span>
+          <span>Actualizar</span>
+        </button>
+      </div>
+
+      <!-- Grid de 4 Métricas Clave -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <!-- 1. Ventas & Cilindros -->
+        <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+          <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs text-sky-400">payments</span>
+            <span>Ventas Hoy</span>
+          </span>
+          <p id="driverTotalCashRecaudadoVal" class="text-xl font-black text-white leading-none">$0.00</p>
+          <p class="text-[11px] text-sky-400 font-bold"><span id="driverDeliveredCylindersVal">0</span> cilindros entregados</p>
+        </div>
+
+        <!-- 2. Tu Ganancia Neta -->
+        <div class="p-3 rounded-2xl bg-emerald-950/30 border border-emerald-500/30 space-y-1">
+          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs text-emerald-400">price_check</span>
+            <span>Tu Ganancia Flete</span>
+          </span>
+          <p id="driverNetEarningsVal" class="text-xl font-black text-emerald-400 leading-none">$0.00</p>
+          <span class="text-[10px] text-slate-400 font-medium block">($1.80 netos / cilindro)</span>
+        </div>
+
+        <!-- 3. Ahorro de Combustible (2-Opt) -->
+        <div class="p-3 rounded-2xl bg-slate-900/80 border border-emerald-500/30 space-y-1">
+          <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs text-emerald-400">eco</span>
+            <span>Ahorro Combustible</span>
+          </span>
+          <div class="flex items-baseline space-x-1.5">
+            <p id="fuelSavedUsdVal" class="text-lg font-black text-emerald-400 leading-none">$0.00 USD</p>
+            <span id="fuelSavedGallonsVal" class="text-xs text-slate-400 font-mono">0.0 gal</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-medium">Por optimización de rutas (2-Opt)</p>
+        </div>
+
+        <!-- 4. Clientes Fidelizados (CRM) -->
+        <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-1">
+          <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider block flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs text-amber-400">group</span>
+            <span>Clientes CRM</span>
+          </span>
+          <p id="distributorTotalCrm" class="text-xl font-black text-amber-300 leading-none">0 clientes</p>
+          <p class="text-[10px] text-slate-400 font-medium">Para promociones WhatsApp / Mail</p>
+        </div>
+      </div>
+
+      <!-- Banner de Beneficios del Distribuidor CilindroYa & Facturación B2B -->
+      <div class="p-3 bg-slate-900/90 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+        <div class="flex items-center space-x-2.5">
+          <span class="material-symbols-outlined text-emerald-400 text-xl shrink-0">verified</span>
+          <div>
+            <p class="font-bold text-white leading-tight">Facturación & Plataforma B2B</p>
+            <p class="text-[11px] text-slate-400">Comisiones de plataforma $0.10/cilindro y recargas.</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 w-full sm:w-auto">
+          <button type="button" onclick="descargarFacturaMensual(this)" class="w-full sm:w-auto text-xs bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-400/30 px-3 py-1.5 rounded-xl font-bold flex items-center justify-center space-x-1.5 transition active:scale-95">
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">receipt_long</span>
+            <span>Mi factura del mes</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🚫 Historial de Cancelaciones del Día (Estadísticas de Clientes Reales) -->
+    <section id="driverCancelledOrdersSection" class="driver-card p-4 bg-gradient-to-br from-slate-900 to-rose-950/20 border border-rose-500/30 space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center border border-rose-500/30">
+            <span class="material-symbols-outlined text-lg">event_busy</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-black text-white leading-tight">Cancelaciones de Hoy</h3>
+            <span class="text-[10px] text-rose-400 font-bold">Estadísticas y Motivos</span>
+          </div>
+        </div>
+        <span id="cancelledOrdersCountBadge" class="text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">
+          0 cancelados
+        </span>
+      </div>
+
+      <div id="cancelledOrdersList" class="space-y-2 text-xs">
+        <p class="text-slate-400 text-[11px] text-center py-2">No hay cancelaciones hoy. ¡Todos los pedidos van en curso!</p>
+      </div>
+    </section>
+
+    <!-- Tarjeta de Gamificación (Puntos, Nivel y Rango) -->
+    <section class="driver-card p-4 bg-gradient-to-r from-amber-950/30 via-[#1E293B] to-[#1E293B] border-amber-500/40 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center border border-amber-500/30">
+          <span class="material-symbols-outlined text-2xl text-amber-400">military_tech</span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span id="driverBadgePill" class="text-xs font-black text-amber-400">🥉 Principiante</span>
+            <span class="text-[10px] text-slate-400 font-bold">• Nivel <span id="driverLevelVal">1</span></span>
+          </div>
+          <p class="text-sm font-black text-white"><span id="driverPointsVal">0</span> Pts Acumulados</p>
+          <div class="w-32 bg-slate-800 rounded-full h-1.5 mt-1 overflow-hidden">
+            <div id="driverPointsBar" class="h-full bg-amber-400 transition-all duration-500" style="width: 20%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <span class="text-[10px] text-slate-400 font-bold block">Próximo Rango</span>
+        <span id="driverNextTargetVal" class="text-xs font-black text-emerald-400">51 Pts</span>
+      </div>
+    </section>
+
+    <!-- Barra de Control de Ruta y GPS -->
+    <section class="driver-card p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Estado del Camión</span>
+          <h3 id="routeStatusTitle" class="text-base font-black text-white">En Pausa (GPS Inactivo)</h3>
+        </div>
+        <div id="gpsPill" class="px-3 py-1.5 rounded-full text-xs font-black bg-slate-800 text-slate-400 border border-slate-700 flex items-center space-x-1.5">
+          <span class="material-symbols-outlined text-sm">satellite_alt</span>
+          <span id="gpsText">GPS Off</span>
+        </div>
+      </div>
+
+      <!-- Botón Gigante Iniciar / Detener Ruta (60px) -->
+      <button id="toggleRouteBtn" onclick="toggleRouteTracking()" class="touch-btn-60 w-full rounded-2xl text-white shadow-lg active:scale-95 transition flex items-center justify-center space-x-3 bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30">
+        <span class="material-symbols-outlined text-2xl">play_circle</span>
+        <span>INICIAR RECORRIDO DE RUTA</span>
+      </button>
+
+      <!-- Mini Mapa del Chofer con Leaflet -->
+      <div id="driverMap" class="shadow-inner border border-slate-700"></div>
+
+      <!-- Métricas GPS de Cabina -->
+      <div class="grid grid-cols-2 gap-2 text-center pt-1 border-t border-slate-800 text-xs">
+        <div class="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800">
+          <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Velocidad</p>
+          <p id="gpsSpeedVal" class="font-black text-emerald-400 text-lg">0.0 km/h</p>
+        </div>
+        <div class="bg-slate-900/90 p-2.5 rounded-2xl border border-slate-800">
+          <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Coordenadas</p>
+          <p id="gpsCoordsVal" class="font-bold text-slate-300 text-xs truncate">Sin ubicación compartida</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarjeta de Inventario / Carga de Camión -->
+    <section class="driver-card p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Carga de Mi Camión</span>
+          <h3 class="text-base font-black text-white flex items-center space-x-2">
+            <span class="material-symbols-outlined text-emerald-400">local_shipping</span>
+            <span id="truckStockLabel">100 / 100 Cilindros (15kg)</span>
+          </h3>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="openDeclareLoadModal()" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold rounded-xl transition active:scale-95 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm">photo_camera</span>
+            <span>Carga</span>
+          </button>
+          <button onclick="openQrScannerModal()" class="px-3 py-1.5 bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/30 text-xs font-bold rounded-xl transition active:scale-95 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm">qr_code_2</span>
+            <span>Transferir</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+        <div id="truckStockBar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 100%"></div>
+      </div>
+
+      <div class="flex justify-between text-xs text-slate-400 font-medium">
+        <span>Vendidos en App: <strong id="truckSoldLabel" class="text-white">0 unid.</strong></span>
+        <span>Comisión acumulada: <strong id="truckFeesLabel" class="text-emerald-400">$0.00</strong></span>
+      </div>
+
+      <!-- Botón Gigante de Declarar Carga (60px) -->
+      <div class="pt-2">
+        <button onclick="openDeclareLoadModal()" class="touch-btn-60 w-full bg-[#0A59DA] hover:bg-[#004A80] text-white rounded-2xl shadow-lg flex items-center justify-center space-x-2 transition active:scale-95">
+          <span class="material-symbols-outlined text-2xl">photo_camera</span>
+          <span>DECLARAR CARGA CON FOTO</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Tarjeta de Cuadre de Caja Diaria -->
+    <section class="driver-card p-5 border-emerald-500/30 space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-black text-white flex items-center space-x-2">
+          <span class="material-symbols-outlined text-emerald-400">payments</span>
+          <span>Cuadre de Caja (Hoy)</span>
+        </h3>
+        <button onclick="fetchCuadreDeCaja()" class="px-3 py-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 font-bold text-xs rounded-xl border border-emerald-500/30 transition active:scale-95 flex items-center space-x-1">
+          <span class="material-symbols-outlined text-sm">sync</span>
+          <span>Actualizar</span>
+        </button>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-3 text-sm">
+        <div class="bg-slate-900/90 rounded-2xl p-3.5 border border-slate-800">
+          <p class="text-slate-400 text-xs font-bold mb-1 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-emerald-400">attach_money</span>
+            <span>Efectivo Físico</span>
+          </p>
+          <p id="cuadreEfectivo" class="text-2xl font-black text-emerald-400">$0.00</p>
+        </div>
+        <div class="bg-slate-900/90 rounded-2xl p-3.5 border border-slate-800">
+          <p class="text-slate-400 text-xs font-bold mb-1 flex items-center space-x-1">
+            <span class="material-symbols-outlined text-sm text-sky-400">smartphone</span>
+            <span>Digital (DeUna)</span>
+          </p>
+          <p id="cuadreDigital" class="text-2xl font-black text-sky-400">$0.00</p>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center px-1 pt-1 text-xs">
+        <p class="text-slate-300 font-bold">Cilindros Vendidos: <span id="cuadreCilindros" class="text-white font-black">0</span></p>
+        <p class="text-slate-300 font-bold">Total a Entregar: <span id="cuadreTotal" class="text-emerald-400 font-black text-sm">$0.00</span></p>
+      </div>
+    </section>
+
+    <section id="cy-pilot-panel" class="mx-4 my-4 p-5 rounded-2xl border border-orange-400/50 bg-slate-900" aria-labelledby="cy-pilot-title">
+<h2 id="cy-pilot-title" class="font-bold text-orange-300">Pruebas · Carlos Méndez</h2>
+<p class="text-sm text-slate-300 my-2">Los nuevos pedidos se asignan a Carlos durante el piloto. La simulación ahora se comparte con el cliente. Cobrar envía avisos de prueba y un comprobante sin validez fiscal; no modifica inventario ni billeteras.</p>
+<button type="button" onclick="cyPilotRefresh()" class="p-3 rounded-xl bg-slate-700 text-white">Cargar mis pedidos para simular</button>
+<select disabled id="cy-pilot-order" aria-label="Pedido para simular" class="block w-full my-3 p-3 rounded-xl bg-slate-800 text-white"></select>
+<label class="block text-sm text-slate-300 my-3">Foto de entrega (máximo 2 MB)<input id="cy-pilot-photo" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full my-2"></label>
+<button type="button" onclick="cyPilotStep('cerca')" class="p-3 rounded-xl bg-blue-700 text-white">Simular llegada en 3 minutos</button>
+<button type="button" onclick="cyPilotCharge()" class="p-3 rounded-xl bg-emerald-700 text-white">Cobrar prueba · enviar avisos</button>
+<button type="button" onclick="cyPilotStep('reenviar')" class="p-3 rounded-xl bg-slate-700 text-white">Reintentar avisos pendientes</button><div class="flex flex-wrap gap-2"><button type="button" onclick="cyPilotStep('tomado')" class="p-3 rounded-xl bg-blue-700 text-white">1. Simular toma</button><button type="button" onclick="cyPilotStep('en ruta')" class="p-3 rounded-xl bg-blue-700 text-white">2. Simular ruta</button><button type="button" onclick="cyPilotStep('entregado')" class="p-3 rounded-xl bg-orange-600 text-white">3. Simular entrega</button><button type="button" onclick="cyPilotStep('reiniciado')" class="p-3 rounded-xl bg-slate-700 text-white">Reiniciar prueba</button></div>
+<p id="cy-pilot-status" role="status" class="text-sm text-slate-300 mt-3">Los pedidos se cargarán al iniciar sesión.</p></section>
+<!-- Lista de Entregas Asignadas & CilindroYa Directo Offers -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-base font-black text-white flex items-center space-x-2">
+          <span class="material-symbols-outlined text-emerald-400">inventory_2</span>
+          <span>Pedidos y Entregas</span>
+          <span id="deliveriesCountBadge" class="bg-emerald-600/30 text-emerald-300 px-2.5 py-0.5 rounded-full text-xs font-black">0</span>
+        </h2>
+        <button onclick="loadDeliveries()" class="text-xs text-emerald-400 hover:text-emerald-300 font-black flex items-center space-x-1">
+          <span class="material-symbols-outlined text-sm">sync</span>
+          <span>Actualizar</span>
+        </button>
+      </div>
+
+      <!-- Contenedor Dinámico de Cards de Entregas -->
+      <div id="deliveriesList" class="space-y-3">
+        <div class="p-8 text-center text-slate-500 text-xs font-bold">
+          Cargando pedidos en vivo...
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Escáner QR para Transferencia de Stock (Cross-Docking) -->
+  <div id="qrScannerModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex flex-col items-center justify-between p-6">
+    <div class="w-full max-w-sm text-center pt-6 space-y-2">
+      <div class="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-4 py-1 rounded-full text-xs font-black">
+        <span class="material-symbols-outlined text-sm">sync</span>
+        <span>CROSS-DOCKING MÓVIL</span>
+      </div>
+      <h2 class="text-2xl font-black text-white">Escanear Código QR</h2>
+      <p class="text-xs text-slate-300 font-medium">Apunte la cámara al código QR del otro camión</p>
+    </div>
+
+    <!-- Visor del Escáner con Láser Animado -->
+    <div class="relative w-[260px] h-[260px] rounded-3xl overflow-hidden border-2 border-emerald-500/40 bg-black/70 shadow-2xl flex items-center justify-center">
+      <div class="laser-line"></div>
+      
+      <div class="corner-target absolute top-3 left-3 w-8 h-8 border-t-4 border-l-4 border-emerald-400 rounded-tl-xl pointer-events-none"></div>
+      <div class="corner-target absolute top-3 right-3 w-8 h-8 border-t-4 border-r-4 border-emerald-400 rounded-tr-xl pointer-events-none"></div>
+      <div class="corner-target absolute bottom-3 left-3 w-8 h-8 border-b-4 border-l-4 border-emerald-400 rounded-bl-xl pointer-events-none"></div>
+      <div class="corner-target absolute bottom-3 right-3 w-8 h-8 border-b-4 border-r-4 border-emerald-400 rounded-br-xl pointer-events-none"></div>
+
+      <div id="scannerSimulationContent" class="text-center space-y-2 p-4">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 animate-pulse">
+          <span class="material-symbols-outlined text-3xl">photo_camera</span>
+        </div>
+        <p class="text-xs text-emerald-300 font-bold">Buscando QR de Camión...</p>
+        <button onclick="simulateSuccessfulScan()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl shadow-lg active:scale-95 transition">
+          ⚡ Simular Detección de Camión #1
+        </button>
+      </div>
+    </div>
+
+    <!-- Botón Cancelar Gigante (60px) -->
+    <div class="w-full max-w-sm pb-6">
+      <button onclick="closeQrScannerModal()" class="touch-btn-60 w-full bg-rose-600 hover:bg-rose-500 text-white rounded-2xl shadow-xl shadow-rose-600/30 flex items-center justify-center space-x-2 active:scale-95 transition">
+        <span class="material-symbols-outlined text-2xl">close</span>
+        <span>CANCELAR ESCANEO</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Declarar Carga con Foto -->
+  <div id="declareLoadModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="driver-card border-2 border-emerald-500/60 w-full max-w-sm p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="font-black text-white text-lg flex items-center space-x-2">
+          <span class="material-symbols-outlined text-emerald-400">photo_camera</span>
+          <span>Declarar Carga Diaria</span>
+        </h3>
+        <button onclick="closeDeclareLoadModal()" class="text-slate-400 hover:text-white text-xl font-bold">✕</button>
+      </div>
+      <form onsubmit="submitDeclareLoad(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Cilindros de 15kg Cargados</label>
+          <input type="number" id="loadStock15" value="100" min="1" max="200" required class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-white font-black text-base focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Foto de Verificación de Plataforma</label>
+          <input type="file" id="loadPhotoFile" accept="image/*" capture="environment" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 text-xs text-slate-300 focus:outline-none">
+        </div>
+        <div class="flex space-x-3 pt-2">
+          <button type="button" onclick="closeDeclareLoadModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3.5 rounded-2xl text-sm">
+            Cancelar
+          </button>
+          <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-2xl text-sm shadow-lg shadow-emerald-600/30">
+            GUARDAR CARGA
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Marcar como Entregado & Confetti -->
+  <div id="completeModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center p-4">
+    <div class="driver-card border-2 border-emerald-500/60 w-full max-w-md p-6 shadow-2xl space-y-4 animate-in slide-in-from-bottom">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="font-black text-white text-lg flex items-center space-x-2">
+          <span class="material-symbols-outlined text-emerald-400">check_circle</span>
+          <span>Confirmar Cobro y Entrega</span>
+        </h3>
+        <button onclick="closeCompleteModal()" class="text-slate-400 hover:text-white text-xl font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3 text-sm">
+        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-1.5">
+          <p class="text-slate-400">Cliente: <span id="modalCustomerName" class="font-black text-white">-</span></p>
+          <p class="text-slate-400">Cilindros: <span id="modalProductSummary" class="font-black text-emerald-400">-</span></p>
+          <p class="text-slate-400">Monto a Cobrar: <span id="modalAmount" class="font-black text-emerald-400 text-2xl">$0.00</span></p>
+        </div>
+
+        <!-- Desglose Financiero Transparente del Chofer -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-2 text-xs">
+          <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
+            <span class="flex items-center space-x-1.5 text-white">
+              <span class="material-symbols-outlined text-sm text-emerald-400">receipt_long</span>
+              <span class="font-bold">Desglose de la Entrega</span>
+            </span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md">GLP 15kg</span>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-slate-200">
+              <span>Cobrado al cliente:</span>
+              <strong class="text-white font-mono" id="breakdownTotalCliente">$3.50</strong>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>• Costo GLP Gas (15kg):</span>
+              <span class="font-mono text-slate-300" id="breakdownPrecioGas">$1.60</span>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>• Flete / Servicio de Transporte:</span>
+              <span class="font-mono text-slate-300" id="breakdownPrecioFlete">$1.90</span>
+            </div>
+            <div class="flex justify-between text-rose-400 font-semibold">
+              <span class="flex items-center space-x-1">
+                <span>• Tarifa Uso de Plataforma:</span>
+                <span class="text-[10px] bg-rose-500/20 text-rose-300 px-1 py-0.2 rounded border border-rose-500/30">Debitado</span>
+              </span>
+              <strong class="font-mono" id="breakdownTarifaPlataforma">-$0.10</strong>
+            </div>
+          </div>
+          <div class="border-t border-slate-800 pt-2 flex justify-between items-center text-xs font-black text-emerald-400 bg-emerald-950/40 -mx-3.5 -mb-3.5 p-2.5 rounded-b-2xl border-emerald-500/20">
+            <div>
+              <span class="block">Ganancia Neta Entrega:</span>
+              <span class="text-[10px] text-slate-400 font-medium block">Total retenido chofer: $3.40</span>
+            </div>
+            <span class="text-base text-emerald-400 font-mono" id="breakdownGananciaNeta">$1.80</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1.5 text-xs">Método de Pago Recibido</label>
+          <select id="modalPaymentMethod" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-white font-black focus:outline-none focus:border-emerald-500">
+            <option value="Efectivo">💵 Efectivo (Al recibir)</option>
+            <option value="Transferencia DeUna">📱 Transferencia DeUna (Banco Pichincha)</option>
+            <option value="Transferencia Bancaria Directa">🏦 Transferencia Bancaria</option>
+            <option value="Crédito Comercial">📝 Cuenta Corriente</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1.5 text-xs">Observaciones (Opcional)</label>
+          <input id="modalNotes" type="text" placeholder="Ej. Entregado en piso 2" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-white font-medium focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1.5 text-xs flex items-center space-x-1.5">
+            <span class="material-symbols-outlined text-sm text-emerald-400">photo_camera</span>
+            <span>Foto de Verificación de Entrega</span>
+          </label>
+          <input id="modalDeliveryPhoto" type="file" accept="image/*" capture="environment" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-3 py-2 text-xs text-slate-300 focus:outline-none">
+          <p class="text-[10px] text-slate-500 mt-1">La foto certifica la entrega y se adjunta al comprobante digital.</p>
+        </div>
+      </div>
+
+      <div class="flex space-x-3 pt-2">
+        <button onclick="closeCompleteModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3.5 rounded-2xl text-sm">
+          Cancelar
+        </button>
+        <button id="confirmCompleteBtn" onclick="submitCompleteDelivery()" class="touch-btn-60 flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-2xl shadow-xl shadow-emerald-600/30 active:scale-95 transition flex items-center justify-center space-x-1.5">
+          <span class="material-symbols-outlined text-2xl">price_check</span>
+          <span>CONFIRMAR COBRO</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Comprobante WhatsApp al Cliente & Fidelización CRM -->
+  <div id="receiptSuccessModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="driver-card border-2 border-emerald-500/60 w-full max-w-md p-6 shadow-2xl space-y-4 animate-in zoom-in-95 text-center">
+      <div class="w-16 h-16 mx-auto rounded-3xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shadow-inner">
+        <span class="material-symbols-outlined text-4xl">verified</span>
+      </div>
+      <div>
+        <h3 class="text-xl font-black text-white">¡Entrega Liquidada con Éxito!</h3>
+        <p class="text-xs text-slate-300 mt-1">Cliente guardado en la base de datos CRM para futuras promociones.</p>
+      </div>
+
+      <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 text-left space-y-1.5 text-xs">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Cliente:</span>
+          <strong id="receiptModalCustName" class="text-white">-</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">WhatsApp Destino:</span>
+          <strong id="receiptModalCustPhone" class="text-emerald-400 font-mono">-</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Total Cobrado:</span>
+          <strong id="receiptModalTotal" class="text-white font-bold">$3.50</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Tu Ganancia Neta:</span>
+          <strong class="text-emerald-400 font-bold">$1.80</strong>
+        </div>
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <a id="btnSendWaReceipt" href="#" target="_blank" onclick="closeReceiptSuccessModal()" class="touch-btn-60 w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white rounded-2xl shadow-xl shadow-[#25D366]/30 flex items-center justify-center space-x-2 font-black text-sm active:scale-95 transition">
+          <span class="material-symbols-outlined text-2xl">chat</span>
+          <span>ENVIAR FACTURA Y CALIFICACIÓN POR WHATSAPP</span>
+        </a>
+        <p class="text-[11px] text-emerald-400 font-bold">⭐ El mensaje incluye enlace para que el cliente te califique con 5 estrellas y descargue su Factura PDF.</p>
+        <a id="btnOpenInvoicePdf" href="#" target="_blank" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl flex items-center justify-center space-x-2 shadow-lg transition active:scale-95">
+          <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+          <span>VER FACTURA PDF DEL CLIENTE</span>
+        </a>
+        <button type="button" onclick="closeReceiptSuccessModal()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition">
+          Listo / Volver a la Ruta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Alerta de Pedido Cancelado por Cliente -->
+  <div id="driverCancelAlertModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="driver-card border-2 border-rose-500/80 w-full max-w-md p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95">
+      <div class="flex items-center space-x-3">
+        <span class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center material-symbols-outlined text-3xl">cancel</span>
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider text-rose-400">Notificación de Cliente</span>
+          <h3 class="font-black text-white text-lg">¡Pedido Cancelado!</h3>
+        </div>
+      </div>
+      <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
+        <div class="flex justify-between">
+          <span class="text-slate-400">Orden:</span>
+          <strong id="cancelAlertOrderId" class="text-white font-mono font-bold">#ORD-101</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Cliente:</span>
+          <strong id="cancelAlertCustName" class="text-white font-bold">Juan Pérez</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Dirección:</span>
+          <span id="cancelAlertAddress" class="text-slate-300 text-right truncate max-w-[200px]">Bolívar y Moncayo</span>
+        </div>
+        <div class="p-3 bg-rose-950/40 border border-rose-500/30 rounded-xl space-y-1 mt-2">
+          <span class="text-rose-300 font-bold text-[11px] block">⚠️ MOTIVO INDICADO POR EL CLIENTE:</span>
+          <p id="cancelAlertReason" class="text-rose-100 font-black text-xs">"Ya compré a otro distribuidor en la calle"</p>
+        </div>
+      </div>
+      <button type="button" onclick="closeDriverCancelAlertModal()" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-lg transition active:scale-95">
+        Entendido / Continuar en Ruta
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Recargar Saldo Billetera Digital Conductor -->
+  <div id="rechargeModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="driver-card border-2 border-emerald-500/60 w-full max-w-md p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="font-black text-white text-lg flex items-center space-x-2">
+          <span class="material-symbols-outlined text-emerald-400">account_balance_wallet</span>
+          <span>Recargar Billetera Digital</span>
+        </h3>
+        <button onclick="closeRechargeModal()" class="text-slate-400 hover:text-white text-xl font-bold">✕</button>
+      </div>
+
+      <div class="space-y-3.5 text-xs">
+        <div class="bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 p-3.5 rounded-2xl border border-emerald-500/30 flex items-center justify-between">
+          <div>
+            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Saldo Actual</span>
+            <p id="rechargeModalCurrentBal" class="text-2xl font-black text-emerald-400">$10.00</p>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 font-medium block">Costo por Entrega</span>
+            <span class="text-xs font-black text-white">$0.10 / despacho</span>
+          </div>
+        </div>
+
+        <!-- Cuentas Oficiales de Transferencia / Deuna -->
+        <div class="space-y-2">
+          <p class="font-bold text-slate-300 uppercase tracking-wider text-[10px] flex items-center space-x-1">
+            <span class="material-symbols-outlined text-xs text-sky-400">account_balance</span>
+            <span>Cuentas Oficiales para Transferencia / Deuna</span>
+          </p>
+          
+          <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div class="flex justify-between font-bold text-slate-200">
+              <span class="text-amber-400">Banco Pichincha</span>
+              <span class="font-mono text-emerald-400">Cta. Cte. #2100234567</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Titular: <strong>CilindroYa S.A.S.</strong> • RUC: 1091784930001</p>
+          </div>
+
+          <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 space-y-1">
+            <div class="flex justify-between font-bold text-slate-200">
+              <span class="text-emerald-400">Produbanco / Deuna</span>
+              <span class="font-mono text-emerald-400">Cta. Ahorros #12056789012</span>
+            </div>
+            <p class="text-[11px] text-slate-400">Deuna QR directo a la <strong>cuenta del distribuidor</strong></p>
+          </div>
+        </div>
+
+        <!-- Selección rápida de monto -->
+        <div class="space-y-1.5">
+          <label class="block font-bold text-slate-300 text-[11px]">Selecciona Monto a Recargar:</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="setRechargeAmount(2.00)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-emerald-600/30 text-white font-black text-sm border border-slate-700 active:scale-95 transition">$2.00</button>
+            <button type="button" onclick="setRechargeAmount(5.00)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-emerald-600/30 text-white font-black text-sm border border-slate-700 active:scale-95 transition">$5.00</button>
+            <button type="button" onclick="setRechargeAmount(10.00)" class="py-2.5 rounded-xl bg-emerald-600 text-white font-black text-sm border border-emerald-500 shadow-md active:scale-95 transition">$10.00</button>
+            <button type="button" onclick="setRechargeAmount(20.00)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-emerald-600/30 text-white font-black text-sm border border-slate-700 active:scale-95 transition">$20.00</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1 text-[11px]">Monto Personalizado ($ USD):</label>
+          <input type="number" id="rechargeAmountInput" step="0.50" min="1.00" max="100.00" value="10.00" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-white font-black text-lg focus:outline-none focus:border-emerald-500 text-center">
+        </div>
+      </div>
+
+      <div class="flex space-x-3 pt-2">
+        <button type="button" onclick="closeRechargeModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3.5 rounded-2xl text-sm">
+          Cancelar
+        </button>
+        <button id="submitRechargeBtn" onclick="submitWalletRecharge()" class="touch-btn-60 flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-2xl shadow-xl shadow-emerald-600/30 active:scale-95 transition flex items-center justify-center space-x-2 font-black text-sm">
+          <span class="material-symbols-outlined text-xl">payments</span>
+          <span>CONFIRMAR RECARGA</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. Scripts de PWA, IndexedDB y Lógica ─────────────────────────────── -->
+  <script src="/static/pwa/db.js"></script>
+  <script>
+    // ── Motor Sintetizador Procedural Web Audio API para Chofer ──────────────
+    const SoundEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      },
+      tap() {
+        try {
+          this.init();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.04);
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.04);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.04);
+          if (navigator.vibrate) navigator.vibrate(15);
+        } catch(e) {}
+      },
+      newOrderChime() {
+        try {
+          this.init();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(1320, this.ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.3);
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+        } catch(e) {}
+      },
+      paymentApproved() {
+        try {
+          this.init();
+          const notes = [440, 554.37, 659.25, 880];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            const t = this.ctx.currentTime + (idx * 0.07);
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.25, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.28);
+          });
+          if (navigator.vibrate) navigator.vibrate([60, 40, 120]);
+        } catch(e) {}
+      }
+    };
+
+    let currentUser = null;
+    let authToken = localStorage.getItem('gasazul_token');
+    let isTrackingRoute = false;
+    let geoWatchId = null;
+    let activeDeliveries = [];
+    let availableOrders = [];
+    let selectedDelivery = null;
+    let driverLeafletMap = null;
+    let driverMarker = null;
+    let previousAvailableCount = 0;
+
+    const IBARRA_LAT = 0.3517;
+    const IBARRA_LNG = -78.1223;
+
+    function syncPassword(username) {
+      document.getElementById('passwordInput').value = '';
+      SoundEngine.tap();
+    }
+
+    function initDriverMap() {
+      if (driverLeafletMap) return;
+      const mapEl = document.getElementById('driverMap');
+      if (!mapEl) return;
+
+      driverLeafletMap = L.map('driverMap', { zoomControl: false }).setView([IBARRA_LAT, IBARRA_LNG], 14);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(driverLeafletMap);
+
+      const truckIcon = L.divIcon({
+        html: '<div style="position:relative; width:40px; height:40px;"><div class="truck-radar-beacon"></div><div style="background:#00C853; color:white; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,200,83,0.5); position:relative; z-index:2;"><span class="material-symbols-outlined" style="font-size:24px;">local_shipping</span></div></div>',
+        className: 'custom-truck',
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
+      });
+
+      driverMarker = L.marker([IBARRA_LAT, IBARRA_LNG], { icon: truckIcon }).addTo(driverLeafletMap)
+        .bindPopup('<b>Tu Camión</b><br>Patrullando Ibarra');
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Registro blindado de Service Worker para resiliencia offline PWA
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/pwa/sw.js')
+          .then((reg) => console.log('[SW] Service Worker registrado exitosamente con scope:', reg.scope))
+          .catch((err) => console.warn('[SW] Advertencia registrando Service Worker:', err));
+      }
+
+      // 2. Inicialización de base de datos offline IndexedDB + LocalStorage
+      if (window.gasAzulDB) {
+        await window.gasAzulDB.init();
+        await updateOfflineQueueUI();
+        if (navigator.onLine) {
+          setTimeout(() => {
+            syncPendingDeliveries();
+            syncQueuedLocations();
+          }, 1500);
+        }
+      }
+
+      // 3. Monitoreo de conectividad en tiempo real
+      updateNetworkStatusUI();
+      window.addEventListener('online', () => {
+        updateNetworkStatusUI();
+        syncPendingDeliveries();
+        syncQueuedLocations();
+      });
+      window.addEventListener('offline', () => {
+        updateNetworkStatusUI();
+      });
+      window.addEventListener('gasazul:offlineDataChanged', () => {
+        updateOfflineQueueUI();
+      });
+
+      // 4. Restauración de sesión
+      if (authToken) {
+        try {
+          const profile = JSON.parse(localStorage.getItem('gasazul_user_profile') || '{}');
+          if (profile && profile.role === 'chofer') {
+            currentUser = profile;
+            try {const claims=JSON.parse(atob(authToken.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));if(Number(profile.id)!==3&&!claims.pin_verified){showPinOverlay();return;}}catch{showLogin();return;}
+            showApp();
+            return;
+          }
+        } catch (e) {}
+      }
+      showLogin();
+    });
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('usernameSelect').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+      const alertBox = document.getElementById('loginAlert');
+      const submitBtn = document.getElementById('loginSubmitBtn');
+
+      alertBox.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Verificando...';
+      SoundEngine.tap();
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Credenciales inválidas');
+
+        if (data.user.role !== 'chofer' && data.user.role !== 'admin') {
+          throw new Error('Este portal es exclusivo para Choferes.');
+        }
+
+        authToken = data.access_token;
+        currentUser = data.user;
+        localStorage.setItem('gasazul_token', authToken);
+        localStorage.setItem('gasazul_user_profile', JSON.stringify(currentUser));
+
+        SoundEngine.paymentApproved();
+        // ── FASE 3: Segunda barrera — mostrar PIN overlay ──
+        if (currentUser.role === 'chofer') {
+          showPinOverlay();
+        } else {
+          showApp();
+        }
+      } catch (err) {
+        alertBox.textContent = err.message;
+        alertBox.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-2xl">play_circle</span><span>INICIAR TURNO DE REPARTO</span>';
+      }
+    }
+
+
+    // La factura del mes se descarga con la sesión del chofer (la ruta ya no es pública) y es solo la suya
+    async function descargarFacturaMensual(boton) {
+      const texto = boton.querySelector('span:last-child');
+      const original = texto.textContent;
+      texto.textContent = 'Preparando…';
+      boton.disabled = true;
+      try {
+        const id = currentUser && currentUser.id;
+        if (!id) throw new Error('Inicia sesión para ver tu factura.');
+        const res = await fetch(`/api/distribuidor/factura-mensual/${id}`, { headers: { 'Authorization': `Bearer ${authToken}` } });
+        if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || 'No se pudo generar tu factura.');
+        const url = URL.createObjectURL(await res.blob());
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        texto.textContent = original;
+        boton.disabled = false;
+      }
+    }
+
+    // ── Ingreso con el celular: código de un solo uso por WhatsApp ────────────
+    function alternarIngreso(conClave) {
+      document.getElementById('claveForm').classList.toggle('hidden', !conClave);
+      document.getElementById('celularForm').classList.toggle('hidden', conClave);
+      document.getElementById('loginAlert').classList.add('hidden');
+    }
+
+    async function handleCelular(e) {
+      e.preventDefault();
+      const telefono = document.getElementById('celularInput').value.replace(/\D/g, '');
+      const codigoBloque = document.getElementById('codigoBloque');
+      const esperandoCodigo = !codigoBloque.classList.contains('hidden');
+      const alertBox = document.getElementById('loginAlert');
+      const btn = document.getElementById('celularBtn');
+      const texto = document.getElementById('celularBtnTexto');
+      alertBox.classList.add('hidden');
+      btn.disabled = true;
+      texto.textContent = esperandoCodigo ? 'VERIFICANDO...' : 'ENVIANDO CÓDIGO...';
+      try {
+        if (!esperandoCodigo) {
+          const res = await fetch('/api/auth/celular/codigo', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telefono })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.detail || 'No se pudo enviar el código.');
+          codigoBloque.classList.remove('hidden');
+          document.getElementById('codigoAyuda').textContent =
+            'Si tu número está aprobado, te llega en segundos por WhatsApp. Vence en 10 minutos.';
+          document.getElementById('codigoInput').focus();
+          return;
+        }
+        const codigo = document.getElementById('codigoInput').value.replace(/\D/g, '');
+        const res = await fetch('/api/auth/celular/entrar', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ telefono, codigo })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'El código no coincide.');
+        authToken = data.access_token;
+        currentUser = data.user;
+        localStorage.setItem('gasazul_token', authToken);
+        localStorage.setItem('gasazul_user_profile', JSON.stringify(currentUser));
+        SoundEngine.paymentApproved();
+        showApp();      // el código por WhatsApp ya es la segunda barrera: no se pide PIN
+      } catch (err) {
+        alertBox.textContent = err.message;
+        alertBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        texto.textContent = codigoBloque.classList.contains('hidden') ? 'RECIBIR MI CÓDIGO' : 'ENTRAR';
+      }
+    }
+
+    // ── Funciones del Overlay PIN (Segunda Barrera de Seguridad) ──────────────
+    function showPinOverlay() {
+      document.getElementById('pinOverlay').classList.remove('hidden');
+      document.getElementById('loginView').classList.add('hidden');
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinAlert').classList.add('hidden');
+      setTimeout(() => document.getElementById('pinInput').focus(), 300);
+    }
+
+    function pinKey(digit) {
+      const input = document.getElementById('pinInput');
+      if (input.value.length < 4) {
+        input.value += digit;
+        SoundEngine.tap();
+        if (input.value.length === 4) handlePinVerify();
+      }
+    }
+
+    function pinClear() {
+      const input = document.getElementById('pinInput');
+      input.value = input.value.slice(0, -1);
+    }
+
+    function pinLogout() {
+      document.getElementById('pinOverlay').classList.add('hidden');
+      localStorage.removeItem('gasazul_token');
+      localStorage.removeItem('gasazul_user_profile');
+      authToken = null; currentUser = null;
+      showLogin();
+    }
+
+    async function handlePinVerify() {
+      const pin = document.getElementById('pinInput').value.trim();
+      const alertBox = document.getElementById('pinAlert');
+      const btn = document.getElementById('pinSubmitBtn');
+      if (pin.length !== 4) { alertBox.textContent = 'Ingresa 4 dígitos.'; alertBox.classList.remove('hidden'); return; }
+      btn.disabled = true;
+      btn.textContent = '...';
+      try {
+        const res = await fetch('/api/gas/chofer/verify-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
+          body: JSON.stringify({ pin })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'PIN incorrecto');
+        if(data.access_token){authToken=data.access_token;localStorage.setItem('gasazul_token',authToken);}
+        document.getElementById('pinOverlay').classList.add('hidden');
+        SoundEngine.paymentApproved();
+        showApp();
+      } catch(err) {
+        alertBox.textContent = err.message;
+        alertBox.classList.remove('hidden');
+        document.getElementById('pinInput').value = '';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✓';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('gasazul_token');
+      localStorage.removeItem('gasazul_user_profile');
+      authToken = null;
+      currentUser = null;
+      if (isTrackingRoute) toggleRouteTracking();
+      showLogin();
+      SoundEngine.tap();
+    }
+
+    function showLogin() {
+      document.getElementById('loginView').classList.remove('hidden');
+      document.getElementById('appView').classList.add('hidden');
+      document.getElementById('driverNameLabel').textContent = 'Sin turno iniciado';
+    }
+
+    function showApp() {
+      document.getElementById('loginView').classList.add('hidden');
+      document.getElementById('appView').classList.remove('hidden');
+      document.getElementById('driverNameLabel').textContent = `${currentUser.full_name || currentUser.username}`;
+      setTimeout(initDriverMap, 300);
+      loadDriverWallet();
+      loadGamificationProfile();
+      loadDriverInventory();
+      loadDeliveries();
+      fetchCuadreDeCaja();
+    }
+
+    // ── Módulo de Billetera Digital del Conductor (Driver Wallet) ──────────────
+    let currentDriverWallet = null;
+
+    async function loadDriverWallet() {
+      try {
+        const driverId = (currentUser && currentUser.id) ? currentUser.id : 1;
+        const res = await fetch(`/api/chofer/${driverId}/wallet`);
+        if (res.ok) {
+          const data = await res.json();
+          currentDriverWallet = data.wallet;
+          renderDriverWallet(data.wallet);
+        }
+
+        // Consultar métricas de impacto de combustible (2-Opt) y recaudación diaria
+        try {
+          const impRes = await fetch(`/api/chofer/${driverId}/impacto-ruta`);
+          if (impRes.ok) {
+            const impData = await impRes.json();
+            const imp = impData.impacto || {};
+            const galEl = document.getElementById('fuelSavedGallonsVal');
+            if (galEl) galEl.innerText = `${(imp.galones_diesel_ahorrados || 0).toFixed(1)} gal`;
+            const usdEl = document.getElementById('fuelSavedUsdVal');
+            if (usdEl) usdEl.innerText = `($${(imp.dinero_ahorrado_usd || 0).toFixed(2)} USD)`;
+            const cylEl = document.getElementById('driverDeliveredCylindersVal');
+            if (cylEl) cylEl.innerText = String(imp.entregas_hoy || 0);
+            const cashEl = document.getElementById('driverTotalCashRecaudadoVal');
+            if (cashEl) cashEl.innerText = `$${(imp.dinero_recaudado_hoy || 0).toFixed(2)}`;
+            const netEl = document.getElementById('driverNetEarningsVal');
+            if (netEl) netEl.innerText = `$${(imp.total_retenido_chofer || 0).toFixed(2)}`;
+          }
+        } catch (impErr) {
+          console.debug('Fallback cálculo local impacto:', impErr);
+        }
+      } catch (err) {
+        console.warn('Error cargando billetera chofer:', err);
+      }
+    }
+
+    function renderDriverWallet(wallet) {
+      if (!wallet) return;
+      const balance = parseFloat(wallet.wallet_balance !== undefined ? wallet.wallet_balance : 10.0);
+      const balFormatted = `$${balance.toFixed(2)}`;
+
+      const balEl = document.getElementById('walletBalanceVal');
+      if (balEl) balEl.innerText = balFormatted;
+
+      const headerPill = document.getElementById('headerWalletVal');
+      if (headerPill) headerPill.innerText = balFormatted;
+
+      const rechargeModalBal = document.getElementById('rechargeModalCurrentBal');
+      if (rechargeModalBal) rechargeModalBal.innerText = balFormatted;
+
+      const badgeEl = document.getElementById('walletStatusBadge');
+      const dotEl = document.getElementById('walletStatusDot');
+      const badgeText = document.getElementById('walletStatusText');
+      const warningEl = document.getElementById('walletSuspendedWarning');
+
+      if (balance > 2.00) {
+        // Saldo Óptimo (Verde > $2.00)
+        if (badgeEl) badgeEl.className = "px-3 py-1 rounded-full text-xs font-black flex items-center space-x-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-all duration-300";
+        if (dotEl) dotEl.className = "w-2 h-2 rounded-full bg-emerald-400";
+        if (badgeText) badgeText.innerText = "Saldo Óptimo";
+        if (balEl) balEl.className = "text-3xl font-black text-emerald-400 tracking-tight";
+        if (warningEl) warningEl.classList.add('hidden');
+      } else if (balance >= 0.10 && balance <= 2.00) {
+        // Recarga Sugerida (Amarillo <= $2.00 / < $1.00)
+        if (badgeEl) badgeEl.className = "px-3 py-1 rounded-full text-xs font-black flex items-center space-x-1.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 transition-all duration-300";
+        if (dotEl) dotEl.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+        if (badgeText) badgeText.innerText = "Recarga Sugerida";
+        if (balEl) balEl.className = "text-3xl font-black text-amber-400 tracking-tight";
+        if (warningEl) {
+          if (balance < 0.50) {
+            warningEl.className = "p-3 bg-amber-500/20 border border-amber-500/40 rounded-2xl text-amber-300 text-xs font-bold flex items-center space-x-2";
+            warningEl.innerHTML = `<span class="material-symbols-outlined text-lg text-amber-400 shrink-0">warning</span><span>Tu saldo está por agotarse (${balFormatted}). Recarga para no interrumpir tus despachos.</span>`;
+            warningEl.classList.remove('hidden');
+          } else {
+            warningEl.classList.add('hidden');
+          }
+        }
+      } else {
+        // Despacho Bloqueado (Rojo Parpadeante <= 0.00)
+        if (badgeEl) badgeEl.className = "px-3 py-1 rounded-full text-xs font-black flex items-center space-x-1.5 bg-rose-500/30 text-rose-400 border border-rose-500/50 animate-pulse transition-all duration-300";
+        if (dotEl) dotEl.className = "w-2 h-2 rounded-full bg-rose-500 animate-ping";
+        if (badgeText) badgeText.innerText = "Despacho Bloqueado";
+        if (balEl) balEl.className = "text-3xl font-black text-rose-500 tracking-tight animate-pulse";
+        if (warningEl) {
+          warningEl.className = "p-3 bg-rose-500/20 border border-rose-500/40 rounded-2xl text-rose-300 text-xs font-bold flex items-center space-x-2 animate-pulse";
+          warningEl.innerHTML = `<span class="material-symbols-outlined text-lg text-rose-400 shrink-0">block</span><span>Despacho bloqueado por saldo agotado (${balFormatted}). Recarga tu billetera para recibir nuevos pedidos.</span>`;
+          warningEl.classList.remove('hidden');
+        }
+      }
+    }
+
+    function openRechargeModal() {
+      SoundEngine.tap();
+      const modal = document.getElementById('rechargeModal');
+      if (modal) modal.classList.remove('hidden');
+      if (currentDriverWallet) {
+        const balEl = document.getElementById('rechargeModalCurrentBal');
+        if (balEl) balEl.innerText = `$${parseFloat(currentDriverWallet.wallet_balance || 0).toFixed(2)}`;
+      }
+    }
+
+    function closeRechargeModal() {
+      const modal = document.getElementById('rechargeModal');
+      if (modal) modal.classList.add('hidden');
+      SoundEngine.tap();
+    }
+
+    function setRechargeAmount(val) {
+      SoundEngine.tap();
+      const input = document.getElementById('rechargeAmountInput');
+      if (input) input.value = parseFloat(val).toFixed(2);
+    }
+
+    async function submitWalletRecharge() {
+      const input = document.getElementById('rechargeAmountInput');
+      const amount = parseFloat(input ? input.value : 10.0) || 10.0;
+      const btn = document.getElementById('submitRechargeBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Procesando Recarga...';
+      }
+      SoundEngine.tap();
+
+      try {
+        const driverId = (currentUser && currentUser.id) ? currentUser.id : 1;
+        const res = await fetch(`/api/chofer/${driverId}/wallet/recargar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: amount, description: `Recarga digital conductor via Deuna ($${amount.toFixed(2)})` })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          SoundEngine.paymentApproved();
+          if (window.confetti) confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+          closeRechargeModal();
+          await loadDriverWallet();
+          alert(`¡Recarga exitosa! Se han acreditado $${amount.toFixed(2)} a tu billetera. Saldo actual: $${data.result.new_balance.toFixed(2)}`);
+        } else {
+          alert('Error procesando recarga: ' + (data.detail || 'Intente de nuevo'));
+        }
+      } catch (err) {
+        alert('Error de conexión: ' + err.message);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span class="material-symbols-outlined text-xl">payments</span><span>CONFIRMAR RECARGA</span>';
+        }
+      }
+    }
+
+    let lastKnownLevel = 1;
+    async function loadGamificationProfile() {
+      if (!authToken) return;
+      try {
+        const res = await fetch('/api/chofer/gamification/mi-perfil', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const badgeEl = document.getElementById('driverBadgePill');
+          const lvlEl = document.getElementById('driverLevelVal');
+          const ptsEl = document.getElementById('driverPointsVal');
+          const targetEl = document.getElementById('driverNextTargetVal');
+          const barEl = document.getElementById('driverPointsBar');
+
+          if (badgeEl) badgeEl.innerText = data.insignia_actual || '🥉 Principiante';
+          if (lvlEl) lvlEl.innerText = data.nivel || 1;
+          if (ptsEl) ptsEl.innerText = data.puntos_totales || 0;
+          if (targetEl) targetEl.innerText = `${data.next_target_points || 51} Pts`;
+
+          const pct = Math.max(5, Math.min(100, Math.round(((data.puntos_totales || 0) / (data.next_target_points || 51)) * 100)));
+          if (barEl) barEl.style.width = `${pct}%`;
+
+          if (data.nivel > lastKnownLevel && window.confetti) {
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            lastKnownLevel = data.nivel;
+          }
+        }
+      } catch (e) {}
+    }
+
+    async function loadDriverInventory() {
+      if (!authToken) return;
+      try {
+        const res = await fetch('/api/chofer/inventario', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const current = data.stock_15kg_current !== undefined ? data.stock_15kg_current : 100;
+          const initial = data.stock_15kg_initial !== undefined ? data.stock_15kg_initial : 100;
+          const sold = data.total_sold_15kg || 0;
+          const fees = data.total_platform_fees || 0.0;
+          
+          const label = document.getElementById('truckStockLabel');
+          if (label) label.innerText = `${current} / ${initial} Cilindros (15kg)`;
+          const soldLabel = document.getElementById('truckSoldLabel');
+          if (soldLabel) soldLabel.innerText = `${sold} unid.`;
+          const feesLabel = document.getElementById('truckFeesLabel');
+          if (feesLabel) feesLabel.innerText = `$${parseFloat(fees).toFixed(2)}`;
+          
+          const pct = Math.max(0, Math.min(100, Math.round((current / (initial || 1)) * 100)));
+          const bar = document.getElementById('truckStockBar');
+          if (bar) {
+            bar.style.width = `${pct}%`;
+            if (pct < 20) {
+              bar.className = 'h-full bg-rose-500 transition-all duration-500';
+            } else {
+              bar.className = 'h-full bg-emerald-500 transition-all duration-500';
+            }
+          }
+        }
+      } catch (e) {}
+    }
+
+    async function fetchCuadreDeCaja() {
+      try {
+        const res = await fetch('/api/gas/liquidacion/diaria');
+        if (res.ok) {
+          const data = await res.json();
+          const efectivo = parseFloat(data.cash_collected || data.total_cash || 0);
+          const digital = parseFloat(data.deuna_collected || data.total_digital || 0);
+          const cilindros = parseInt(data.total_cylinders_sold || data.total_cylinders || 0);
+          const totalRev = parseFloat(data.total_revenue || data.net_revenue || 0);
+
+          const elEf = document.getElementById('cuadreEfectivo');
+          if (elEf) elEf.innerText = `$${efectivo.toFixed(2)}`;
+          const elDig = document.getElementById('cuadreDigital');
+          if (elDig) elDig.innerText = `$${digital.toFixed(2)}`;
+          const elCil = document.getElementById('cuadreCilindros');
+          if (elCil) elCil.innerText = cilindros;
+          const elTot = document.getElementById('cuadreTotal');
+          if (elTot) elTot.innerText = `$${totalRev.toFixed(2)}`;
+
+          // Sincronizar Dashboard del Distribuidor
+          const crmEl = document.getElementById('distributorTotalCrm');
+          if (crmEl && data.total_crm_clients !== undefined) {
+            crmEl.innerText = `${data.total_crm_clients} clientes`;
+          }
+          const netEl = document.getElementById('driverNetEarningsVal');
+          if (netEl && data.driver_net_earnings !== undefined) {
+            netEl.innerText = `$${data.driver_net_earnings.toFixed(2)}`;
+          }
+          const fuelUsd = document.getElementById('fuelSavedUsdVal');
+          if (fuelUsd && data.fuel_saved_usd !== undefined) {
+            fuelUsd.innerText = `$${data.fuel_saved_usd.toFixed(2)} USD`;
+          }
+          const galEl = document.getElementById('fuelSavedGallonsVal');
+          if (galEl && data.km_saved !== undefined) {
+            galEl.innerText = `${data.km_saved.toFixed(1)} km`;
+          }
+          const cashEl = document.getElementById('driverTotalCashRecaudadoVal');
+          if (cashEl) {
+            cashEl.innerText = `$${totalRev.toFixed(2)}`;
+          }
+          const cylEl = document.getElementById('driverDeliveredCylindersVal');
+          if (cylEl) {
+            cylEl.innerText = cilindros;
+          }
+        }
+      } catch(e) {}
+    }
+
+    function maskPhoneNumber(phone) {
+      if (!phone) return '098 •••• •••';
+      const clean = String(phone).replace(/\D/g, '');
+      if (clean.length >= 10) {
+        return clean.substring(0, 3) + ' •••• ' + clean.substring(clean.length - 3);
+      }
+      return '098 •••• •••';
+    }
+
+    let knownCancelledOrderIds = new Set();
+    let initialCancelledLoaded = false;
+
+    function renderCancelledOrdersList(cancelledList) {
+      const container = document.getElementById('cancelledOrdersList');
+      const badge = document.getElementById('cancelledOrdersCountBadge');
+      if (!container) return;
+
+      const count = cancelledList ? cancelledList.length : 0;
+      if (badge) badge.textContent = `${count} cancelados`;
+
+      if (!cancelledList || cancelledList.length === 0) {
+        container.innerHTML = '<p class="text-slate-400 text-[11px] text-center py-2">No hay cancelaciones hoy. ¡Todos los pedidos van en curso!</p>';
+        return;
+      }
+
+      container.innerHTML = cancelledList.map(c => `
+        <div class="p-3 rounded-2xl bg-slate-900 border border-rose-500/30 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-xs flex items-center space-x-1.5">
+              <span class="text-rose-400 font-mono">#${c.order_id || 'ORD'}</span>
+              <span>•</span>
+              <span class="text-slate-200">${c.customer_name || 'Cliente'}</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono">${(c.cancelled_at || '').substring(11, 16) || 'Hoy'}</span>
+          </div>
+          <div class="text-[11px] text-slate-400 flex items-center space-x-1 truncate">
+            <span class="material-symbols-outlined text-xs text-slate-500">location_on</span>
+            <span>${c.address || 'Ibarra'}</span>
+          </div>
+          <div class="bg-rose-950/40 border border-rose-500/20 rounded-xl p-2 text-[11px] text-rose-200">
+            <span class="text-rose-400 font-bold">Motivo:</span> ${c.cancel_reason || c.reason || 'Cancelado por el cliente'}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showDriverCancellationAlert(cancellation) {
+      const modal = document.getElementById('driverCancelAlertModal');
+      if (!modal) return;
+      const elId = document.getElementById('cancelAlertOrderId');
+      const elCust = document.getElementById('cancelAlertCustName');
+      const elAddr = document.getElementById('cancelAlertAddress');
+      const elReason = document.getElementById('cancelAlertReason');
+
+      if (elId) elId.innerText = '#' + (cancellation.order_id || 'ORD');
+      if (elCust) elCust.innerText = cancellation.customer_name || 'Cliente';
+      if (elAddr) elAddr.innerText = cancellation.address || 'Ibarra';
+      if (elReason) elReason.innerText = `"${cancellation.cancel_reason || cancellation.reason || 'Cancelado por el cliente'}"`;
+
+      modal.classList.remove('hidden');
+      SoundEngine.warningChime();
+    }
+
+    function closeDriverCancelAlertModal() {
+      const modal = document.getElementById('driverCancelAlertModal');
+      if (modal) modal.classList.add('hidden');
+      SoundEngine.tap();
+    }
+
+    async function loadDeliveries() {
+      if (!navigator.onLine && window.gasAzulDB) {
+        activeDeliveries = await window.gasAzulDB.getCachedDeliveries();
+        availableOrders = [];
+        renderDeliveries(activeDeliveries, availableOrders);
+        return;
+      }
+      try {
+        const res = await fetch('/api/chofer/entregas', {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (res.status === 401) return;
+        if (res.ok) {
+          const data = await res.json();
+          if (!currentUser) return;
+          if (Number(currentUser.id) === 3) cyPilotRenderOrders(data);
+          activeDeliveries = data.deliveries || [];
+          availableOrders = data.available_orders || [];
+
+          if (availableOrders.length > previousAvailableCount) {
+            SoundEngine.newOrderChime();
+          }
+          previousAvailableCount = availableOrders.length;
+
+          // ── Procesar pedidos cancelados y notificar al chofer con el motivo ──
+          const cancelledOrders = data.cancelled_orders || [];
+          renderCancelledOrdersList(cancelledOrders);
+
+          if (initialCancelledLoaded) {
+            const newlyCancelled = cancelledOrders.filter(co => !knownCancelledOrderIds.has(co.order_id));
+            if (newlyCancelled.length > 0) {
+              showDriverCancellationAlert(newlyCancelled[0]);
+            }
+          }
+          cancelledOrders.forEach(co => knownCancelledOrderIds.add(co.order_id));
+          initialCancelledLoaded = true;
+
+          if (window.gasAzulDB) {
+            await window.gasAzulDB.cacheDeliveries(activeDeliveries);
+          }
+        }
+      } catch (err) {
+        if (window.gasAzulDB) {
+          activeDeliveries = await window.gasAzulDB.getCachedDeliveries();
+          availableOrders = [];
+        }
+      }
+
+      renderDeliveries(activeDeliveries, availableOrders);
+    }
+
+    function renderDeliveries(deliveries, available) {
+      const container = document.getElementById('deliveriesList');
+      const badge = document.getElementById('deliveriesCountBadge');
+      badge.textContent = (deliveries ? deliveries.length : 0);
+
+      let html = '';
+
+      // ── SECCIÓN 1: Pedidos Disponibles en Ibarra (Tipo inDrive)
+      if (available && available.length > 0) {
+        html += `
+          <div class="mb-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center space-x-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+                <span>OFERTAS DISPONIBLES EN IBARRA (${available.length})</span>
+              </span>
+              <span class="text-[10px] bg-amber-500/20 text-amber-300 font-extrabold px-2.5 py-1 rounded-full border border-amber-500/30">CilindroYa Directo</span>
+            </div>
+            ${available.map(a => {
+              const isSched = a.is_scheduled || (a.scheduled_date && a.scheduled_time_slot && a.scheduled_time_slot !== 'inmediata');
+              const schedText = isSched ? `📅 ${a.scheduled_date || ''} (${a.scheduled_time_slot})` : '⚡ Inmediato (10-15 min)';
+              const refText = a.delivery_reference || a.reference || '';
+              const instText = a.delivery_instructions || a.instructions || a.notes || '';
+              return `
+              <div class="driver-card p-4 space-y-3 border-amber-500/40">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+                      <span class="text-[11px] font-black uppercase px-2.5 py-1 rounded-lg ${a.is_local_territory ? 'bg-emerald-500 text-slate-950 shadow-md' : 'bg-slate-700 text-slate-300'}">
+                        ${a.is_local_territory ? '🎯 En tu Parroquia' : '🌐 Parroquia Vecina'}
+                      </span>
+                      <span class="text-xs font-bold text-slate-300 bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700">
+                        ${a.parroquia || 'Ibarra'} • ${a.distance_km || '1.0'} km
+                      </span>
+                    </div>
+                    <h3 class="font-black text-white text-lg mt-2">${a.customer_name || a.customer}</h3>
+                    <p class="text-xs text-slate-300 flex items-center space-x-1.5 mt-0.5">
+                      <span class="material-symbols-outlined text-sm text-amber-400">location_on</span>
+                      <span>${a.delivery_address || a.address}</span>
+                    </p>
+                    ${refText ? `
+                      <p class="text-xs text-sky-300 bg-sky-950/40 border border-sky-800/50 rounded-lg px-2 py-1 mt-1.5 flex items-start space-x-1">
+                        <span class="material-symbols-outlined text-xs text-sky-400 mt-0.5 shrink-0">signpost</span>
+                        <span><strong>Ref:</strong> ${refText}</span>
+                      </p>
+                    ` : ''}
+                    ${instText ? `
+                      <p class="text-xs text-amber-300 bg-amber-950/40 border border-amber-800/50 rounded-lg px-2 py-1 mt-1 flex items-start space-x-1">
+                        <span class="material-symbols-outlined text-xs text-amber-400 mt-0.5 shrink-0">info</span>
+                        <span><strong>Nota:</strong> ${instText}</span>
+                      </p>
+                    ` : ''}
+                  </div>
+                  <div class="text-right">
+                    <p class="text-emerald-400 font-black text-2xl">$${parseFloat(a.total_amount || 3.50).toFixed(2)}</p>
+                    <p class="text-xs text-slate-400 font-bold">${a.payment_method}</p>
+                  </div>
+                </div>
+
+                <div class="bg-slate-900/90 p-3 rounded-2xl flex items-center justify-between text-xs border border-slate-800">
+                  <span class="text-slate-200 font-medium">📦 Pedido: <strong>${a.quantity}x Cilindro ${a.cylinder_type || '15kg'}</strong></span>
+                  <span class="${isSched ? 'text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded-full border border-sky-800' : 'text-amber-400'} font-bold text-xs">
+                    ${schedText}
+                  </span>
+                </div>
+
+                <!-- Botón Gigante Aceptar (60px) -->
+                <button onclick="acceptInDriveOrder('${a.order_id || a.id}')" class="touch-btn-60 w-full bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 active:scale-95 transition">
+                  <span class="material-symbols-outlined text-2xl">check_circle</span>
+                  <span>ACEPTAR PEDIDO (${a.is_local_territory ? 'TU PARROQUIA' : 'TOMAR OFERTA'})</span>
+                </button>
+              </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      // ── SECCIÓN 2: Mis Entregas en Curso
+      if (!deliveries || deliveries.length === 0) {
+        if (!available || available.length === 0) {
+          html += `
+            <div class="driver-card text-center space-y-2 py-8 p-4">
+              <span class="material-symbols-outlined text-5xl text-emerald-400">celebration</span>
+              <p class="font-black text-white text-base">¡No tienes entregas pendientes!</p>
+              <p class="text-xs text-slate-400">Esperando nuevos pedidos de clientes en Ibarra...</p>
+            </div>
+          `;
+        }
+      } else {
+        html += deliveries.map(d => {
+          const maskedTel = maskPhoneNumber(d.phone);
+          const rawPhone = String(d.phone || '0993052744').replace(/\D/g, '');
+          const isSched = d.is_scheduled || (d.scheduled_date && d.scheduled_time_slot && d.scheduled_time_slot !== 'inmediata');
+          const schedText = isSched ? `📅 ${d.scheduled_date || ''} (${d.scheduled_time_slot})` : '⚡ En Ruta (Inmediato)';
+          const refText = d.delivery_reference || d.reference || '';
+          const instText = d.delivery_instructions || d.instructions || d.notes || '';
+          return `
+            <article class="driver-card p-4 space-y-3.5 border-emerald-500/40">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full ${d.priority === 'Alta' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                      ${d.priority === 'Alta' ? 'Prioridad Alta' : 'En Curso'}
+                    </span>
+                    ${isSched ? `
+                      <span class="text-[10px] font-bold bg-sky-900/60 text-sky-300 border border-sky-700/50 px-2 py-0.5 rounded-full">
+                        📅 Programado
+                      </span>
+                    ` : ''}
+                  </div>
+                  <h3 class="font-black text-white text-lg mt-1.5">${d.customer || d.customer_name}</h3>
+                  <p class="text-xs text-slate-300 flex items-center space-x-1 mt-0.5">
+                    <span class="material-symbols-outlined text-sm text-emerald-400">home</span>
+                    <span>${d.address || d.delivery_address}</span>
+                  </p>
+                  ${refText ? `
+                    <p class="text-xs text-sky-300 bg-sky-950/40 border border-sky-800/50 rounded-lg px-2 py-1 mt-1.5 flex items-start space-x-1">
+                      <span class="material-symbols-outlined text-xs text-sky-400 mt-0.5 shrink-0">signpost</span>
+                      <span><strong>Ref:</strong> ${refText}</span>
+                    </p>
+                  ` : ''}
+                  ${instText ? `
+                    <p class="text-xs text-amber-300 bg-amber-950/40 border border-amber-800/50 rounded-lg px-2 py-1 mt-1 flex items-start space-x-1">
+                      <span class="material-symbols-outlined text-xs text-amber-400 mt-0.5 shrink-0">info</span>
+                      <span><strong>Nota:</strong> ${instText}</span>
+                    </p>
+                  ` : ''}
+                  <p class="text-xs text-slate-400 flex items-center space-x-1 mt-1 font-mono">
+                    <span class="material-symbols-outlined text-xs">lock</span>
+                    <span>Tel: ${maskedTel}</span>
+                  </p>
+                </div>
+                <div class="text-right">
+                  <p class="text-emerald-400 font-black text-2xl">$${parseFloat(d.total_amount || 3.50).toFixed(2)}</p>
+                  <p class="text-xs text-slate-400 font-bold">${d.payment_method}</p>
+                </div>
+              </div>
+
+              <div class="bg-slate-900/90 p-3 rounded-2xl flex items-center justify-between text-xs border border-slate-800">
+                <span class="text-slate-200">📦 Pedido: <strong>${d.quantity}x Cilindro ${d.cylinder_type || d.cylinders || '15kg'}</strong></span>
+                <span class="${isSched ? 'text-sky-400' : 'text-emerald-400'} text-xs font-bold">${schedText}</span>
+              </div>
+
+              <!-- Acciones Rápidas del Chofer: Llamar, Navegación GPS (Google Maps / Waze) y Cobrar -->
+              <div class="grid grid-cols-4 gap-2 pt-1">
+                <!-- 1. Llamada al Cliente -->
+                <a href="tel:${rawPhone}" class="btn-touch-target touch-btn-action h-12 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-xl font-black text-xs flex flex-col items-center justify-center border border-slate-600 shadow-sm transition active:scale-95">
+                  <span class="material-symbols-outlined text-base text-emerald-400 leading-none">call</span>
+                  <span class="text-[10px] mt-0.5">Llamar</span>
+                </a>
+
+                <!-- 2. Navegación Turn-by-Turn Google Maps -->
+                <button type="button" onclick="startGpsNavigation('${encodeURIComponent(d.address || d.delivery_address)}', ${d.lat || d.latitude || 0}, ${d.lon || d.lng || d.longitude || 0}, 'google')" class="btn-touch-target touch-btn-action h-12 bg-sky-950/90 hover:bg-sky-900 text-sky-200 rounded-xl font-black text-xs flex flex-col items-center justify-center border border-sky-400/40 shadow-sm transition active:scale-95" title="Abrir GPS Turn-by-Turn en Google Maps">
+                  <span class="material-symbols-outlined text-base text-sky-400 leading-none">turn_right</span>
+                  <span class="text-[10px] mt-0.5">Maps</span>
+                </button>
+
+                <!-- 3. Navegación en Waze (Rutas y Alertas de Tráfico) -->
+                <button type="button" onclick="startGpsNavigation('${encodeURIComponent(d.address || d.delivery_address)}', ${d.lat || d.latitude || 0}, ${d.lon || d.lng || d.longitude || 0}, 'waze')" class="btn-touch-target touch-btn-action h-12 bg-cyan-950/90 hover:bg-cyan-900 text-cyan-200 rounded-xl font-black text-xs flex flex-col items-center justify-center border border-cyan-400/40 shadow-sm transition active:scale-95" title="Abrir navegación asistida en Waze">
+                  <span class="material-symbols-outlined text-base text-cyan-300 leading-none">navigation</span>
+                  <span class="text-[10px] mt-0.5">Waze</span>
+                </button>
+
+                <!-- 4. Cobrar y Entregar -->
+                <button onclick="openCompleteModal('${d.id || d.order_id}')" class="btn-touch-target touch-btn-action h-12 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-black text-xs flex flex-col items-center justify-center shadow-md shadow-emerald-600/40 transition active:scale-95 border border-emerald-400/30">
+                  <span class="material-symbols-outlined text-base text-white leading-none">price_check</span>
+                  <span class="text-[10px] mt-0.5">Cobrar</span>
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ── Navegación GPS Turn-by-Turn Externa (Google Maps & Waze) ──────────────
+    function startGpsNavigation(encodedAddress, lat, lon, appType) {
+      SoundEngine.tap();
+      const decodedAddr = decodeURIComponent(encodedAddress || 'Ibarra, Ecuador');
+      const hasCoords = (lat && lon && Number(lat) !== 0 && Number(lon) !== 0);
+
+      if (appType === 'waze') {
+        let wazeUrl = '';
+        if (hasCoords) {
+          wazeUrl = `https://waze.com/ul?ll=${lat},${lon}&navigate=yes`;
+        } else {
+          wazeUrl = `https://waze.com/ul?q=${encodeURIComponent(decodedAddr + ', Ibarra, Ecuador')}&navigate=yes`;
+        }
+        window.open(wazeUrl, '_blank');
+      } else {
+        // Modo Google Maps Turn-by-Turn Navigation con modo conducción activado
+        let mapsUrl = '';
+        if (hasCoords) {
+          mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving&dir_action=navigate`;
+        } else {
+          mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(decodedAddr + ', Ibarra, Ecuador')}&travelmode=driving&dir_action=navigate`;
+        }
+        window.open(mapsUrl, '_blank');
+      }
+    }
+
+    async function acceptInDriveOrder(orderId) {
+      SoundEngine.tap();
+      try {
+        const res = await fetch('/api/chofer/pedido/aceptar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ order_id: orderId })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          SoundEngine.newOrderChime();
+          await loadDeliveries();
+          // Informar al chofer y dar opción inmediata de avisar al cliente por WhatsApp
+          if (data.wa_accepted_link) {
+            const sendWa = confirm(`🚚 ¡Pedido tomado exitosamente!\n\nRepartidor: ${data.driver_name || 'Carlos Méndez'}\nTiempo estimado: ${data.estimated_arrival || '15-20 min'}\n\n¿Deseas enviar el aviso automático por WhatsApp al cliente ahora?`);
+            if (sendWa) {
+              window.open(data.wa_accepted_link, '_blank');
+            }
+          }
+        } else {
+          alert(data.detail || 'Este pedido ya fue tomado por otro camión.');
+          loadDeliveries();
+        }
+      } catch (err) {
+        alert('Error aceptando pedido: ' + err.message);
+      }
+    }
+
+    function openCompleteModal(deliveryId) {
+      SoundEngine.tap();
+      selectedDelivery = activeDeliveries.find(d => String(d.id) === String(deliveryId) || String(d.order_id) === String(deliveryId));
+      if (!selectedDelivery) return;
+
+      const qty = parseInt(selectedDelivery.quantity || 1);
+      const totalAmount = parseFloat(selectedDelivery.total_amount || (3.50 * qty));
+      const precioGas = 1.60 * qty;
+      const precioFlete = 1.90 * qty;
+      const tarifaPlataforma = 0.10 * qty;
+      const gananciaNeta = precioFlete - tarifaPlataforma; // $1.80 por cilindro
+      const totalRetenido = totalAmount - tarifaPlataforma; // $3.40 por cilindro
+
+      document.getElementById('modalCustomerName').textContent = selectedDelivery.customer || selectedDelivery.customer_name;
+      document.getElementById('modalProductSummary').textContent = `${qty}x Cilindro ${selectedDelivery.cylinder_type || selectedDelivery.cylinders || '15kg'}`;
+      document.getElementById('modalAmount').textContent = `$${totalAmount.toFixed(2)}`;
+
+      // Poblar desglose transparente para el chofer
+      const elCobrado = document.getElementById('breakdownTotalCliente');
+      if (elCobrado) elCobrado.textContent = `$${totalAmount.toFixed(2)}`;
+      const elGas = document.getElementById('breakdownPrecioGas');
+      if (elGas) elGas.textContent = `$${precioGas.toFixed(2)}`;
+      const elFlete = document.getElementById('breakdownPrecioFlete');
+      if (elFlete) elFlete.textContent = `$${precioFlete.toFixed(2)}`;
+      const elTarifa = document.getElementById('breakdownTarifaPlataforma');
+      if (elTarifa) elTarifa.textContent = `-$${tarifaPlataforma.toFixed(2)}`;
+      const elGanancia = document.getElementById('breakdownGananciaNeta');
+      if (elGanancia) elGanancia.textContent = `$${gananciaNeta.toFixed(2)}`;
+
+      document.getElementById('modalPaymentMethod').value = (selectedDelivery.payment_method || '').includes('DeUna') ? 'Transferencia DeUna' : 'Efectivo';
+      document.getElementById('modalNotes').value = '';
+      document.getElementById('completeModal').classList.remove('hidden');
+    }
+
+    function closeCompleteModal() {
+      document.getElementById('completeModal').classList.add('hidden');
+      selectedDelivery = null;
+      SoundEngine.tap();
+    }
+
+    function closeReceiptSuccessModal() {
+      const modal = document.getElementById('receiptSuccessModal');
+      if (modal) modal.classList.add('hidden');
+      SoundEngine.tap();
+    }
+
+    async function submitCompleteDelivery() {
+      if (!selectedDelivery) return;
+      const payment = document.getElementById('modalPaymentMethod').value;
+      const notes = document.getElementById('modalNotes').value;
+      const btn = document.getElementById('confirmCompleteBtn');
+
+      btn.disabled = true;
+      btn.textContent = 'Liquidando Entrega & SRI...';
+      SoundEngine.tap();
+
+      const payload = {
+        delivery_id: selectedDelivery.id || selectedDelivery.order_id,
+        customer_name: selectedDelivery.customer || selectedDelivery.customer_name,
+        cylinder_type: selectedDelivery.cylinder_type || selectedDelivery.cylinders || '15kg',
+        quantity: selectedDelivery.quantity || 1,
+        total_amount: selectedDelivery.total_amount || 3.50,
+        payment_method: payment,
+        transaction_uuid: 'deliv-' + Date.now(),
+        notes: notes
+      };
+
+      // Si el repartidor está en una zona muerta sin señal, guardar inmediatamente sin esperar timeout
+      if (!navigator.onLine) {
+        console.log('[Offline Mode] Dispositivo sin señal detectado, guardando en cola local inmediata...');
+        if (window.gasAzulDB) {
+          try {
+            await window.gasAzulDB.savePendingDelivery(payload);
+            SoundEngine.paymentApproved();
+            if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            alert('📡 Sin conexión en carretera (Modo Offline):\nLa entrega se guardó con seguridad en tu dispositivo.\nSe sincronizará automáticamente con la central cuando recuperes cobertura.');
+            closeCompleteModal();
+            // Optimistic update: remover de lista activa local
+            activeDeliveries = activeDeliveries.filter(d => (d.id || d.order_id) !== payload.delivery_id);
+            renderDeliveries(activeDeliveries, availableOrders);
+            await window.gasAzulDB.cacheDeliveries(activeDeliveries);
+            await updateOfflineQueueUI();
+            return;
+          } catch (dbErr) {
+            console.error('[Offline Mode] Error en guardado local:', dbErr);
+          }
+        }
+      }
+
+      try {
+        const res = await fetch('/api/chofer/entrega/completar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        // Interceptado por Service Worker en modo offline (503)
+        if (res.status === 503) {
+          throw new TypeError('Failed to fetch (offline 503 intercept)');
+        }
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || data.message || 'Error completando entrega.');
+        }
+
+        // Sonido triunfal de cobro
+        SoundEngine.paymentApproved();
+
+        // Confetti celebratorio
+        if (window.confetti) {
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+        }
+
+        closeCompleteModal();
+        await loadDeliveries();
+        await loadDriverWallet();
+        await fetchCuadreDeCaja();
+        await loadDriverInventory();
+
+        // Notificación y Comprobante WhatsApp al Cliente (Fidelización CRM)
+        if (data.wa_direct_link) {
+          const mName = document.getElementById('receiptModalCustName');
+          const mPhone = document.getElementById('receiptModalCustPhone');
+          const mTotal = document.getElementById('receiptModalTotal');
+          const btnWa = document.getElementById('btnSendWaReceipt');
+          const btnPdf = document.getElementById('btnOpenInvoicePdf');
+          const modal = document.getElementById('receiptSuccessModal');
+
+          if (mName) mName.innerText = data.customer_name || payload.customer_name || 'Cliente';
+          if (mPhone) mPhone.innerText = data.customer_phone ? ('+ ' + data.customer_phone) : 'WhatsApp';
+          if (mTotal) mTotal.innerText = `$${(payload.total_amount || 3.50).toFixed(2)}`;
+          if (btnWa) btnWa.href = data.wa_direct_link;
+          if (btnPdf) {
+            const cleanId = String(payload.delivery_id || '').replace('#', '').trim();
+            btnPdf.href = data.invoice_pdf_url || `/api/factura/pdf/${cleanId}`;
+          }
+          if (modal) modal.classList.remove('hidden');
+
+          try {
+            window.open(data.wa_direct_link, '_blank');
+          } catch(e) {}
+        }
+
+        if (data.alert) {
+          alert(`⚠️ Notificación de saldo: ${data.alert}`);
+        }
+      } catch (err) {
+        console.warn('[Offline Mode] Fallo de red detectado, activando resiliencia local IndexedDB:', err);
+        const isNetworkFailure = !navigator.onLine || err.name === 'TypeError' || String(err.message).includes('Failed to fetch') || String(err.message).includes('NetworkError');
+
+        if (isNetworkFailure && window.gasAzulDB) {
+          try {
+            await window.gasAzulDB.savePendingDelivery(payload);
+            SoundEngine.paymentApproved();
+            if (window.confetti) {
+              confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+            alert('📡 Caída de señal en ruta:\nLa entrega fue guardada localmente de forma 100% segura.\nEl sistema la sincronizará tan pronto detecte internet.');
+            closeCompleteModal();
+            // Optimistic update: remover de la lista activa local
+            activeDeliveries = activeDeliveries.filter(d => (d.id || d.order_id) !== payload.delivery_id);
+            renderDeliveries(activeDeliveries, availableOrders);
+            await window.gasAzulDB.cacheDeliveries(activeDeliveries);
+            await updateOfflineQueueUI();
+            return;
+          } catch (dbErr) {
+            console.error('[IndexedDB] Error guardando entrega offline:', dbErr);
+          }
+        }
+        alert(err.message || 'Error de conexión. Revisa tu señal.');
+        closeCompleteModal();
+        await loadDriverWallet();
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined text-2xl">price_check</span><span>CONFIRMAR COBRO</span>';
+      }
+    }
+
+    // ── MOTOR DE SINCRONIZACIÓN OFFLINE AUTOMÁTICA Y RESILIENTE ────────────────
+    let isSyncingPending = false;
+    async function syncPendingDeliveries(isManual = false) {
+      if (isSyncingPending || !window.gasAzulDB) return;
+      try {
+        const pending = await window.gasAzulDB.getPendingDeliveries();
+        if (!pending || pending.length === 0) {
+          if (isManual) {
+            SoundEngine.tap();
+            alert('✅ Todas las entregas están al día. No hay pendientes por sincronizar.');
+          }
+          await updateOfflineQueueUI();
+          return;
+        }
+
+        if (!navigator.onLine) {
+          if (isManual) {
+            alert('📡 Sin conexión a internet actualmente. Las entregas se enviarán apenas vuelva la señal.');
+          }
+          return;
+        }
+
+        isSyncingPending = true;
+        const syncPill = document.getElementById('offlineSyncPill');
+        const syncCount = document.getElementById('offlineSyncCount');
+        if (syncPill && syncCount) {
+          syncPill.classList.remove('hidden');
+          syncCount.textContent = 'Sincronizando...';
+        }
+
+        console.log(`[Offline Sync] Sincronizando ${pending.length} entregas pendientes con la central...`);
+        let syncedCount = 0;
+
+        for (const item of pending) {
+          try {
+            const res = await fetch('/api/chofer/entrega/completar', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+              },
+              body: JSON.stringify(item)
+            });
+
+            // Si es 200 OK, o 409 (ya procesada/duplicada), o 404 (orden archivada), remover de pendientes
+            if (res.ok || res.status === 409 || res.status === 404) {
+              await window.gasAzulDB.deletePendingDelivery(item.id);
+              syncedCount++;
+            } else if (res.status === 503) {
+              console.warn('[Offline Sync] Pausa: servidor o SW reporta sin conexión transitoria');
+              break;
+            }
+          } catch (e) {
+            console.warn('[Offline Sync] Pausa de sincronización por fallo transitorio:', e.message);
+            break;
+          }
+        }
+
+        if (syncedCount > 0) {
+          SoundEngine.paymentApproved();
+          console.log(`[Offline Sync] ✅ Sincronizadas ${syncedCount} entregas pendientes.`);
+          await loadDeliveries();
+          await loadDriverWallet();
+          await fetchCuadreDeCaja();
+          if (isManual) {
+            alert(`🎉 ¡Sincronización Exitosa!\nSe enviaron ${syncedCount} entrega(s) pendiente(s) a la central.`);
+          }
+        }
+      } catch (syncErr) {
+        console.error('[Offline Sync] Error procesando cola offline:', syncErr);
+      } finally {
+        isSyncingPending = false;
+        await updateOfflineQueueUI();
+        updateNetworkStatusUI();
+      }
+    }
+
+    // ── Vaciado de cola de telemetría GPS acumulada sin red ────────────────────
+    async function syncQueuedLocations() {
+      if (!window.gasAzulDB || !navigator.onLine) return;
+      try {
+        const queued = await window.gasAzulDB.getQueuedLocations();
+        if (!queued || queued.length === 0) return;
+
+        // Tomar las últimas coordenadas representativas para no saturar
+        const latest = queued[queued.length - 1];
+        if (latest) {
+          const res = await fetch('/api/gas/chofer/gps', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authToken || ''}`
+            },
+            body: JSON.stringify(latest)
+          });
+          if (res.ok) {
+            await window.gasAzulDB.clearQueuedLocations();
+            console.log(`[Offline Sync] 📍 Coordenadas GPS en cola sincronizadas.`);
+          }
+        }
+      } catch (e) {
+        console.warn('[Offline Sync] Error enviando GPS en cola:', e.message);
+      }
+    }
+
+    // ── Controladores Visuales de Conexión y Cola Offline ─────────────────────
+    function updateNetworkStatusUI() {
+      const pill = document.getElementById('connStatusPill');
+      const text = document.getElementById('connStatusText');
+      if (!pill) return;
+
+      if (navigator.onLine) {
+        pill.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        pill.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 pulse-dot"></span><span id="connStatusText">En línea</span>';
+      } else {
+        pill.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        pill.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 mr-1.5 animate-pulse"></span><span id="connStatusText">Sin señal (ruta)</span>';
+      }
+    }
+
+    async function updateOfflineQueueUI() {
+      const syncPill = document.getElementById('offlineSyncPill');
+      const syncCount = document.getElementById('offlineSyncCount');
+      if (!syncPill || !window.gasAzulDB) return;
+
+      try {
+        const count = await window.gasAzulDB.countPendingDeliveries();
+        if (count > 0) {
+          syncPill.classList.remove('hidden');
+          if (syncCount) syncCount.textContent = `${count} pendiente${count > 1 ? 's' : ''}`;
+        } else {
+          syncPill.classList.add('hidden');
+        }
+      } catch (e) {}
+    }
+
+    // Verificación periódica cada 20 segundos si hay internet
+    setInterval(() => {
+      if (navigator.onLine) {
+        syncPendingDeliveries();
+        syncQueuedLocations();
+      }
+      updateNetworkStatusUI();
+    }, 20000);
+
+    // ── TELEMETRÍA GPS EN VIVO Y TRANSMISIÓN AL SERVIDOR ───────────────────────
+    let gpsTransmitInterval = null;
+    let latestDriverCoords = null;
+
+    async function transmitGpsCoordinates(lat, lng, speed) {
+      if (!isTrackingRoute) return;
+      const driverId = (currentUser && (currentUser.id || currentUser.driver_id)) ? (currentUser.id || currentUser.driver_id) : 1;
+      const payload = {
+        driver_id: driverId,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+        speed: parseFloat(speed) || 0.0
+      };
+
+      try {
+        const res = await fetch('/api/gas/chofer/gps', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken || ''}`
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok && window.gasAzulDB) {
+          await window.gasAzulDB.queueLocation(payload);
+        }
+      } catch (netErr) {
+        if (window.gasAzulDB) {
+          try {
+            await window.gasAzulDB.queueLocation(payload);
+          } catch (qErr) {}
+        }
+      }
+    }
+
+    function toggleRouteTracking() {
+      SoundEngine.tap();
+      const btn = document.getElementById('toggleRouteBtn');
+      const pill = document.getElementById('gpsPill');
+      const text = document.getElementById('gpsText');
+      const title = document.getElementById('routeStatusTitle');
+
+      if (!isTrackingRoute) {
+        isTrackingRoute = true;
+        title.textContent = 'En Ruta Activa (Transmitiendo GPS Real)';
+        btn.innerHTML = '<span class="material-symbols-outlined text-2xl">stop_circle</span><span>DETENER RECORRIDO</span>';
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-600/30');
+        btn.classList.add('bg-rose-600', 'hover:bg-rose-500', 'shadow-rose-600/30');
+
+        pill.classList.remove('bg-slate-800', 'text-slate-400');
+        pill.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border-emerald-500/30');
+        text.textContent = 'GPS En Vivo';
+
+        if (navigator.geolocation) {
+          geoWatchId = navigator.geolocation.watchPosition(
+            (pos) => {
+              const speed = (pos.coords.speed ? (pos.coords.speed * 3.6).toFixed(1) : '24.5');
+              const lat = pos.coords.latitude.toFixed(4);
+              const lng = pos.coords.longitude.toFixed(4);
+              latestDriverCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude, speed: speed };
+              
+              document.getElementById('gpsSpeedVal').textContent = `${speed} km/h`;
+              document.getElementById('gpsCoordsVal').textContent = `${lat}, ${lng}`;
+
+              if (driverMarker) {
+                driverMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+              }
+              // Transmisión inmediata inicial
+              transmitGpsCoordinates(pos.coords.latitude, pos.coords.longitude, speed);
+            },
+            (err) => {},
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 }
+          );
+        }
+
+        // Bucle periódico de transmisión de telemetría cada 8 segundos (optimizado para batería)
+        if (gpsTransmitInterval) clearInterval(gpsTransmitInterval);
+        gpsTransmitInterval = setInterval(() => {
+          if (latestDriverCoords && isTrackingRoute) {
+            transmitGpsCoordinates(latestDriverCoords.lat, latestDriverCoords.lng, latestDriverCoords.speed);
+          }
+        }, 8000);
+
+      } else {
+        isTrackingRoute = false;
+        title.textContent = 'En Pausa (GPS Inactivo)';
+        btn.innerHTML = '<span class="material-symbols-outlined text-2xl">play_circle</span><span>INICIAR RECORRIDO DE RUTA</span>';
+        btn.classList.remove('bg-rose-600', 'hover:bg-rose-500', 'shadow-rose-600/30');
+        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-500', 'shadow-emerald-600/30');
+
+        pill.classList.remove('bg-emerald-500/20', 'text-emerald-400', 'border-emerald-500/30');
+        pill.classList.add('bg-slate-800', 'text-slate-400');
+        text.textContent = 'GPS Off';
+
+        if (geoWatchId) navigator.geolocation.clearWatch(geoWatchId);
+        if (gpsTransmitInterval) clearInterval(gpsTransmitInterval);
+        document.getElementById('gpsSpeedVal').textContent = '0.0 km/h';
+      }
+    }
+
+    function downloadMonthlyInvoice() {
+      SoundEngine.tap();
+      if (!currentUser) {
+        alert('Debes iniciar sesión para descargar tu liquidación.');
+        return;
+      }
+      const uid = currentUser.id || 1;
+      window.open(`/api/chofer/factura/mensual/${uid}/descargar`, '_blank');
+    }
+
+    let isDayTheme = false;
+    function toggleDayTheme() {
+      SoundEngine.tap();
+      isDayTheme = !isDayTheme;
+      const btnText = document.getElementById('themeToggleText');
+      const btn = document.getElementById('themeToggleBtn');
+      if (isDayTheme) {
+        document.body.classList.add('theme-day');
+        if (btnText) btnText.textContent = 'Noche';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">dark_mode</span><span id="themeToggleText" class="hidden sm:inline">Noche</span>';
+      } else {
+        document.body.classList.remove('theme-day');
+        if (btnText) btnText.textContent = 'Día';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">light_mode</span><span id="themeToggleText" class="hidden sm:inline">Día</span>';
+      }
+    }
+
+    function openDeclareLoadModal() {
+      SoundEngine.tap();
+      document.getElementById('declareLoadModal').classList.remove('hidden');
+    }
+    function closeDeclareLoadModal() {
+      SoundEngine.tap();
+      document.getElementById('declareLoadModal').classList.add('hidden');
+    }
+    async function compressImageFile(file, maxDimension = 1280, quality = 0.8) {
+      if (!file || !file.type.startsWith('image/')) return file;
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            canvas.toBlob((blob) => {
+              if (blob) {
+                resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", { type: 'image/jpeg' }));
+              } else {
+                resolve(file);
+              }
+            }, 'image/jpeg', quality);
+          };
+          img.onerror = () => resolve(file);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve(file);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitDeclareLoad(e) {
+      e.preventDefault();
+      SoundEngine.tap();
+      const stock15 = parseInt(document.getElementById('loadStock15').value) || 100;
+      const fileInput = document.getElementById('loadPhotoFile');
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const origBtnText = submitBtn ? submitBtn.innerHTML : 'GUARDAR CARGA';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="inline-block animate-spin mr-1">↻</span> Guardando...';
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('stock_15kg', stock15);
+        formData.append('stock_45kg', 10);
+        
+        if (fileInput.files && fileInput.files[0]) {
+          const compressed = await compressImageFile(fileInput.files[0]);
+          formData.append('photo_file', compressed);
+        }
+
+        const res = await fetch(`/api/chofer/declarar-carga?stock_15kg=${stock15}&stock_45kg=10`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` },
+          body: formData
+        });
+
+        if (res.ok) {
+          SoundEngine.paymentApproved();
+          alert(`✅ Carga de ${stock15} cilindros verificada y registrada exitosamente.`);
+          closeDeclareLoadModal();
+          loadDriverInventory();
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          alert(`❌ Error del servidor (${res.status}): ${errData.detail || errData.message || 'No se pudo guardar la carga'}`);
+        }
+      } catch (err) {
+        alert('Error registrando carga: ' + (err.message || 'Error de conexión con el servidor.'));
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origBtnText;
+        }
+      }
+    }
+
+    function openQrScannerModal() {
+      SoundEngine.tap();
+      document.getElementById('qrScannerModal').classList.remove('hidden');
+    }
+    function closeQrScannerModal() {
+      SoundEngine.tap();
+      document.getElementById('qrScannerModal').classList.add('hidden');
+    }
+    async function simulateSuccessfulScan() {
+      SoundEngine.paymentApproved();
+      const container = document.getElementById('scannerSimulationContent');
+      container.innerHTML = `
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/30 flex items-center justify-center text-emerald-400 animate-bounce">
+          <span class="material-symbols-outlined text-3xl">check_circle</span>
+        </div>
+        <p class="text-xs font-black text-emerald-400">¡Camión #1 Detectado!</p>
+        <p class="text-[10px] text-slate-300">Transfiriendo 10 cilindros...</p>
+      `;
+
+      try {
+        const res = await fetch('/api/chofer/transferir-stock', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            to_chofer_id: 1,
+            quantity: 10,
+            cylinder_type: '15kg',
+            qr_code_scanned: 'gasazul://truck/1'
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          if (window.confetti) confetti({ particleCount: 80, spread: 60 });
+          setTimeout(() => {
+            alert(`🔄 Transferencia completada: Has recibido cilindros del Camión #1. Nuevo stock: ${data.sender_remaining_stock || 90} cilindros.`);
+            closeQrScannerModal();
+            loadDriverInventory();
+            container.innerHTML = `
+              <div class="w-12 h-12 mx-auto rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 animate-pulse">
+                <span class="material-symbols-outlined text-3xl">photo_camera</span>
+              </div>
+              <p class="text-xs text-emerald-300 font-bold">Buscando QR de Camión...</p>
+              <button onclick="simulateSuccessfulScan()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl shadow-lg active:scale-95 transition">
+                ⚡ Simular Detección de Camión #1
+              </button>
+            `;
+          }, 800);
+        } else {
+          alert('Error en transferencia: ' + (data.detail || 'Stock insuficiente'));
+        }
+      } catch (err) {
+        alert('Error de conexión: ' + err.message);
+      }
+    }
+
+    setInterval(() => {
+      if (authToken && !document.getElementById('appView').classList.contains('hidden')) {
+        loadDeliveries();
+      }
+    }, 4000);
+  </script>
+<script>
+function cyDriverSessionExpired(){
+ localStorage.removeItem('gasazul_token');
+ localStorage.removeItem('gasazul_user_profile');
+ authToken=null;currentUser=null;activeDeliveries=[];availableOrders=[];
+ if(typeof isTrackingRoute!=='undefined' && isTrackingRoute)toggleRouteTracking();
+ document.getElementById('pinOverlay').classList.add('hidden');
+ showLogin();
+ const alert=document.getElementById('loginAlert');
+ alert.textContent='Tu sesión ya no es válida. Ingresa nuevamente con tu usuario, contraseña y PIN para cargar los pedidos.';
+ alert.classList.remove('hidden');
+ cyPilotRenderOrders({},false);
+ document.getElementById('cy-pilot-status').textContent='Inicia sesión nuevamente para cargar tus pedidos.';
+}
+function cyPilotRenderOrders(data,announce=false){
+ const select=document.getElementById('cy-pilot-order'),previous=select.value;
+ const source=[...(data.deliveries||data.my_deliveries||data.mis_entregas||[]),...(data.available_orders||data.disponibles||[])];
+ const orders=[...new Map(source.filter(o=>o.order_id||o.id).map(o=>[o.order_id||o.id,o])).values()];
+ orders.sort((a,b)=>Number(/Daniela Loyo/i.test(b.customer_name||b.customer||''))-Number(/Daniela Loyo/i.test(a.customer_name||a.customer||'')));
+ select.replaceChildren();
+ for(const order of orders){const option=document.createElement('option');option.value=order.order_id||order.id;option.textContent=option.value+' · '+(order.customer_name||order.customer||'Cliente');select.append(option);}
+ if(orders.some(o=>(o.order_id||o.id)===previous))select.value=previous;
+ if(!orders.length){const option=document.createElement('option');option.value='';option.textContent='Sin pedidos activos';select.append(option);}
+ select.disabled=!orders.length;
+ document.querySelectorAll('#cy-pilot-panel button[onclick^="cyPilotStep"], #cy-pilot-panel button[onclick^="cyPilotCharge"]').forEach(button=>button.disabled=!orders.length);
+ const status=document.getElementById('cy-pilot-status');
+ if(announce || (!previous && orders.length))status.textContent=orders.length?orders.length+' pedido(s) cargado(s). Selecciona el pedido para simular.':'No hay pedidos activos para Carlos.';
+}
+async function cyPilotRefresh(){
+ const status=document.getElementById('cy-pilot-status'),button=document.querySelector('#cy-pilot-panel button[onclick="cyPilotRefresh()"]');
+ if(!currentUser || Number(currentUser.id)!==3){status.textContent='Inicia sesión como Carlos Méndez para realizar la prueba.';return;}
+ if(button)button.disabled=true;
+ status.textContent='Cargando pedidos…';
+ try{
+  const res=await fetch('/api/chofer/entregas',{headers:{Authorization:'Bearer '+authToken},cache:'no-store'});
+  if(res.status===401){cyDriverSessionExpired();return;}
+  if(!res.ok)throw new Error('No se pudieron cargar los pedidos (HTTP '+res.status+'). Pulsa Cargar mis pedidos para reintentar.');
+  const data=await res.json().catch(()=>{throw new Error('El servidor no respondió correctamente. Reintenta cargar los pedidos.');});
+  if(currentUser && Number(currentUser.id)===3)cyPilotRenderOrders(data,true);
+ }catch(e){status.textContent=e.message==='Failed to fetch'?'No hay conexión con el servidor. Reintenta cargar los pedidos.':e.message;}
+ finally{if(button)button.disabled=false;}
+}
+async function cyPilotStep(step,orderId){
+ const status=document.getElementById('cy-pilot-status'),id=orderId||document.getElementById('cy-pilot-order').value;
+ if(!currentUser||currentUser.id!==3||!id){status.textContent='Carga y selecciona un pedido de Carlos.';return;}
+ const body={order_id:id,step};
+ if(step==='entregado'){
+  const file=document.getElementById('cy-pilot-photo').files[0];
+  if(!file){status.textContent='Adjunta la foto de entrega antes de simularla.';return;}
+  if(file.size>2000000){status.textContent='La foto debe pesar menos de 2 MB.';return;}
+  body.photo=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
+ }
+ status.textContent='Guardando evento compartido…';
+ try{
+  const res=await fetch('/api/chofer/piloto/evento',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await res.json();if(!res.ok)throw new Error(data.detail||'No se pudo guardar la prueba.');
+  status.textContent='SIMULACIÓN · '+(data.message||data.status)+(data.notifications?' · WhatsApp: '+cyNoticeLabel(data.notifications.whatsapp)+' · Correo: '+cyNoticeLabel(data.notifications.email):'');
+ }catch(e){status.textContent=e.message;}
+}
+function cyPilotCharge(id){return cyPilotStep('cobrado',id);}
+// Carlos está en piloto: el botón Cobrar no utiliza el flujo contable real.
+const cyRealCompleteModal=openCompleteModal;
+openCompleteModal=function(id){if(currentUser?.id===3)return cyPilotCharge(id);return cyRealCompleteModal(id);};
+</script><script id="cy-mail-status-labels">
+function cyNoticeLabel(notice){
+ const labels={sent:'Enviado',accepted:'Aceptado por el proveedor; entrega pendiente',unknown:'Sin confirmación; revisar antes de reenviar',failed:'Falló el envío',not_configured:'Correo empresarial pendiente de activar',missing_recipient:'Falta el destinatario',pending_connection:'WhatsApp desconectado',pending:'Pendiente',sending:'Enviando'};
+ return notice?(labels[notice.status]||'Pendiente')+(notice.message?' · '+notice.message:''):'Pendiente';
+}
+</script>
+<script src="/static/brand/driver-phone.js?v=flame-pin-20261004"></script></body>
+</html>

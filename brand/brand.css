@@ -1,0 +1,96 @@
+/* CilindroYa identity and accessibility, 2026-10-04 */
+:root{--cy-blue:#0A59DA;--cy-navy:#09294A;--cy-orange:#FF8A00}
+*,*::before,*::after{box-sizing:border-box}
+.cy-brand{display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0;text-decoration:none}
+.cy-logo{display:block;width:190px;height:auto;max-width:100%}
+.cy-brand-caption{font:600 11px/1.4 Arial,sans-serif;letter-spacing:.02em;color:var(--cy-blue);margin-top:1px}
+.cy-dark .cy-brand-caption{color:#BDD5FC}
+header>div:first-child{gap:12px}
+img{max-width:100%}
+input,select,textarea{scroll-margin-top:110px}
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:3px solid var(--cy-orange);outline-offset:4px}
+button{min-height:44px}
+html{scroll-padding-top:100px}
+.cy-client header{background:var(--cy-navy)!important}
+.cy-client #appSplashScreen{background:var(--cy-navy)!important}
+.cy-client .cy-logo{width:174px}
+.cy-client #installAppBtn:not(.hidden){flex-shrink:0}
+.cy-client #headerUserBtn{max-width:145px}
+.cy-client label{line-height:1.5}
+.cy-skip{position:fixed;left:12px;top:-80px;z-index:9999;background:white;color:var(--cy-navy);padding:12px 18px;border-radius:10px;font-weight:700}
+.cy-skip:focus{top:12px}
+@media(max-width:1199px){.cy-home header nav{display:none!important}.cy-home header>div:first-child>div.hidden.sm\:flex>a:first-child{display:none}}
+@media(max-width:1023px){.cy-b2b header>div:first-child{height:auto;min-height:80px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}.cy-b2b header>div:first-child>div:last-child{flex-wrap:wrap}}
+@media(max-width:639px){.cy-logo{width:145px}.cy-brand-caption{font-size:10px}.cy-home header>div:first-child{padding-left:12px;padding-right:12px}.cy-home header>div:first-child>div:last-child{gap:6px}.cy-home header>div:first-child>div:last-child>a{padding-left:10px;padding-right:10px}.cy-home h1{font-size:clamp(1.9rem,8.8vw,2.5rem);line-height:1.12}.cy-home footer{padding-bottom:100px}.cy-client input,.cy-client select,.cy-client textarea{font-size:16px!important}.cy-client .cy-logo{width:145px}.cy-client header>div:first-child{flex-wrap:wrap;row-gap:8px}.cy-client #headerUserName{max-width:72px}.cy-client #checkoutFormGrid{min-width:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media print{.cy-logo{width:45mm}.cy-skip{display:none}}
+
+@media(max-width:1199px){.cy-home header>div:first-child>div.hidden.sm\:flex{display:none!important}.cy-home header>div:first-child>div:last-child{display:flex!important}.cy-home #mobileDrawer:not(.hidden){display:block!important}}
+.cy-client #card_valvula>div:first-child{min-width:0}
+.cy-client #card_valvula>div:first-child>div:first-child{flex-shrink:0}
+.cy-client #card_valvula>div:first-child>div:last-child{min-width:0}
+.cy-client #card_valvula>div:first-child>div:last-child>div{flex-wrap:wrap;gap:4px}
+.cy-client #card_valvula>div:last-child{flex-shrink:0}
+@media(max-width:399px){.cy-client #card_valvula{flex-wrap:wrap;gap:12px}.cy-client #card_valvula>div:last-child{margin-left:auto}}
+
+@media(prefers-reduced-motion:reduce){body.cy-client button:active:not(:disabled){transition:none!important;transform:none!important}}
+
+/* Flame + location identity selected by the owner */
+:root{--cy-blue:#0A59DA;--cy-navy:#09294A;--cy-orange:#FF8A00;--md-primary:#0A59DA;--md-primary-dark:#0743A6;--md-primary-container:#EAF2FF;--md-tertiary:#FF8A00}
+.cy-logo{object-fit:contain}.cy-home .cy-brand-caption{color:#09294A}.cy-brand img{height:auto}
+.cy-home h1{color:#09294A}.cy-home :where(h2,h3){letter-spacing:-.025em}
+.cy-home :where(a[href='/cliente'],a[href='/cliente/']){box-shadow:0 8px 24px rgb(10 89 218 / 15%)}
+.cy-home footer .cy-footer-brand{width:180px;height:auto;margin-bottom:14px}
+.cy-client header{border-bottom:3px solid #FF8A00}.cy-client #appSplashScreen img{width:56px;height:76px;object-fit:contain}
+.cy-client #welcomeAuthModal .text-center>div:first-child{background:#EAF2FF}.cy-client #welcomeAuthModal .text-center>div:first-child img{width:32px;height:48px}
+.cy-b2b header{border-bottom:2px solid #FF8A00}.cy-b2b .cy-logo{width:182px}
+body[data-cy-portal]{--md-primary:#0A59DA;--md-tertiary:#FF8A00}
+[data-cy-portal] header{gap:16px;flex-wrap:wrap;border-bottom:2px solid #FF8A00}
+.cy-portal-symbol{flex-shrink:0;border-radius:14px}
+[data-cy-portal='admin'] header select{min-width:0;max-width:calc(100vw - 88px);text-overflow:ellipsis}
+.cy-home{overflow-x:clip}
+[data-cy-portal='admin'] header>div:last-child{flex-wrap:wrap;gap:8px}
+@media(max-width:639px){[data-cy-portal] header{padding:12px}.cy-b2b .cy-logo{width:160px}.cy-home .cy-logo,.cy-client .cy-logo{width:145px}}
+
+/* Refined shared surfaces: subdued depth, blue actions, orange selection. */
+:root{--cy-radius-control:12px;--cy-radius-card:20px;--cy-shadow:0 4px 16px rgb(9 41 74 / 7%);--cy-border:#DFE7EF;--cy-orange-ink:#984800}
+:is(.cy-home,.cy-client,.cy-b2b,[data-cy-portal]) :is(.shadow-brandglow,.shadow-brandsubtle,.shadow-brandlg,.shadow-glass){box-shadow:var(--cy-shadow)!important}
+:is(.cy-home,.cy-client,.cy-b2b,[data-cy-portal]) :is(.rounded-3xl,.glass-card){border-radius:var(--cy-radius-card)}
+:is(.cy-home,.cy-client,.cy-b2b,[data-cy-portal]) :is(button,a):is(.rounded-xl,.rounded-2xl){border-radius:var(--cy-radius-control)}
+:is(.cy-home,.cy-client,.cy-b2b,[data-cy-portal]) button{font-family:inherit}
+.cy-home{background:#F8FAFC;color:var(--cy-navy)}
+.cy-home .dot-pattern{background-image:radial-gradient(rgb(9 41 74 / 4%) 1px,transparent 1px);background-size:28px 28px}
+.cy-home .cy-hero h1{font-size:clamp(2rem,4.25vw,3.4rem);line-height:1.13;letter-spacing:-.045em;max-width:720px}
+.cy-home .cy-hero-emphasis{color:var(--cy-blue)}
+.cy-home .cy-hero h1+p{max-width:540px;font-size:1.0625rem;line-height:1.8;color:#46596D}
+.cy-home .cy-mockup-glow{display:none}
+.cy-home .cy-delivery-preview{border:1px solid var(--cy-border);border-radius:24px;box-shadow:0 12px 36px rgb(9 41 74 / 9%)}
+.cy-home .cy-secondary-action{background:transparent;border-color:transparent;box-shadow:none!important;font-size:.9375rem;padding-inline:16px;color:#46596D}
+.cy-home .cy-secondary-action:hover{background:#EDF2F7;color:var(--cy-navy)}
+.cy-home .cy-preview-action{background:#EDF3FC;color:var(--cy-blue);box-shadow:none!important;border:1px solid #D4E2F5}
+.cy-home .cy-preview-action:hover{background:#DFEBFC;color:#0743A6}
+.cy-home .cy-selected-cylinder{border-color:var(--cy-orange);background:#FFF8EF;box-shadow:none}
+.cy-home .cy-step-number{background:#FFF1DE;color:var(--cy-orange-ink);border:1px solid #FFE0B2}
+.cy-home #como-funciona .group:hover .cy-step-number{background:#FFE6C0;color:var(--cy-orange-ink)}
+.cy-home :where(a[href='/cliente'],a[href='/cliente/']){box-shadow:0 3px 10px rgb(9 41 74 / 9%)}
+.cy-home #catalogo>div>div>div{box-shadow:var(--cy-shadow)}
+.cy-client .btn-primary{background:var(--cy-blue)!important;box-shadow:0 4px 12px rgb(9 41 74 / 15%)!important;border-radius:var(--cy-radius-control)!important}
+.cy-client .btn-primary:hover:not(:disabled){background:#0743A6!important;box-shadow:0 5px 14px rgb(9 41 74 / 16%)!important}
+.cy-client .product-card{border-radius:var(--cy-radius-card)!important;box-shadow:var(--cy-shadow)!important}
+.cy-client .product-card[class~='border-[#0A59DA]']{border-color:var(--cy-orange)!important;background:#FFF8EF!important;box-shadow:0 0 0 2px rgb(255 138 0 / 12%)!important}
+.cy-client .product-card:not(.disabled-card):hover{border-color:#AEBFD1}
+.cy-client :is(input,select,textarea){border-radius:var(--cy-radius-control)}
+.cy-b2b .glow-header{background:radial-gradient(ellipse at 50% 0%,rgb(10 89 218 / 14%),transparent 70%)}
+.cy-b2b .glass-card{box-shadow:0 4px 16px rgb(0 0 0 / 12%);border-color:#243F60}
+[data-cy-portal] .shadow-xl{box-shadow:0 6px 20px rgb(0 0 0 / 15%)}
+@media(max-width:639px){.cy-home .cy-hero h1{font-size:clamp(1.9rem,8.4vw,2.6rem);letter-spacing:-.035em}.cy-home .cy-hero h1+p{font-size:1rem;line-height:1.7}.cy-home .cy-secondary-action{padding-block:10px}.cy-home .cy-delivery-preview{border-radius:20px}}
+
+/* One complete corporate signature across every portal. */
+.cy-corporate-logo{display:block;width:190px;height:auto;max-width:100%;object-fit:contain;background:#fff;border-radius:8px;padding:6px 8px;flex-shrink:0}
+[data-cy-portal] header>div:first-child{flex-wrap:wrap;row-gap:8px;min-width:0}
+[data-cy-portal] header .cy-corporate-logo{width:180px}
+.cy-client header .cy-corporate-logo{width:174px}
+.cy-corporate-bar{width:100%;padding:12px 16px;margin:0 auto 16px;display:flex;justify-content:center;flex-shrink:0}
+.cy-splash-brand .cy-corporate-logo{width:240px;height:auto!important}
+@media(max-width:639px){[data-cy-portal] header .cy-corporate-logo{width:160px}.cy-client header .cy-corporate-logo{width:145px}}
+@media print{.cy-corporate-bar{display:none}}

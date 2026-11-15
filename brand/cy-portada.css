@@ -1,0 +1,1340 @@
+/*
+ * brand/cy-portada.css — Rediseño visual de cilindroya.com/hogar/ al estilo Sketchfab con Cili en 3D interactivo.
+ *
+ * - Héroe de ~790 px con degradado linear-gradient(45deg, #09294A 0%, #0A59DA 55%, #2EC3FB 100%).
+ * - Columna izquierda: título liviano (peso 300, blanco, interlineado 1.2) + respuesta rápida + dos botones estilo
+ *   Sketchfab (celeste #1CAAD9 y naranja #FF9E3A, radio 4 px, mayúsculas 12–13 px peso 700) + tarjeta de pedido compacta.
+ * - Columna derecha: modelo 3D interactivo de Cili (con póster instantáneo /assets/web/cili_404.webp y 3 anotaciones
+ *   numeradas con burbuja).
+ * - Resto de la portada: franjas blancas (#FFFFFF) y gris muy claro (#F7F9FC) alternadas, tarjetas limpias con
+ *   título 18 px peso 700 gris #555, botones estilo Sketchfab y mucho aire.
+ */
+:root {
+  --noche-profunda: #051428;
+  --noche: #09294A;
+  --azul: #0A59DA;
+  --celeste: #2EC3FB;
+  --sf-azul: #1CAAD9;
+  --sf-azul-hover: #1593BD;
+  --sf-naranja: #FF9E3A;
+  --sf-naranja-hover: #F08A20;
+  --llama: #FF8A00;
+  --gris-titulo: #555555;
+  --gris-texto: #5F6C7B;
+  --gris-borde: #E6ECF2;
+  --franja-alt: #F7F9FC;
+  --degradado-heroe: linear-gradient(45deg, #09294A 0%, #0A59DA 55%, #2EC3FB 100%);
+  --radio-sf: 4px;
+  --radio-tarjeta: 8px;
+}
+
+body {
+  background: #FFFFFF;
+  color: #36425A;
+}
+
+/* ── Botones estilo Sketchfab (radio 4px, mayúsculas 12-13px, peso 700) ───── */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radio-sf);
+  background: var(--sf-azul);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(9, 41, 74, 0.14);
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.boton:hover {
+  background: var(--sf-azul-hover);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(9, 41, 74, 0.22);
+}
+.boton:active {
+  transform: translateY(0);
+}
+
+.boton-brillo {
+  background: var(--sf-azul);
+  color: #FFFFFF;
+}
+.boton-brillo:hover {
+  background: var(--sf-azul-hover);
+}
+
+.boton-naranja,
+.boton-llama {
+  background: var(--sf-naranja);
+  color: #09294A;
+  box-shadow: 0 2px 8px rgba(255, 158, 58, 0.3);
+}
+.boton-naranja:hover,
+.boton-llama:hover {
+  background: var(--sf-naranja-hover);
+  color: #09294A;
+}
+
+.boton-linea {
+  background: transparent;
+  color: #FFFFFF;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.65);
+}
+.boton-linea:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1.5px #FFFFFF;
+}
+
+.boton-wa {
+  background: #FFFFFF;
+  color: #0B7A43;
+  border: 1.5px solid #0B7A43;
+  box-shadow: none;
+}
+.boton-wa:hover {
+  background: #E8F7EF;
+  color: #085D32;
+}
+
+/* ── Cinta superior discreta ─────────────────────────────────────────────── */
+.cinta {
+  position: relative;
+  z-index: 6;
+  overflow: hidden;
+  background: #061C36;
+  color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.cinta-pista {
+  display: inline-flex;
+  gap: 36px;
+  padding: 8px 0;
+  animation: cinta 40s linear infinite;
+}
+.cinta-pista span::after {
+  content: "●";
+  color: var(--sf-naranja);
+  margin-left: 36px;
+  font-size: 7px;
+  vertical-align: 2px;
+}
+@keyframes cinta {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── Encabezado sobre el héroe oscuro (logo blanco como en Sketchfab) ────── */
+.barra {
+  position: relative;
+  z-index: 5;
+  top: 0;
+  background: #09294A;
+  background-image: linear-gradient(90deg, #09294A 0%, #0A469E 65%, #0E6CC4 100%);
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 14px var(--m);
+}
+.barra > a:first-child {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.barra img {
+  height: 36px;
+  width: auto;
+}
+.barra nav {
+  margin-left: auto;
+  display: flex;
+  gap: 22px;
+}
+.barra nav a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: color 0.15s ease;
+}
+.barra nav a:hover {
+  color: #FFFFFF;
+}
+.barra .boton {
+  background: var(--sf-naranja);
+  color: #09294A;
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 12px;
+  box-shadow: none;
+}
+.barra .boton:hover {
+  background: var(--sf-naranja-hover);
+  color: #09294A;
+}
+
+/* ── 1. Héroe al estilo Sketchfab (~790px, degradado 45°, texto liviano + 3D) ── */
+.portada-a {
+  position: relative;
+  min-height: 790px;
+  padding: clamp(28px, 3.8vw, 48px) var(--m) clamp(28px, 4vw, 44px);
+  background: var(--degradado-heroe);
+  color: #FFFFFF;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.portada-a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(45% 55% at 76% 46%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(35% 45% at 18% 85%, rgba(9, 41, 74, 0.35) 0%, rgba(9, 41, 74, 0) 70%);
+  pointer-events: none;
+}
+
+.portada-a__grid {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.08fr);
+  gap: clamp(24px, 3.5vw, 48px);
+  align-items: center;
+}
+
+.portada-a__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.portada-a__insignia {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: var(--radio-sf);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+}
+.portada-a__insignia i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3DDC97;
+  display: inline-block;
+  box-shadow: 0 0 8px #3DDC97;
+}
+
+/* Título grande y LIVIANO como Sketchfab (48px, peso 300, blanco, interlineado 1.2) */
+.portada-a h1 {
+  font-size: clamp(34px, 3.6vw, 48px);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  max-width: 20ch;
+}
+.portada-a h1 span {
+  color: #FFFFFF;
+  font-weight: 600;
+  border-bottom: 2px solid var(--sf-naranja);
+}
+
+/* Subtítulo / respuesta rápida en 17–18px sobre el degradado */
+.respuesta-rapida {
+  margin-top: 14px;
+  font-size: clamp(16px, 1.25vw, 18px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.93);
+  max-width: 54ch;
+  background: rgba(9, 41, 74, 0.28);
+  border-left: 3px solid var(--sf-naranja);
+  padding: 12px 16px;
+  border-radius: 0 var(--radio-sf) var(--radio-sf) 0;
+}
+.respuesta-rapida strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* Desglose del precio en píldoras discretas */
+.portada-a__resumen-precio {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 500;
+}
+.portada-a__resumen-precio b {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+.portada-a__total-chip {
+  background: rgba(255, 158, 58, 0.22);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 158, 58, 0.65);
+  padding: 3px 10px;
+  border-radius: var(--radio-sf);
+  font-weight: 700;
+}
+.portada-a__total-chip b {
+  color: #FFE0B5;
+}
+
+/* Dos botones principales de héroe al estilo Sketchfab (#1CAAD9 y #FF9E3A, radio 4px, mayúsculas 12-13px peso 700) */
+.portada-a__cta-par {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.portada-a__cta-par .boton {
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: var(--radio-sf);
+}
+.boton-sf-azul {
+  background: var(--sf-azul);
+  color: #FFFFFF;
+}
+.boton-sf-azul:hover {
+  background: var(--sf-azul-hover);
+  color: #FFFFFF;
+}
+.boton-sf-naranja {
+  background: var(--sf-naranja);
+  color: #09294A;
+}
+.boton-sf-naranja:hover {
+  background: var(--sf-naranja-hover);
+  color: #09294A;
+}
+
+/* Tarjeta de pedido compacta integrada bajo el texto del héroe */
+.tarjeta-pedido {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--noche);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radio-tarjeta);
+  padding: 16px 18px;
+  box-shadow: 0 18px 40px -18px rgba(5, 20, 40, 0.45);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+.tarjeta-pedido__cab {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.tarjeta-pedido__cab h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+  letter-spacing: -0.01em;
+}
+.tarjeta-pedido__chip {
+  font-size: 11.5px;
+  font-weight: 700;
+  background: #EAF4FA;
+  color: #0E6BA8;
+  padding: 3px 9px;
+  border-radius: var(--radio-sf);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tarjeta-pedido .cy-campo > label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #4A5568;
+}
+.tarjeta-pedido .cy-campo input,
+.tarjeta-pedido .cy-campo select {
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--radio-sf);
+  font-size: 14.5px;
+  border-color: #CBD5E1;
+}
+.tarjeta-pedido__precio {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  background: #F7F9FC;
+  border-radius: var(--radio-sf);
+  padding: 8px 12px;
+  border: 1px solid #E2E8F0;
+}
+.tarjeta-pedido__num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--azul);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-right: 8px;
+}
+.tarjeta-pedido__precio small {
+  font-size: 12.5px;
+  color: #555555;
+  font-weight: 600;
+}
+.tarjeta-pedido__aviso-zona {
+  grid-column: 1 / -1;
+  background: #FFF5E0;
+  color: #7A4A00;
+  border: 1px solid #F3D08B;
+  border-radius: var(--radio-sf);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tarjeta-pedido__acciones {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.tarjeta-pedido__acciones .boton {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+/* ── Columna derecha del héroe: visor Cili 3D al estilo Sketchfab (~790x650) ── */
+.cili3d-visor {
+  position: relative;
+  width: 100%;
+  height: clamp(460px, 56vw, 640px);
+  max-width: 760px;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.cili3d-lienzo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cili3d-poster {
+  max-height: 88%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 44px rgba(5, 20, 40, 0.45));
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.cili3d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  touch-action: pan-y;
+}
+.cili3d-canvas:active {
+  cursor: grabbing;
+}
+
+.cili3d-visor.cili3d--listo .cili3d-canvas {
+  opacity: 1;
+}
+.cili3d-visor.cili3d--listo .cili3d-poster {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* Anotaciones numeradas tipo Sketchfab sobre el modelo 3D */
+.cili3d-anotaciones {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.cili3d-pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.cili3d-pin__num {
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  margin-top: -14px;
+  border-radius: 50%;
+  background: rgba(9, 41, 74, 0.86);
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+  font: 700 12px/1 "Plus Jakarta Sans", system-ui, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+  min-height: 28px;
+  padding: 0;
+}
+.cili3d-pin__num:hover,
+.cili3d-pin--activo .cili3d-pin__num {
+  background: var(--sf-azul);
+  border-color: #FFFFFF;
+  transform: scale(1.14);
+}
+
+.cili3d-pin__burbuja {
+  position: absolute;
+  left: 20px;
+  top: -18px;
+  width: 215px;
+  background: rgba(9, 28, 52, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  padding: 9px 11px;
+  color: #FFFFFF;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.38);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.cili3d-pin:nth-child(2) .cili3d-pin__burbuja {
+  left: auto;
+  right: 20px;
+}
+.cili3d-pin--activo .cili3d-pin__burbuja {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.cili3d-pin__burbuja strong {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #5CE1FF;
+  margin-bottom: 3px;
+}
+.cili3d-pin__burbuja span {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.38;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Barra de ayuda inferior del visor 3D (estilo controles Sketchfab) */
+.cili3d-controles-hud {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(9, 28, 52, 0.62);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
+}
+.cili3d-controles-hud button {
+  background: var(--sf-naranja);
+  color: #09294A;
+  border: 0;
+  border-radius: var(--radio-sf);
+  padding: 4px 10px;
+  min-height: 28px;
+  font: 700 11px/1 "Plus Jakarta Sans", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.cili3d-controles-hud button:hover {
+  background: var(--sf-naranja-hover);
+}
+
+/* Franja de confianza al pie del héroe */
+.franja-confianza {
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  width: 100%;
+  max-width: 1320px;
+  margin: 22px auto 0;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 18px;
+}
+.franja-confianza li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  padding: 2px 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+.franja-confianza li::before {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(28, 170, 217, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* ── 2. Resto de la portada al estilo Sketchfab: franjas alternadas, mucho aire, tarjetas limpias ── */
+main > section:not(.portada-a):not(.cierre) {
+  max-width: none;
+  margin: 0;
+  padding: clamp(68px, 8vw, 112px) max(var(--m), calc((100% - 1240px) / 2));
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+main > section:nth-of-type(even):not(.cierre) {
+  background: #FFFFFF;
+}
+main > section:nth-of-type(odd):not(.portada-a):not(.cierre) {
+  background: var(--franja-alt);
+}
+
+/* Títulos de sección limpios y livianos al estilo Sketchfab */
+.titulo,
+#asi-llega .titulo,
+.precio h2,
+.lista h2,
+.preguntas h2 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 300;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: #2C3E50;
+  max-width: 28ch;
+}
+#asi-llega {
+  text-align: center;
+}
+#asi-llega .titulo {
+  margin: 0 auto;
+}
+#asi-llega .resalta,
+.precio .cifra,
+.lista h2 span {
+  color: var(--sf-azul);
+  font-weight: 600;
+}
+
+.guia-sub {
+  margin: 14px auto 0;
+  max-width: 48ch;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--gris-texto);
+}
+
+/* Tarjetas de 4 pasos: limpias, título 18px peso 700 gris #555, ilustración arriba */
+.guia {
+  list-style: none;
+  margin: 48px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: left;
+}
+.guia-paso {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid var(--gris-borde);
+  border-radius: var(--radio-tarjeta);
+  padding: 28px 22px;
+  box-shadow: 0 2px 10px rgba(9, 41, 74, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.guia-paso:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(9, 41, 74, 0.08);
+}
+.guia-paso::after {
+  display: none !important;
+}
+.guia-ico {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radio-tarjeta);
+  background: #EBF7FC;
+  color: var(--sf-azul);
+}
+.guia-ico svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.guia-paso:last-child .guia-ico {
+  background: #FFF3E6;
+  color: var(--sf-naranja);
+}
+.guia-num {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 3px 9px;
+  border-radius: var(--radio-sf);
+  background: #F1F5F9;
+  color: #555555;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.guia-paso h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--gris-titulo);
+}
+.guia-paso p {
+  margin-top: 8px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--gris-texto);
+}
+
+/* Bloque celular en tarjeta limpia estilo vitrina Sketchfab */
+.bloque-celular {
+  margin-top: 44px;
+  background: #FFFFFF;
+  color: #36425A;
+  border: 1px solid var(--gris-borde);
+  border-radius: var(--radio-tarjeta);
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: 0 6px 24px rgba(9, 41, 74, 0.06);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+  text-align: left;
+}
+.bloque-celular__vivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: var(--radio-sf);
+  background: #EBF7FC;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--sf-azul);
+  margin-bottom: 12px;
+}
+.bloque-celular__vivo i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0B7A43;
+  display: inline-block;
+}
+.bloque-celular__info h3 {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 400;
+  color: #2C3E50;
+  line-height: 1.25;
+}
+.bloque-celular__info p {
+  margin-top: 12px;
+  font-size: 15.5px;
+  color: var(--gris-texto);
+  max-width: 48ch;
+  line-height: 1.6;
+}
+.bloque-celular .guia-accion span {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gris-texto);
+}
+
+.celular-maqueta {
+  justify-self: center;
+  width: 100%;
+  max-width: 310px;
+  border-radius: 20px;
+  border: 4px solid #09294A;
+  background: #09294A;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  box-shadow: 0 14px 32px rgba(9, 41, 74, 0.18);
+}
+.celular-maqueta__barra {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #CFE0FA;
+  padding: 0 4px;
+}
+.celular-maqueta__mapa {
+  position: relative;
+  height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 34%, #FF9E3A 0 7px, rgba(255, 158, 58, 0.25) 8px 18px, transparent 19px),
+    radial-gradient(circle at 26% 74%, #2EC3FB 0 7px, rgba(46, 195, 251, 0.25) 8px 18px, transparent 19px),
+    repeating-linear-gradient(35deg, #123966 0 2px, #0D2E54 2px 18px);
+}
+.celular-maqueta__pin-camion,
+.celular-maqueta__pin-casa {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radio-sf);
+}
+.celular-maqueta__pin-camion {
+  top: 12px;
+  right: 12px;
+  background: var(--sf-naranja);
+  color: #09294A;
+}
+.celular-maqueta__pin-casa {
+  bottom: 12px;
+  left: 12px;
+  background: var(--sf-azul);
+  color: #FFFFFF;
+}
+.celular-maqueta__estado {
+  background: #FFFFFF;
+  color: var(--noche);
+  border-radius: 8px;
+  padding: 9px 11px;
+  display: grid;
+  gap: 2px;
+}
+.celular-maqueta__estado b {
+  font-size: 14px;
+  color: var(--gris-titulo);
+  font-weight: 700;
+}
+.celular-maqueta__estado span {
+  font-size: 12px;
+  color: var(--gris-texto);
+}
+
+/* 3. Galería «Del pedido a tu cocina» como tarjetas limpias de 4 columnas */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-top: 36px;
+  align-items: stretch;
+}
+.galeria .g1,
+.galeria .g2,
+.galeria .g3,
+.galeria .g4 {
+  grid-column: auto;
+  background: #FFFFFF;
+  border: 1px solid var(--gris-borde);
+  border-radius: var(--radio-tarjeta);
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(9, 41, 74, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+.galeria .marco {
+  border-radius: 6px;
+  overflow: hidden;
+}
+.galeria .g1 img,
+.galeria .g2 img,
+.galeria .g3 img,
+.galeria .g4 img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.galeria figcaption {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+  margin-top: 12px;
+  padding: 2px 4px 4px;
+}
+
+/* 4. Franja de Precio limpia */
+.precio {
+  border-radius: 0;
+  margin: 0;
+}
+.precio .base p {
+  font-size: 16.5px;
+  color: var(--gris-texto);
+  line-height: 1.6;
+}
+
+/* 5. Zonas en Imbabura */
+.barrio .sub-barrio {
+  font-size: 16.5px;
+  font-weight: 400;
+  color: var(--gris-texto);
+}
+.barrio .entrada {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+}
+.barrio input {
+  border-radius: var(--radio-sf);
+  border: 1px solid #CBD5E1;
+  color: var(--sf-azul);
+}
+.respuesta {
+  border-radius: var(--radio-tarjeta);
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 2px 10px rgba(9, 41, 74, 0.04);
+}
+.ejemplos button {
+  border-radius: var(--radio-sf);
+  background: #FFFFFF;
+  border: 1px solid var(--gris-borde);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gris-titulo);
+}
+.ejemplos button:hover {
+  border-color: var(--sf-azul);
+  color: var(--sf-azul);
+  background: #F0F9FD;
+}
+.zonas .ejemplos button[aria-pressed="true"] {
+  background: var(--sf-azul);
+  border-color: var(--sf-azul);
+  color: #FFFFFF;
+}
+
+/* 6. Quién te entrega (Distribuidores + Cili) con tarjetas limpias estilo Sketchfab */
+.quien-entrega .quien-caja {
+  border-radius: var(--radio-tarjeta);
+  padding: clamp(28px, 4.5vw, 52px);
+  color: #36425A;
+  background: #FFFFFF;
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 4px 20px rgba(9, 41, 74, 0.05);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: start;
+}
+.dist-etiqueta {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radio-sf);
+  background: #FFF3E6;
+  color: #C25E00;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.quien-entrega h2 {
+  margin-top: 12px;
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 300;
+  line-height: 1.22;
+  color: #2C3E50;
+  max-width: 22ch;
+}
+.quien-entrega h2 span {
+  display: inline;
+  color: var(--sf-azul);
+  font-weight: 600;
+}
+.quien-lead {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--gris-texto);
+  max-width: 54ch;
+}
+.dist-beneficios {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.dist-beneficios li {
+  padding: 18px;
+  border-radius: var(--radio-tarjeta);
+  background: var(--franja-alt);
+  border: 1px solid var(--gris-borde);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gris-texto);
+}
+.dist-beneficios b {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+}
+.dist-acciones {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.dist-acciones .boton-linea {
+  color: var(--sf-azul);
+  box-shadow: inset 0 0 0 1.5px var(--sf-azul);
+}
+.dist-acciones .boton-linea:hover {
+  background: #EBF7FC;
+}
+
+.quien-tarjetas {
+  display: grid;
+  gap: 16px;
+}
+.quien-ficha {
+  background: var(--franja-alt);
+  border: 1px solid var(--gris-borde);
+  border-radius: var(--radio-tarjeta);
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+.quien-ficha img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.quien-rol {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sf-azul);
+  margin-bottom: 4px;
+}
+.quien-ficha h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+}
+.quien-ficha p {
+  margin-top: 6px;
+  font-size: 14.5px;
+  color: var(--gris-texto);
+  line-height: 1.55;
+}
+.quien-ficha a {
+  color: var(--sf-azul);
+  font-weight: 700;
+}
+
+.quien-ficha .cili-ficha {
+  position: relative;
+  display: block;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--degradado-heroe);
+  box-shadow: 0 6px 16px rgba(9, 41, 74, 0.22);
+}
+.quien-ficha .cili-ficha img {
+  position: absolute;
+  left: 50%;
+  bottom: -12%;
+  width: 84%;
+  height: auto;
+  max-height: none;
+  transform: translateX(-50%);
+  object-fit: contain;
+  border-radius: 0;
+  background: none;
+}
+
+/* 7. Tabla de servicios y FAQ limpios */
+.lista figure,
+.lista figure img {
+  border-radius: var(--radio-tarjeta);
+}
+.tabla {
+  border-radius: var(--radio-tarjeta);
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 2px 12px rgba(9, 41, 74, 0.04);
+}
+.tabla .nombre {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.fila.total {
+  background: #EBF7FC;
+  color: var(--noche);
+  border-radius: var(--radio-sf);
+}
+
+.preguntas .listado {
+  margin: 36px 0 0;
+  max-width: 860px;
+}
+.preguntas details {
+  border-radius: var(--radio-tarjeta);
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 1px 4px rgba(9, 41, 74, 0.03);
+}
+.preguntas details[open] {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+}
+.preguntas summary {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gris-titulo);
+}
+
+/* 8. Cierre y pie de página con degradado oscuro limpio */
+.cierre {
+  margin-top: 0;
+  min-height: 0;
+  padding: clamp(56px, 7vw, 88px) max(var(--m), calc((100% - 1240px) / 2));
+  background: var(--degradado-heroe);
+  color: #FFFFFF;
+}
+.cierre h2 {
+  font-weight: 300;
+  font-size: clamp(30px, 3.8vw, 44px);
+}
+.cierre h2 span {
+  color: var(--sf-naranja);
+  font-weight: 600;
+}
+
+footer {
+  background: #09294A;
+  color: rgba(255, 255, 255, 0.88);
+  min-height: 0;
+  padding: 48px max(var(--m), calc((100% - 1240px) / 2)) 36px;
+}
+footer .contacto {
+  font-size: clamp(32px, 5.5vw, 64px);
+  font-weight: 300;
+  color: #2EC3FB;
+}
+
+/* ── Adaptación a tableta y móvil (375px sin desborde) ───────────────────── */
+@media (max-width: 1100px) {
+  .barra nav {
+    display: none;
+  }
+  .barra .boton {
+    margin-left: auto;
+  }
+  .guia,
+  .galeria {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dist-beneficios {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 960px) {
+  .portada-a {
+    min-height: 0;
+  }
+  .portada-a__grid,
+  .bloque-celular,
+  .quien-entrega .quien-caja {
+    grid-template-columns: 1fr;
+  }
+  .cili3d-visor {
+    height: 440px;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 760px) {
+  .barra {
+    padding: 8px 14px;
+  }
+  .barra img {
+    height: 28px;
+  }
+  .portada-a {
+    padding: 14px 16px 24px;
+  }
+  .portada-a__insignia {
+    margin-bottom: 8px;
+    font-size: 11.5px;
+    padding: 4px 10px;
+  }
+  .portada-a h1 {
+    font-size: clamp(24px, 6.8vw, 31px);
+    line-height: 1.15;
+  }
+  .respuesta-rapida {
+    margin-top: 10px;
+    padding: 9px 11px;
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .portada-a__resumen-precio {
+    margin-top: 10px;
+    font-size: 12.5px;
+  }
+  .portada-a__cta-par {
+    margin-top: 12px;
+    width: 100%;
+  }
+  .portada-a__cta-par .boton {
+    flex: 1 1 calc(50% - 6px);
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+  /* En móvil (375 px) el modelo 3D de Cili va inmediatamente debajo del título/botones y antes del formulario */
+  .portada-a__texto {
+    display: contents;
+  }
+  .portada-a__insignia { order: 1; }
+  .portada-a h1 { order: 2; }
+  .respuesta-rapida { order: 3; }
+  .portada-a__resumen-precio { order: 4; }
+  .portada-a__cta-par { order: 5; }
+  .cili3d-visor {
+    order: 6;
+    height: 310px;
+    margin-top: 2px;
+  }
+  .tarjeta-pedido {
+    order: 7;
+    margin-top: 8px;
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+  .tarjeta-pedido__acciones {
+    grid-template-columns: 1fr;
+  }
+  .cili3d-pin__burbuja {
+    width: 165px;
+    padding: 7px 9px;
+  }
+  .cili3d-pin:nth-child(1) .cili3d-pin__burbuja,
+  .cili3d-pin:nth-child(3) .cili3d-pin__burbuja {
+    left: auto;
+    right: 18px;
+  }
+  .cili3d-pin:nth-child(2) .cili3d-pin__burbuja {
+    left: 18px;
+    right: auto;
+  }
+  .cili3d-controles-hud {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .guia,
+  .galeria {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .guia-paso {
+    padding: 20px 18px;
+  }
+  main > section:not(.portada-a):not(.cierre) {
+    padding: 48px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinta-pista {
+    animation: none;
+  }
+}

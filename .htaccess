@@ -1,0 +1,19 @@
+# CilindroYa en Hostinger (15/11/2026). Equivale al _redirects de Cloudflare Pages.
+# La ruta /api/* NO se sirve aquí: la atiende un Worker de Cloudflare que la envía a api.cilindroya.com.
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+RewriteEngine On
+# /static/* → /*
+RewriteRule ^static/(.*)$ /$1 [L]
+# App de choferes
+RewriteRule ^chofer/?$ /pwa/ [R=301,L]
+# Atajos de marketing
+RewriteRule ^marketing/demo$ /marketing/demo_interactivo.html [R=302,L]
+RewriteRule ^marketing/convenio$ /marketing/convenio_piloto.html [R=302,L]
+RewriteRule ^marketing/volante$ /marketing/volante_imprimible.html [R=302,L]
+RewriteRule ^marketing/banner-feed$ /marketing/banner_feed_1080x1080.html [R=302,L]
+RewriteRule ^marketing/banner-story$ /marketing/banner_story_1080x1920.html [R=302,L]
+RewriteRule ^marketing/guia-chofer$ /marketing/guia_chofer_senior.html [R=302,L]
+# /privacidad sin extensión
+RewriteRule ^privacidad/?$ /privacidad.html [L]

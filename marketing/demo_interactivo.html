@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Interactivo & Video Tutorial — CilindroYa</title>
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #020D24;
+      --navy-deep: #073B91;
+      --blue-electric: #0A59DA;
+      --blue-accent: #3B82F6;
+      --blue-ice: #CDDFFD;
+    }
+    body {
+      background: radial-gradient(circle at 50% 20%, #071e4a 0%, #020D24 100%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .phone-mockup {
+      width: 360px;
+      height: 720px;
+      border-radius: 46px;
+      background: #000;
+      box-shadow: 0 25px 60px -15px rgba(10, 89, 218, 0.45), 0 0 0 12px #1e293b, 0 0 0 14px #334155;
+      position: relative;
+      overflow: hidden;
+    }
+    .dynamic-island {
+      width: 110px;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .screen-content {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      background: #020D24;
+      color: #fff;
+      padding-top: 45px;
+      padding-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+    .pulse-blue {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+      70% { box-shadow: 0 0 0 18px rgba(59, 130, 246, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+    }
+    .step-active {
+      border-color: #3B82F6;
+      background: rgba(10, 89, 218, 0.25);
+      color: #CDDFFD;
+    }
+    .progress-bar-fill {
+      transition: width 0.4s ease;
+    }
+  </style>
+
+
+<link rel="icon" href="/static/favicon.ico?v=corporate-all-20261004" sizes="any"><link rel="icon" type="image/svg+xml" href="/static/favicon.svg?v=corporate-all-20261004"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png?v=corporate-all-20261004"><link rel="apple-touch-icon" sizes="180x180" href="/static/brand/icon-180.png?v=corporate-all-20261004">
+<link rel="stylesheet" href="/static/brand/brand.css?v=corporate-all-20261004">
+<style>.cy-material-logo{display:block;width:220px;max-width:100%;height:auto;object-fit:contain}.flyer-card .cy-material-logo{margin:8px auto}.cy-material-logo{break-inside:avoid}@media print{.cy-material-logo{display:block!important;max-width:55mm;height:auto!important}}</style>  <link rel="stylesheet" href="/static/brand/tw/marketing-demo-interactivo.css?v=240fded99d" data-tw>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between p-4 md:p-8">
+<div class="cy-corporate-bar"><a href="/hogar/" aria-label="CilindroYa, inicio"><img class="cy-logo cy-corporate-logo" src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a></div>
+<a class="cy-skip" href="#cy-main">Saltar al contenido</a>
+
+  <!-- Header & Navigation -->
+  <header class="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-blue-900/40">
+    <div class="flex items-center gap-3">
+      <img class="cy-material-logo" style="background:white;border-radius:8px;padding:6px 8px" src="/static/brand/logo-color.svg?v=legal-marketing-20261004" alt="CilindroYa" width="430" height="120">
+      <div>
+        <h1 class="text-xl md:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+          CilindroYa <span class="text-xs uppercase px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30">Demo Simulator 2.0</span>
+        </h1>
+        <p class="text-xs text-blue-200">Simulador oficial de experiencia en vivo para Video Tutoriales y Demos</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="/marketing" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Hub de Marketing
+      </a>
+      <a href="/marketing/convenio" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-700 transition-all flex items-center gap-2">
+        <i class="fa-solid fa-file-contract"></i> Convenio Piloto B2B
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container Dual Simulator -->
+  <main id="cy-main" class="max-w-6xl mx-auto w-full flex-1 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    
+    <!-- Left Column: Controls & Storyboard Script -->
+    <div class="lg:col-span-6 space-y-6">
+      
+      <section id="cy-voiceover" class="bg-slate-900/90 border border-orange-500/40 rounded-3xl p-6 shadow-2xl" aria-labelledby="cy-voiceover-title">
+<h2 id="cy-voiceover-title" class="text-lg font-bold text-white mb-2">Voz en off · Tutorial CilindroYa</h2>
+<p class="text-sm text-slate-300 mb-4">Escucha el guion completo de los cuatro pasos.</p>
+<audio id="cy-voiceover-audio" controls preload="metadata" style="width:100%;max-width:100%"><source src="/marketing/audio/tutorial-cilindroya-20261004.mp3" type="audio/mpeg">Tu navegador no permite reproducir audio. <a href="/marketing/audio/tutorial-cilindroya-20261004.mp3">Abrir voz en off</a></audio>
+</section>
+<!-- Video Tutorial Controls -->
+      <div class="bg-slate-900/90 border border-blue-900/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+            <h2 class="text-sm font-bold uppercase tracking-wider text-blue-300">Control de Grabación & Tutorial</h2>
+          </div>
+          <span id="timerBadge" class="text-xs font-mono font-bold bg-blue-950 px-2.5 py-1 rounded-md text-blue-300 border border-blue-800">
+            Paso 1 de 4
+          </span>
+        </div>
+
+        <!-- Progress Timeline -->
+        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mb-6">
+          <div id="demoProgress" class="progress-bar-fill bg-gradient-to-r from-blue-600 to-sky-400 h-full w-1/4"></div>
+        </div>
+
+        <!-- Step Selector Buttons -->
+        <div class="grid grid-cols-2 gap-2.5 mb-6">
+          <button onclick="goToStep(1)" id="btnStep1" class="step-btn p-3 rounded-xl border border-slate-700 text-left text-xs font-medium transition-all flex items-center gap-2 step-active">
+            <i class="fa-solid fa-mobile-screen-button text-blue-400"></i>
+            <div>
+              <div class="font-bold text-white">1. Pedido Cliente</div>
+              <div class="text-[10px] text-slate-400">Solicitud 1-clic con GPS</div>
+            </div>
+          </button>
+
+          <button onclick="goToStep(2)" id="btnStep2" class="step-btn p-3 rounded-xl border border-slate-700 text-left text-xs font-medium transition-all flex items-center gap-2 hover:bg-slate-800">
+            <i class="fa-solid fa-bell text-yellow-400"></i>
+            <div>
+              <div class="font-bold text-white">2. Alerta Chofer</div>
+              <div class="text-[10px] text-slate-400">Despacho & Asignación</div>
+            </div>
+          </button>
+
+          <button onclick="goToStep(3)" id="btnStep3" class="step-btn p-3 rounded-xl border border-slate-700 text-left text-xs font-medium transition-all flex items-center gap-2 hover:bg-slate-800">
+            <i class="fa-solid fa-route text-sky-400"></i>
+            <div>
+              <div class="font-bold text-white">3. Ruta en Vivo</div>
+              <div class="text-[10px] text-slate-400">Navegación en Ibarra</div>
+            </div>
+          </button>
+
+          <button onclick="goToStep(4)" id="btnStep4" class="step-btn p-3 rounded-xl border border-slate-700 text-left text-xs font-medium transition-all flex items-center gap-2 hover:bg-slate-800">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <div>
+              <div class="font-bold text-white">4. Entrega & DeUna</div>
+              <div class="text-[10px] text-slate-400">Cobro $3.50 & Rating</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Master Playback Buttons -->
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="btnAutoPlay" onclick="toggleAutoPlay()" class="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-play"></i> <span id="playLabel">Reproducir Tutorial Automático</span>
+          </button>
+          
+          <button onclick="resetDemo()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition-all" title="Reiniciar">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Script Callout for TikTok / Reels Creators -->
+      <div class="bg-blue-950/40 border border-blue-800/40 rounded-3xl p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-blue-300 flex items-center gap-2">
+            <i class="fa-brands fa-tiktok text-white"></i> Guión de Voz en Off para el Video
+          </h3>
+          <button onclick="copyVoiceoverScript()" class="text-xs text-blue-300 hover:text-white font-semibold flex items-center gap-1 transition-colors">
+            <i class="fa-regular fa-copy"></i> Copiar Guión
+          </button>
+        </div>
+        <p id="voiceoverText" class="text-xs md:text-sm text-blue-100 italic bg-slate-900/60 p-3.5 rounded-xl border border-blue-900/40 leading-relaxed">
+          "¿Se te acabó el gas a las 7 AM y estás cansado de esperar el camión en la esquina? Con CilindroYa pides tu cilindro de 15kg en un solo clic y te llega según cobertura y disponibilidad."
+        </p>
+      </div>
+
+      <!-- Action Links -->
+      <div class="flex items-center gap-4 text-xs">
+        <a href="/cliente" target="_blank" class="flex-1 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-center font-semibold text-slate-300 border border-slate-700 transition-all">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Probar App Cliente Real
+        </a>
+        <a href="/chofer" target="_blank" class="flex-1 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-center font-semibold text-slate-300 border border-slate-700 transition-all">
+          <i class="fa-solid fa-truck"></i> Probar App Chofer Real
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Interactive Phone Simulator -->
+    <div class="lg:col-span-6 flex justify-center">
+      <div class="phone-mockup">
+        
+        <!-- Dynamic Island / Sensor Notch -->
+        <div class="dynamic-island">
+          <div class="w-2.5 h-2.5 rounded-full bg-blue-900/80"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-slate-900"></div>
+        </div>
+
+        <!-- Phone Screen Interior -->
+        <div class="screen-content px-4 flex flex-col justify-between" id="phoneScreen">
+          
+          <!-- STEP 1: CLIENT ORDER -->
+          <div id="screenStep1" class="space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-900/40">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-[10px] font-bold">CY</div>
+                <span class="text-xs font-bold tracking-tight">CilindroYa Ibarra</span>
+              </div>
+              <span class="text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800">
+                <i class="fa-solid fa-location-dot"></i> Los Ceibos
+              </span>
+            </div>
+
+            <!-- Product Card -->
+            <div class="bg-gradient-to-b from-blue-900/40 to-slate-900 p-4 rounded-2xl border border-blue-800/50 relative overflow-hidden">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] font-bold text-blue-400 uppercase">GLP Oficial Ecuador</span>
+                  <h4 class="text-base font-black text-white">CilindroYa 15kg</h4>
+                  <p class="text-[11px] text-blue-200">Sello de seguridad intacto</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-2xl font-black text-blue-300">$3.50</span>
+                  <span class="block text-[9px] text-slate-400">Ejemplo ilustrativo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Client Form Simulation -->
+            <div class="space-y-2 text-xs">
+              <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                <label class="text-[10px] text-slate-400 block mb-0.5">Nombre:</label>
+                <div class="font-semibold text-white flex items-center justify-between">
+                  <span>María Augusta V.</span>
+                  <i class="fa-regular fa-circle-check text-blue-400 text-xs"></i>
+                </div>
+              </div>
+
+              <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                <label class="text-[10px] text-slate-400 block mb-0.5">Dirección de Entrega:</label>
+                <div class="font-semibold text-white flex items-center justify-between">
+                  <span>Av. Los Ceibos y Las Rosas, Ibarra</span>
+                  <i class="fa-solid fa-location-crosshairs text-blue-400 text-xs"></i>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="bg-blue-950/50 p-2 rounded-xl border border-blue-600 text-center">
+                  <span class="text-[10px] text-blue-300 block">Método de Pago</span>
+                  <span class="text-xs font-bold text-white"><i class="fa-solid fa-qrcode text-sky-400"></i> DeUna</span>
+                </div>
+                <div class="bg-slate-900 p-2 rounded-xl border border-slate-800 text-center">
+                  <span class="text-[10px] text-slate-400 block">Tiempo Estimado</span>
+                  <span class="text-xs font-bold text-emerald-400"><i class="fa-solid fa-bolt"></i> 18 min</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pulsing Action Button -->
+            <button onclick="goToStep(2)" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs uppercase tracking-wider pulse-blue flex items-center justify-center gap-2 mt-4 transition-all">
+              <i class="fa-solid fa-fire-flame-curved"></i> Pedir Cilindro Ahora ($3.50)
+            </button>
+          </div>
+
+          <!-- STEP 2: DRIVER NOTIFICATION -->
+          <div id="screenStep2" class="space-y-4 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-900/40">
+              <span class="text-xs font-bold text-yellow-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-truck"></i> CilindroYa Chofer
+              </span>
+              <span class="text-[10px] bg-yellow-950 text-yellow-300 px-2 py-0.5 rounded-full border border-yellow-800 font-mono">
+                Camión 01 - Activo
+              </span>
+            </div>
+
+            <!-- Incoming Alert Modal -->
+            <div class="bg-slate-900 border-2 border-yellow-500/80 rounded-2xl p-4 shadow-2xl relative">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping"></span>
+                <span class="text-xs font-black text-yellow-300 uppercase tracking-wide">¡Nuevo Pedido a 450m!</span>
+              </div>
+
+              <div class="space-y-2 text-xs">
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span class="text-slate-400">Cliente:</span>
+                  <span class="font-bold text-white">María Augusta V.</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span class="text-slate-400">Producto:</span>
+                  <span class="font-bold text-blue-300">1x CilindroYa 15kg</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span class="text-slate-400">Dirección:</span>
+                  <span class="font-bold text-slate-200">Los Ceibos y Las Rosas</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span class="text-slate-400">Total a cobrar:</span>
+                  <span class="font-black text-emerald-400">$3.50 (DeUna)</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 mt-4">
+                <button onclick="goToStep(3)" class="py-2.5 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-xs text-white text-center">
+                  Aceptar Pedido
+                </button>
+                <button onclick="goToStep(3)" class="py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 text-center">
+                  <i class="fa-solid fa-map-location-dot"></i> Ver GPS
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Driver Inventory Status -->
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-[11px] flex justify-around">
+              <div><span class="text-slate-400">Llenos:</span> <b class="text-blue-400">24 unid.</b></div>
+              <div><span class="text-slate-400">Vacíos:</span> <b class="text-slate-300">16 unid.</b></div>
+              <div><span class="text-slate-400">Caja Hoy:</span> <b class="text-emerald-400">$112.00</b></div>
+            </div>
+          </div>
+
+          <!-- STEP 3: LIVE GPS ROUTE -->
+          <div id="screenStep3" class="space-y-4 hidden">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-900/40">
+              <span class="text-xs font-bold text-sky-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-route"></i> En Ruta — Ibarra
+              </span>
+              <span class="text-[10px] bg-blue-950 text-blue-300 px-2 py-0.5 rounded-full border border-blue-800 font-mono">
+                Llegada: 4 min
+              </span>
+            </div>
+
+            <!-- Simulated Map Canvas / Vector UI -->
+            <div class="w-full h-52 bg-slate-900 rounded-2xl border border-blue-800/60 relative overflow-hidden flex items-center justify-center">
+              
+              <!-- Map Grid Lines -->
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+              
+              <!-- Route Path Simulation -->
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 320 200">
+                <path d="M 40 160 Q 120 140 160 90 T 270 40" fill="none" stroke="#3B82F6" stroke-width="5" stroke-dasharray="6,4" class="animate-pulse" />
+                <circle cx="40" cy="160" r="8" fill="#0A59DA" stroke="#fff" stroke-width="2" />
+                <circle cx="270" cy="40" r="10" fill="#10b981" stroke="#fff" stroke-width="2" />
+              </svg>
+
+              <!-- Markers -->
+              <div class="absolute bottom-6 left-6 text-center">
+                <span class="text-[10px] bg-blue-600 px-1.5 py-0.5 rounded text-white font-bold">Camión</span>
+              </div>
+              <div class="absolute top-4 right-6 text-center">
+                <span class="text-[10px] bg-emerald-600 px-1.5 py-0.5 rounded text-white font-bold">Cliente</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Destino:</span>
+                <span class="font-bold text-white">Av. Los Ceibos 342</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Distancia restante:</span>
+                <span class="font-bold text-sky-400">650 metros</span>
+              </div>
+            </div>
+
+            <button onclick="goToStep(4)" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold text-xs text-white uppercase tracking-wider transition-all">
+              Confirmar Llegada al Domicilio
+            </button>
+          </div>
+
+          <!-- STEP 4: DELIVERY COMPLETE & PAYMENT -->
+          <div id="screenStep4" class="space-y-4 hidden">
+            <div class="text-center py-4">
+              <div class="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400 mx-auto flex items-center justify-center text-3xl mb-2">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <h3 class="text-base font-black text-white">¡Entrega Exitosa!</h3>
+              <p class="text-xs text-emerald-300">Cilindro entregado por el distribuidor</p>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-xs space-y-2">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Cilindro entregado:</span>
+                <span class="font-bold text-white">CilindroYa 15kg</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Revisión del distribuidor:</span>
+                <span class="font-bold text-emerald-400">Realizada (0 fugas)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Cobro recibido:</span>
+                <span class="font-black text-emerald-400">$3.50 (DeUna BDG)</span>
+              </div>
+              <div class="flex justify-between border-t border-slate-800 pt-2">
+                <span class="text-slate-400">Calificación del cliente:</span>
+                <span class="text-yellow-400">★★★★★ (5.0)</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <button onclick="goToStep(1)" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-xs text-white uppercase tracking-wider transition-all">
+                Reiniciar Simulación
+              </button>
+              <a href="/hogar" class="block w-full py-2.5 bg-slate-900 hover:bg-slate-800 rounded-xl font-semibold text-xs text-slate-300 text-center border border-slate-800">
+                Ir a Página Web Oficial
+              </a>
+            </div>
+          </div>
+
+          <!-- Bottom Phone Home Bar Indicator -->
+          <div class="w-32 h-1 bg-slate-700 rounded-full mx-auto mt-4"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Info -->
+  <footer class="max-w-6xl mx-auto w-full pt-6 border-t border-blue-900/40 text-center text-xs text-slate-500">
+    CilindroYa Platform &copy; 2026 — Diseñado para Ibarra, Imbabura, Ecuador.
+  </footer>
+
+  <script>
+    let currentStep = 1;
+    let isPlaying = false;
+    let autoPlayInterval = null;
+
+    const voiceoverScripts = {
+  "1": "\"¿Se te acabó el gas en pleno desayuno en Ibarra? Con CilindroYa abres la app, detecta tu dirección y en 1 solo clic pides tu cilindro oficial por solo $3.50.\"",
+  "2": "\"Inmediatamente el camión más cercano recibe la alerta en su celular con tu dirección exacta, sin que tengas que gritar ni esperar en la esquina.\"",
+  "3": "\"Sigues la ruta del repartidor en vivo por GPS mientras llega directo a tu puerta en menos de 20 minutos.\"",
+  "4": "\"¡Y listo! Te entregan el cilindro probado con espuma sin fugas y pagas como quieras: con DeUna o en efectivo. ¡Pruébalo hoy mismo en cilindroya.com!\""
+};
+
+    // Web Audio synthesizer for sleek sound effects without external assets
+    function playBeep(type) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.1);
+        } else if (type === 'alert') {
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.25);
+        } else if (type === 'success') {
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+          osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+          gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.35);
+        }
+      } catch(e) {}
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+      playBeep(step === 2 ? 'alert' : (step === 4 ? 'success' : 'click'));
+
+      // Hide all screen steps
+      for (let i = 1; i <= 4; i++) {
+        const screen = document.getElementById(`screenStep${i}`);
+        const btn = document.getElementById(`btnStep${i}`);
+        if (screen) screen.classList.add('hidden');
+        if (btn) {
+          btn.classList.remove('step-active');
+          btn.classList.remove('bg-blue-900/30');
+        }
+      }
+
+      // Show current step
+      const currentScreen = document.getElementById(`screenStep${step}`);
+      const currentBtn = document.getElementById(`btnStep${step}`);
+      if (currentScreen) currentScreen.classList.remove('hidden');
+      if (currentBtn) currentBtn.classList.add('step-active');
+
+      // Update progress bar
+      const progressEl = document.getElementById('demoProgress');
+      progressEl.style.width = `${step * 25}%`;
+
+      // Update timer badge
+      document.getElementById('timerBadge').innerText = `Paso ${step} de 4`;
+
+      // Update voiceover text
+      document.getElementById('voiceoverText').innerText = voiceoverScripts[step];
+    }
+
+    function toggleAutoPlay() {
+      if (isPlaying) {
+        pauseAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function startAutoPlay() {
+      isPlaying = true;
+      document.getElementById('btnAutoPlay').innerHTML = '<i class="fa-solid fa-pause"></i> <span>Pausar Tutorial</span>';
+      document.getElementById('btnAutoPlay').classList.remove('bg-blue-600');
+      document.getElementById('btnAutoPlay').classList.add('bg-amber-600');
+
+      autoPlayInterval = setInterval(() => {
+        let next = currentStep + 1;
+        if (next > 4) next = 1;
+        goToStep(next);
+      }, 4500);
+    }
+
+    function pauseAutoPlay() {
+      isPlaying = false;
+      clearInterval(autoPlayInterval);
+      document.getElementById('btnAutoPlay').innerHTML = '<i class="fa-solid fa-play"></i> <span>Reanudar Tutorial Automático</span>';
+      document.getElementById('btnAutoPlay').classList.remove('bg-amber-600');
+      document.getElementById('btnAutoPlay').classList.add('bg-blue-600');
+    }
+
+    function resetDemo() {
+      pauseAutoPlay();
+      goToStep(1);
+    }
+
+    function copyVoiceoverScript() {
+      const fullScript = `GUION OFICIAL VIDEO TUTORIAL CILINDROYA IBARRA:
+Paso 1: ${voiceoverScripts[1]}
+Paso 2: ${voiceoverScripts[2]}
+Paso 3: ${voiceoverScripts[3]}
+Paso 4: ${voiceoverScripts[4]}`;
+
+      navigator.clipboard.writeText(fullScript).then(() => {
+        alert('¡Guión de voz en off copiado al portapapeles listo para grabar!');
+      });
+    }
+  </script>
+</body>
+</html>

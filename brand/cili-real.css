@@ -1,0 +1,60 @@
+/* brand/cili-real.css — Cili real interactivo en el héroe (complementa cili-real.js; 15/11/2026) */
+.cili-real .cili3d-lienzo { position: relative; perspective: 1100px; display: flex; align-items: flex-end; justify-content: center; }
+.cili-real canvas { display: none !important; }
+.cili-real__figura { position: relative; z-index: 1; cursor: pointer; transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .08s linear; outline: none; }
+.cili-real__figura:focus-visible { outline: 3px solid #FF8A00; outline-offset: 8px; border-radius: 24px; }
+.cili-real .cili3d-poster { display: block; width: min(330px, 70vw); height: auto; opacity: 1 !important;
+  filter: drop-shadow(0 26px 30px rgba(3, 18, 44, .45)); transform-origin: 50% 100%; }
+.cili-real__sombra { position: absolute; z-index: 0; left: 50%; bottom: 2%; width: 44%; height: 26px; border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(3, 18, 44, .55), rgba(3, 18, 44, 0) 70%);
+  transform: translateX(calc(-50% + var(--sx, 0px))); }
+
+.cili-real .cili3d-anotaciones { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.cili-real__punto { pointer-events: auto; position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border-radius: 50%; border: 2px solid #fff; background: rgba(9, 41, 74, .78); color: #fff;
+  font: 800 14px/1 "Plus Jakarta Sans", system-ui, sans-serif; cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(46, 195, 251, .7); }
+.cili-real__punto:hover, .cili-real__punto.activa { background: #0A59DA; }
+.cili-real__punto:focus-visible { outline: 3px solid #FF8A00; outline-offset: 3px; }
+.cili-real__burbuja { position: absolute; left: 50%; bottom: calc(100% + 10px); width: 220px; transform: translateX(-50%);
+  padding: 10px 12px; border-radius: 10px; background: #09294A; color: #DCE6F2; text-align: left;
+  font: 500 12.5px/1.4 "Plus Jakarta Sans", system-ui, sans-serif; box-shadow: 0 12px 28px -12px rgba(0, 0, 0, .6);
+  opacity: 0; visibility: hidden; transition: opacity .18s ease, visibility .18s; }
+.cili-real__burbuja b { display: block; color: #2EC3FB; font-weight: 800; font-size: 13px; margin-bottom: 2px; }
+.cili-real__punto.activa .cili-real__burbuja, .cili-real__punto:hover .cili-real__burbuja { opacity: 1; visibility: visible; }
+@media (max-width: 760px) {
+  .cili-real__burbuja { width: 180px; }
+  .cili-real .cili3d-poster { width: min(240px, 62vw); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cili-real .cili3d-poster { animation: ciliRespira 4.2s ease-in-out infinite; }
+  .cili-real__sombra { animation: ciliSombra 4.2s ease-in-out infinite; }
+  .cili-real__punto { animation: ciliPulso 2.4s ease-out infinite; }
+  .cili-real__figura.saluda .cili3d-poster { animation: ciliSalta .55s cubic-bezier(.2, .8, .2, 1.3), ciliRespira 4.2s ease-in-out .55s infinite; }
+}
+@keyframes ciliRespira { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.012, .988) translateY(-4px); } }
+@keyframes ciliSombra { 0%, 100% { opacity: 1; } 50% { opacity: .75; } }
+@keyframes ciliPulso { 0% { box-shadow: 0 0 0 0 rgba(46, 195, 251, .7); } 70% { box-shadow: 0 0 0 12px rgba(46, 195, 251, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 195, 251, 0); } }
+@keyframes ciliSalta { 0% { transform: translateY(0); } 40% { transform: translateY(-18px) rotate(-3deg); } 100% { transform: translateY(0); } }
+
+/* Capa de puntos dentro de la figura: coordenadas relativas a la imagen de Cili */
+.cili-real__figura .cili3d-anotaciones { position: absolute; inset: 0; }
+
+/* ── Cili 3D real (cili-3d.js): el modelo ocupa el lugar de la imagen cuando termina de cargar ── */
+.cili-3d__modelo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; opacity: 0; pointer-events: none;
+  transition: opacity .5s ease; background: transparent; --poster-color: transparent; cursor: grab; }
+.cili-3d__modelo:active { cursor: grabbing; }
+.cili-3d--listo .cili-3d__modelo { opacity: 1; pointer-events: auto; }
+.cili-3d--listo .cili-real__figura { z-index: 2; pointer-events: none; transform: none; }
+.cili-3d--listo .cili-real__figura .cili3d-poster { opacity: 0 !important; transition: opacity .4s ease; animation: none; }
+.cili-3d--listo .cili-real__punto { pointer-events: auto; }
+.cili-3d--listo .cili-real__sombra { display: none; }
+.cili-real .cili3d-lienzo { min-height: clamp(360px, 46vw, 560px); width: 100%; }
+
+/* Sello con el logo oficial de Deuna sobre la foto del pago */
+.marco { position: relative; }
+.sello-deuna { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; padding: 8px 12px;
+  border-radius: 10px; background: #fff; box-shadow: 0 8px 20px -10px rgba(9, 41, 74, .6); }
+.sello-deuna img { display: block; width: 84px; height: 24px; max-height: none; object-fit: contain; border-radius: 0; }

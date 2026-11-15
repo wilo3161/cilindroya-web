@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cilindroya.app",
+      "sha256_cert_fingerprints": [
+        "25:BC:82:25:3C:92:98:BD:8A:DB:27:C9:C6:83:E5:32:72:AA:60:61:33:DC:95:49:91:3D:B0:65:5E:B6:AC:29"
+      ]
+    }
+  }
+]

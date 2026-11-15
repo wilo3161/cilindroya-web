@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Regístrate como distribuidor · CilindroYa</title>
+  <meta name="description" content="Registro guiado para distribuidores de gas en Imbabura. En pocos minutos, sin papeles: 30 días sin comisión, luego $0,10 por cilindro vendido.">
+  <meta name="theme-color" content="#09294A">
+  <link rel="canonical" href="https://cilindroya.com/distribuidores/registro/">
+  <meta property="og:title" content="Regístrate como distribuidor de CilindroYa">
+  <meta property="og:description" content="Registro guiado en pocos minutos. 30 días sin comisión, luego $0,10 por cilindro vendido. Sin mensualidad ni exclusividad.">
+  <meta property="og:image" content="https://cilindroya.com/assets/og-cilindroya.jpg">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /*
+     * Registro guiado de distribuidores (rediseño profesional 31/10/2026). Mismo sistema que cilindroya.com:
+     * noche #09294A, azul #0A59DA para la acción, naranja #FF8A00 para lo que destaca, una sola familia,
+     * esquinas rectas, superficies separadas por tono (sin sombras ni degradados).
+     */
+    :root {
+      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
+      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00; --verde: #0B7A43; --rojo: #B42318;
+      --m: clamp(16px, 4vw, 56px); --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); font: 500 17px/1.5 "Plus Jakarta Sans", system-ui, sans-serif; }
+    body { min-height: 100dvh; display: flex; flex-direction: column; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 2px; }
+
+    header { background: var(--ink); color: #fff; padding: calc(14px + env(safe-area-inset-top)) var(--m) 14px; position: sticky; top: 0; z-index: 10; }
+    .barra { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .barra img { height: 34px; width: auto; display: block; }
+    .barra a.wa { color: #fff; font-size: 15px; font-weight: 700; }
+    .progreso { margin-top: 12px; height: 6px; background: rgba(255, 255, 255, .18); overflow: hidden; }
+    .progreso span { display: block; height: 100%; width: 0; background: var(--naranja); transition: width .4s var(--ease); }
+    .meta { margin-top: 8px; display: flex; justify-content: space-between; gap: 8px; color: #CFE0FA; font-size: 14px; font-weight: 700; min-height: 20px; }
+    .meta b { color: #fff; }
+
+    .marco { flex: 1; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); padding: 0 var(--m); }
+    .lado { padding: 48px 0; }
+    .lado .pegado { position: sticky; top: 120px; }
+    .lado h1 { font-size: clamp(32px, 3vw, 44px); font-weight: 800; letter-spacing: -.04em; line-height: .98; margin: 0; max-width: 12ch; }
+    .lado .lead { font-size: 19px; margin: 20px 0 0; max-width: 36ch; }
+    .lado ul { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 6px; max-width: 420px; }
+    .lado li { background: #fff; padding: 14px 16px; font-weight: 700; }
+    .lado li b { color: var(--accent); }
+    .lado figure { margin: 28px 0 0; max-width: 420px; display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: end; }
+    .lado figure img { width: 120px; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 40%; }
+    .lado figcaption { font-size: 15px; color: var(--muted); }
+    .columna { display: flex; flex-direction: column; min-width: 0; }
+    main { flex: 1; width: 100%; padding: 40px 0 32px; }
+
+    .chat { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px; }
+    .cili { width: 46px; height: 46px; border-radius: 50%; flex: 0 0 46px; background: #fff; display: flex; align-items: center; justify-content: center; }
+    .cili img { width: 26px; height: 38px; }
+    .burbuja { background: #fff; padding: 16px 18px; font-size: 18px; line-height: 1.45; max-width: 100%; }
+    .burbuja b { color: var(--ink); }
+    .burbuja small { display: block; color: var(--muted); font-size: 15px; margin-top: 6px; }
+    .animo { display: block; background: #FFF1DE; color: #7A3E00; padding: 10px 14px; font-size: 15px; font-weight: 700; margin: 0 0 12px 58px; line-height: 1.4; }
+
+    .campo { margin: 14px 0 0; }
+    .campo label { display: block; font-weight: 700; font-size: 15px; margin: 0 0 6px; }
+    .campo .ayuda { font-size: 14px; color: var(--muted); margin-top: 6px; }
+    input[type=text], input[type=tel], input[type=email], input[type=number], input[type=password], select {
+      width: 100%; min-height: 56px; border: 2px solid #C9D6E6; border-radius: 0; padding: 12px 16px;
+      font: 600 18px/1.2 "Plus Jakarta Sans", system-ui, sans-serif; color: var(--ink); background: #fff; outline: none; transition: border-color .15s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    input.malo { border-color: var(--rojo); }
+    input.bien { border-color: var(--verde); padding-right: 48px;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%230B7A43'/%3E%3Cpath d='M7 12.5l3.2 3.2L17 9' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center / 22px; }
+    .error { color: var(--rojo); font-size: 15px; font-weight: 700; margin-top: 8px; min-height: 20px; }
+    .ok-ident { color: var(--verde); font-size: 15px; font-weight: 700; margin-top: 8px; }
+
+    .opciones { display: grid; gap: 6px; margin-top: 14px; }
+    .opcion { display: block; width: 100%; text-align: left; cursor: pointer; background: #fff; border: 2px solid transparent; border-radius: 0;
+              padding: 16px 18px; min-height: 60px; font: 700 17px/1.3 "Plus Jakarta Sans", system-ui, sans-serif; color: var(--ink);
+              transition: transform .12s var(--ease), border-color .15s, background .15s; }
+    .opcion small { display: block; font-weight: 600; color: var(--muted); font-size: 15px; margin-top: 2px; }
+    .opcion:hover { background: #F9FBFE; border-color: #C9D6E6; }
+    .opcion:active { transform: scale(.99); }
+    .opcion[aria-pressed=true] { border-color: var(--naranja); background: #FFF6EA; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .chip { border: 0; background: #fff; border-radius: 0; padding: 0 16px; min-height: 46px; font: 700 15px/1 "Plus Jakarta Sans", system-ui, sans-serif;
+            color: var(--ink); cursor: pointer; transition: background .15s, color .15s, transform .12s; }
+    .chip:hover { background: #F9FBFE; }
+    .chip:active { transform: scale(.97); }
+    .chip[aria-pressed=true] { background: var(--accent); color: #fff; }
+    .contador { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+    .contador button { width: 56px; height: 56px; border-radius: 0; border: 0; background: #fff; font: 800 26px/1 "Plus Jakarta Sans", system-ui, sans-serif; color: var(--accent); cursor: pointer; }
+    .contador button:last-child { background: var(--accent); color: #fff; }
+    .contador output { font-size: 34px; font-weight: 800; min-width: 44px; text-align: center; letter-spacing: -.03em; }
+    .archivo { display: flex; align-items: center; gap: 10px; background: #fff; padding: 16px 18px; cursor: pointer; font-weight: 700; color: var(--accent); min-height: 58px; }
+    .archivo input { display: none; }
+    .terminos { background: #fff; padding: 18px; margin-top: 12px; font-size: 16px; line-height: 1.55; }
+    .terminos ul { margin: 6px 0 0; padding-left: 20px; }
+    .check { display: flex; gap: 12px; align-items: flex-start; margin-top: 14px; font-size: 15px; line-height: 1.5; cursor: pointer; }
+    .check input { width: 24px; height: 24px; margin-top: 1px; accent-color: var(--accent); flex: 0 0 24px; }
+    .resumen { background: #fff; padding: 4px 18px; margin-top: 12px; }
+    .resumen div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; font-size: 16px; }
+    .resumen div + div { box-shadow: 0 -2px 0 var(--bg); }
+    .resumen dt { color: var(--muted); font-weight: 600; }
+    .resumen dd { margin: 0; font-weight: 700; text-align: right; overflow-wrap: anywhere; }
+    .resumen button { background: none; border: 0; color: var(--accent); font: 700 14px "Plus Jakarta Sans", system-ui, sans-serif; cursor: pointer; padding: 0 0 0 10px; text-decoration: underline; }
+    .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    .acciones { position: sticky; bottom: 0; z-index: 9; background: var(--bg); padding: 14px 0 calc(14px + env(safe-area-inset-bottom)); }
+    .acciones .fila { display: flex; gap: 8px; }
+    .btn { border: 0; border-radius: 0; min-height: 58px; padding: 0 22px; font: 800 17px/1 "Plus Jakarta Sans", system-ui, sans-serif; cursor: pointer;
+           position: relative; overflow: hidden; transition: transform .14s var(--ease), background .2s; }
+    .btn:active { transform: scale(.98); }
+    .btn-prim { flex: 1; background: var(--accent); color: #fff; }
+    .btn-prim:hover { background: var(--accent-press); }
+    .btn-prim:disabled { background: #8FA9D6; cursor: not-allowed; }
+    .btn-sec { background: var(--surface); color: var(--ink); min-width: 58px; }
+    .btn-sec:hover { background: #D5E2F1; }
+    .btn .onda { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, .4); transform: scale(0); animation: onda .5s ease-out; pointer-events: none; }
+    @keyframes onda { to { transform: scale(4); opacity: 0; } }
+    .btn-prim.listo-ya { animation: empujon 1.8s var(--ease) infinite; }
+    @keyframes empujon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+    .girando { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255, 255, 255, .4); border-top-color: #fff;
+               border-radius: 50%; animation: girar .8s linear infinite; vertical-align: -3px; margin-right: 8px; }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    .listo { padding-top: 8px; }
+    .listo .sello { width: 88px; height: 88px; margin: 0 0 20px; }
+    .listo .sello circle { fill: var(--verde); transform-origin: center; animation: sello .5s var(--ease) both; }
+    .listo .sello path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: trazo .45s .35s var(--ease) forwards; }
+    @keyframes sello { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes trazo { to { stroke-dashoffset: 0; } }
+    .listo h2 { font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -.04em; line-height: 1; margin: 0 0 14px; }
+    .listo p { font-size: 18px; max-width: 46ch; }
+    .siguientes { background: #fff; padding: 18px; margin-top: 18px; }
+    .siguientes ol { margin: 8px 0 0; padding-left: 20px; line-height: 1.6; }
+    .listo .botones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .btn-wa { display: inline-flex; align-items: center; justify-content: center; background: #128C4A; color: #fff !important; text-decoration: none; }
+    .btn-wa:hover { background: #0E7A40; }
+
+    /* Movimiento: Cili escribiendo, globos que aparecen y piezas que suben */
+    .paso { animation: entrar .3s var(--ease); }
+    @keyframes entrar { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    .escribiendo { display: inline-flex; gap: 5px; padding: 18px 20px; }
+    .escribiendo i { width: 8px; height: 8px; border-radius: 50%; background: #9AB0CC; animation: punto 1s infinite ease-in-out; }
+    .escribiendo i:nth-child(2) { animation-delay: .15s; } .escribiendo i:nth-child(3) { animation-delay: .3s; }
+    @keyframes punto { 0%, 80%, 100% { transform: translateY(0); opacity: .5; } 40% { transform: translateY(-5px); opacity: 1; } }
+    .burbuja { animation: globo .42s cubic-bezier(.34, 1.45, .64, 1) both; transform-origin: bottom left; }
+    @keyframes globo { from { opacity: 0; transform: scale(.94) translateY(8px); } to { opacity: 1; transform: none; } }
+    .cili { animation: saludo 2.8s ease-in-out infinite; }
+    @keyframes saludo { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-4deg); } }
+    @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .animo, .paso .campo, .paso .opciones > *, .paso .chips, .paso .terminos, .paso .resumen, .paso .contador { animation: aparecer .5s cubic-bezier(.34, 1.45, .64, 1) both; }
+    .paso .opciones > *:nth-child(2) { animation-delay: .06s; } .paso .opciones > *:nth-child(3) { animation-delay: .12s; }
+    .paso .opciones > *:nth-child(4) { animation-delay: .18s; }
+    .paso.quieto, .paso.quieto * { animation: none !important; }
+
+    @media (min-width: 861px) {
+      .acciones { position: static; padding-top: 8px; }
+      .columna { align-self: start; }
+      main { flex: none; }
+      [data-paso="inicio"] .terminos { display: none; }
+    }
+    @media (max-width: 860px) {
+      .marco { grid-template-columns: 1fr; gap: 0; }
+      .lado { padding: 24px 0 0; }
+      .lado .pegado { position: static; }
+      .lado h1 { font-size: 30px; max-width: none; }
+      .lado .lead, .lado ul, .lado figure { display: none; }
+      main { padding-top: 20px; }
+      .burbuja { font-size: 17px; }
+      .animo { margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
+  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+</head>
+<body>
+  <header>
+    <div class="barra">
+      <a href="/distribuidores/" aria-label="CilindroYa distribuidores"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+      <a class="wa" href="https://wa.me/593993052744?text=Hola%2C%20tengo%20una%20duda%20con%20el%20registro%20de%20distribuidor" target="_blank" rel="noopener">¿Dudas? WhatsApp</a>
+    </div>
+    <div class="progreso" role="progressbar" aria-label="Avance del registro" aria-valuemin="0" aria-valuemax="100"><span id="barra"></span></div>
+    <div class="meta" aria-live="polite"><span id="metaPaso"></span><span id="metaTiempo"></span></div>
+  </header>
+
+  <div class="marco">
+    <aside class="lado" aria-labelledby="titulo">
+      <div class="pegado">
+        <h1 id="titulo">Regístrate como distribuidor</h1>
+        <p class="lead">Cili te guía paso a paso. Al terminar, revisamos tus datos y te escribimos por WhatsApp en menos de 24 horas.</p>
+        <ul aria-label="Condiciones del programa">
+          <li><b>30 días</b> sin comisión</li>
+          <li>Luego <b>$0,10</b> por cilindro vendido por la app</li>
+          <li>Sin mensualidad y sin exclusividad</li>
+          <li>Los clientes te pagan <b>directo a ti</b></li>
+        </ul>
+        <figure>
+          <img src="/static/assets/web/cili.webp" alt="Cili, la mascota de CilindroYa" width="720" height="1280" loading="lazy">
+          <figcaption>Soy Cili. Si te quedas a medias, guardo tu avance en este celular.</figcaption>
+        </figure>
+      </div>
+    </aside>
+    <div class="columna">
+      <main id="contenido" aria-live="polite"></main>
+      <div class="acciones">
+        <div class="fila">
+          <button type="button" class="btn btn-sec" id="atras" aria-label="Volver al paso anterior">←</button>
+          <button type="button" class="btn btn-prim" id="siguiente">Empezar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  var CLAVE = 'cy_registro_distribuidor';
+  var PARROQUIAS = ['San Francisco', 'El Sagrario', 'Caranqui', 'Alpachaca', 'Priorato', 'La Esperanza', 'San Antonio',
+    'Angochagua', 'Ambuquí', 'Salinas', 'La Carolina', 'Lita', 'Atuntaqui', 'Otavalo', 'Cotacachi', 'Urcuquí', 'Pimampiro'];
+  var BANCOS = ['Banco Pichincha', 'Banco Guayaquil', 'Produbanco', 'Banco del Pacífico', 'Banco Internacional',
+    'Banco Bolivariano', 'Cooperativa Atuntaqui', 'Cooperativa 29 de Octubre', 'Otra cooperativa o banco'];
+  var REGIMENES = [
+    ['Contribuyente RIMPE Negocio Popular', 'RIMPE Negocio Popular', 'Ventas pequeñas, nota de venta'],
+    ['Contribuyente RIMPE Emprendedor', 'RIMPE Emprendedor', 'Factura, declaración semestral'],
+    ['Régimen General', 'Régimen General', 'Factura, declaración mensual'],
+    ['', 'No sé', 'Te ayudamos a revisarlo']
+  ];
+
+  // Frases de ánimo: recuerdan lo que gana al terminar y cuánto le falta
+  var ANIMO = {
+    nombre: 'Los distribuidores registrados reciben pedidos de su zona directo al celular.',
+    whatsapp: '¡Arrancaste! Esto toma menos de 3 minutos.',
+    ruc: 'Tus datos están protegidos y solo se usan para tu registro.',
+    negocio: '¡Vas muy bien, {n}! Ya llevas una buena parte.',
+    direccion: 'Con tu dirección te mandamos pedidos cerca de tu bodega.',
+    parroquias: 'Mientras más zonas cubras, más pedidos te pueden llegar.',
+    camiones: '¡Ya pasaste la mitad, {n}!',
+    cobro: 'Los clientes te pagan directo a ti: CilindroYa no retiene tu dinero.',
+    regimen: 'Con esto la app te arma tus facturas sola.',
+    firma: 'Si no la tienes ahora, no pasa nada: te ayudamos después.',
+    email: '¡Ya casi terminas, {n}!',
+    condiciones: 'Tus primeros 30 días son sin comisión.',
+    resumen: 'Un toque más y ya eres parte de CilindroYa.'
+  };
+
+  var d = {};
+  try { d = JSON.parse(localStorage.getItem(CLAVE) || '{}'); } catch (e) { d = {}; }
+  d.parroquias = d.parroquias || [];
+  d.num_camiones = d.num_camiones || 1;
+  var archivos = { qr_deuna: null, firma_p12: null };
+  var claveFirma = '';
+  var campana = new URLSearchParams(location.search).get('c') || d.origen_campana || '';
+  d.origen_campana = campana;
+
+  function guardar() {
+    try { localStorage.setItem(CLAVE, JSON.stringify(d)); } catch (e) { /* sin almacenamiento */ }
+  }
+  function esc(t) { var x = document.createElement('div'); x.textContent = t == null ? '' : String(t); return x.innerHTML; }
+  function primerNombre() { return (d.nombre || '').trim().split(/\s+/)[0] || ''; }
+  function tel(v) { v = (v || '').replace(/\D/g, ''); if (v.indexOf('593') === 0 && v.length === 12) v = '0' + v.slice(3); return v; }
+
+  // Cédula ecuatoriana (módulo 10). El RUC lo valida el servidor con las reglas completas del SRI.
+  function cedulaValida(c) {
+    if (!/^\d{10}$/.test(c)) return false;
+    var prov = +c.slice(0, 2); if (prov < 1 || prov > 24 || +c[2] > 5) return false;
+    var s = 0;
+    for (var i = 0; i < 9; i++) { var n = +c[i] * (i % 2 ? 1 : 2); s += n > 9 ? n - 9 : n; }
+    return (10 - s % 10) % 10 === +c[9];
+  }
+  function identificacion(v) {
+    v = (v || '').replace(/\D/g, '');
+    if (v.length === 10) return cedulaValida(v) ? 'cedula' : '';
+    if (v.length === 13 && v.slice(10) !== '000' && (cedulaValida(v.slice(0, 10)) || +v[2] === 6 || +v[2] === 9)) return 'ruc';
+    return '';
+  }
+
+  // ── Pasos del asistente ──
+  var PASOS = [
+    { id: 'inicio', boton: 'Empezar',
+      html: function () {
+        return burbuja('¡Hola! Soy <b>Cili</b>. Te ayudo a registrarte como <b>distribuidor de CilindroYa</b> en menos de 3 minutos.' +
+          '<small>Ten a mano tu RUC o cédula y tus datos de cobro (DeUna o cuenta bancaria). Puedes dejarlo a medias: guardo tu avance en este teléfono.</small>') +
+          '<div class="terminos"><b>Así funciona el programa piloto</b><ul>' +
+          '<li>30 días sin comisión.</li><li>Después, $0,10 por cilindro vendido por la app.</li>' +
+          '<li>Sin mensualidad y sin exclusividad.</li><li>Los pedidos llegan a tu celular y cobras directo.</li></ul></div>';
+      } },
+    { id: 'nombre', campo: 'nombre',
+      html: function () { return burbuja('¿Cómo te llamas?') + entrada('nombre', 'text', 'Nombre y apellido', 'name'); },
+      validar: function () { return (d.nombre || '').trim().length >= 3 || 'Escribe tu nombre y apellido.'; } },
+    { id: 'whatsapp', campo: 'whatsapp',
+      html: function () { return burbuja('Mucho gusto, <b>' + esc(primerNombre()) + '</b>. ¿A qué <b>WhatsApp</b> te escribimos?<small>Ahí te llegan los pedidos y los avisos.</small>') +
+        entrada('whatsapp', 'tel', '099 123 4567', 'tel', 'numeric'); },
+      validar: function () { d.whatsapp = tel(d.whatsapp); return /^09\d{8}$/.test(d.whatsapp) || 'Debe tener 10 dígitos y empezar con 09.'; } },
+    { id: 'ruc', campo: 'ruc_cedula',
+      html: function () { return burbuja('¿Cuál es tu <b>RUC</b>? Si todavía no tienes, escribe tu <b>cédula</b>.<small>El RUC hace falta para emitir facturas electrónicas desde la app.</small>') +
+        entrada('ruc_cedula', 'text', '13 dígitos (RUC) o 10 (cédula)', 'off', 'numeric') + '<div id="identOk"></div>'; },
+      alEscribir: function () {
+        var t = identificacion(d.ruc_cedula), el = document.getElementById('identOk');
+        if (el) el.innerHTML = t ? '<div class="ok-ident">✓ ' + (t === 'ruc' ? 'RUC' : 'Cédula') + ' válido</div>' : '';
+      },
+      validar: function () { d.ruc_cedula = (d.ruc_cedula || '').replace(/\D/g, ''); d.tipo = identificacion(d.ruc_cedula);
+        return !!d.tipo || 'Revisa el número: 10 dígitos para cédula o 13 para RUC.'; } },
+    { id: 'negocio',
+      html: function () { return burbuja('¿Cómo se llama tu negocio o distribuidora?') +
+        entrada('nombre_comercial', 'text', 'Ej. Gas Andrade', 'organization') +
+        (d.tipo === 'ruc' ? '<div class="campo"><label for="f_razon_social">Razón social (como figura en el RUC)</label>' +
+          '<input id="f_razon_social" type="text" data-campo="razon_social" placeholder="Opcional si es igual" value="' + esc(d.razon_social || '') + '"></div>' : ''); },
+      validar: function () { return (d.nombre_comercial || '').trim().length >= 2 || 'Escribe el nombre de tu negocio.'; } },
+    { id: 'direccion', campo: 'direccion',
+      html: function () { return burbuja('¿Dónde queda tu local o bodega?<small>Calle principal, número y una referencia.</small>') +
+        entrada('direccion', 'text', 'Ej. Av. Mariano Acosta 2-45, Ibarra', 'street-address'); },
+      validar: function () { return (d.direccion || '').trim().length >= 5 || 'Escribe la dirección completa.'; } },
+    { id: 'parroquias',
+      html: function () { return burbuja('¿En qué <b>parroquias o cantones</b> puedes entregar?<small>Elige todas las que cubres.</small>') +
+        '<div class="chips">' + PARROQUIAS.map(function (p) {
+          return '<button type="button" class="chip" data-parroquia="' + esc(p) + '" aria-pressed="' + (d.parroquias.indexOf(p) >= 0) + '">' + esc(p) + '</button>';
+        }).join('') + '</div>'; },
+      validar: function () { return d.parroquias.length > 0 || 'Elige al menos una zona.'; } },
+    { id: 'camiones',
+      html: function () { return burbuja('¿Cuántos <b>camiones</b> tienes para repartir?') +
+        '<div class="contador"><button type="button" data-cambio="-1" aria-label="Menos">−</button><output id="numCam">' + d.num_camiones + '</output>' +
+        '<button type="button" data-cambio="1" aria-label="Más">+</button></div>' +
+        '<div class="campo"><label for="f_placas">Placa(s)</label><input id="f_placas" type="text" data-campo="placas" placeholder="Ej. IBC-1234, IBD-5678" value="' + esc(d.placas || '') + '" autocapitalize="characters"></div>'; },
+      validar: function () { return (d.placas || '').trim().length >= 5 || 'Escribe al menos una placa.'; } },
+    { id: 'cobro',
+      html: function () {
+        var c = d.cobro || '';
+        return burbuja('¿Cómo te pagan los clientes?<small>Los clientes te pagan directo a ti. Elige una o las dos.</small>') +
+          '<div class="opciones">' +
+          opcion('cobro', 'deuna', '', 'DeUna', 'Con tu alias o el QR de DeUna', c === 'deuna') +
+          opcion('cobro', 'banco', '', 'Transferencia bancaria', 'Banco o cooperativa', c === 'banco') +
+          opcion('cobro', 'ambos', '', 'Las dos', 'DeUna y transferencia', c === 'ambos') + '</div>' +
+          (c === 'deuna' || c === 'ambos' ?
+            '<div class="campo"><label for="f_deuna_alias">Alias o número de DeUna</label><input id="f_deuna_alias" type="text" data-campo="deuna_alias" value="' + esc(d.deuna_alias || '') + '" placeholder="Ej. 0991234567"></div>' +
+            '<div class="campo"><label class="archivo"><span id="nomQr">' + (archivos.qr_deuna ? esc(archivos.qr_deuna.name) : 'Subir foto del QR de DeUna (opcional)') + '</span>' +
+            '<input type="file" accept="image/*" data-archivo="qr_deuna"></label></div>' : '') +
+          (c === 'banco' || c === 'ambos' ?
+            '<div class="campo"><label for="f_banco">Banco o cooperativa</label><select id="f_banco" data-campo="banco"><option value="">Elige…</option>' +
+            BANCOS.map(function (b) { return '<option' + (d.banco === b ? ' selected' : '') + '>' + esc(b) + '</option>'; }).join('') + '</select></div>' +
+            '<div class="campo"><label for="f_tipo_cuenta">Tipo de cuenta</label><select id="f_tipo_cuenta" data-campo="tipo_cuenta">' +
+            ['Ahorros', 'Corriente'].map(function (t) { return '<option' + ((d.tipo_cuenta || 'Ahorros') === t ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select></div>' +
+            '<div class="campo"><label for="f_numero_cuenta">Número de cuenta</label><input id="f_numero_cuenta" type="text" inputmode="numeric" data-campo="numero_cuenta" value="' + esc(d.numero_cuenta || '') + '"></div>' : '');
+      },
+      validar: function () {
+        var c = d.cobro;
+        if (!c) return 'Elige cómo te pagan.';
+        if ((c === 'deuna' || c === 'ambos') && !(d.deuna_alias || '').trim() && !archivos.qr_deuna) return 'Escribe tu alias de DeUna o sube la foto del QR.';
+        if ((c === 'banco' || c === 'ambos') && !(d.banco && (d.numero_cuenta || '').replace(/\D/g, '').length >= 6)) return 'Elige el banco y escribe el número de cuenta.';
+        return true;
+      } },
+    { id: 'regimen', saltar: function () { return d.tipo !== 'ruc'; },
+      html: function () { return burbuja('¿En qué <b>régimen</b> está tu RUC?<small>Sale en tu RUC del SRI. Si no sabes, no pasa nada.</small>') +
+        '<div class="opciones">' + REGIMENES.map(function (r) { return opcion('regimen', r[0], '', r[1], r[2], (d.regimen || '') === r[0] && d.regimenElegido); }).join('') + '</div>'; },
+      validar: function () { return !!d.regimenElegido || 'Elige una opción (o "No sé").'; } },
+    { id: 'firma', saltar: function () { return d.tipo !== 'ruc'; },
+      html: function () {
+        var f = d.firma || '';
+        return burbuja('¿Tienes <b>firma electrónica</b> (archivo .p12)?<small>Con ella la app emite tus facturas al SRI. Si no la tienes, te ayudamos a sacarla.</small>') +
+          '<div class="opciones">' + opcion('firma', 'si', '', 'Sí, la tengo', 'La subo ahora', f === 'si') +
+          opcion('firma', 'despues', '', 'Todavía no / después', 'Te ayudamos con ese paso', f === 'despues') + '</div>' +
+          (f === 'si' ? '<div class="campo"><label class="archivo"><span id="nomP12">' + (archivos.firma_p12 ? esc(archivos.firma_p12.name) : 'Elegir archivo .p12') + '</span>' +
+            '<input type="file" accept=".p12,.pfx" data-archivo="firma_p12"></label></div>' +
+            '<div class="campo"><label for="f_clave">Clave de la firma</label><input id="f_clave" type="password" autocomplete="off" data-clave="1">' +
+            '<div class="ayuda">Viaja cifrada y solo la usa la app para firmar tus facturas. No se guarda en este teléfono.</div></div>' : '');
+      },
+      validar: function () {
+        if (!d.firma) return 'Elige una opción.';
+        if (d.firma === 'si' && (!archivos.firma_p12 || !claveFirma)) return 'Sube el archivo .p12 y escribe su clave, o elige "después".';
+        return true;
+      } },
+    { id: 'email', campo: 'email',
+      html: function () { return burbuja('Por último, ¿tu <b>correo</b>?<small>Para los avisos del SRI y tus reportes. Opcional.</small>') +
+        entrada('email', 'email', 'nombre@correo.com', 'email', 'email'); },
+      validar: function () { var e = (d.email || '').trim(); return !e || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e) || 'Revisa el correo.'; } },
+    { id: 'condiciones', boton: 'Revisar mis datos',
+      html: function () { return burbuja('Antes de enviar, confirma las condiciones:') +
+        '<div class="terminos"><ul><li>Primeros <b>30 días sin comisión</b>.</li><li>Luego <b>$0,10 por cilindro</b> vendido por la app.</li>' +
+        '<li>Sin mensualidad y sin exclusividad: puedes seguir vendiendo por tu cuenta.</li><li>Vendes el gas al precio oficial y cobras directo.</li></ul>' +
+        '<label class="check"><input type="checkbox" id="acepto"' + (d.acepta ? ' checked' : '') + '><span>Acepto las condiciones del programa piloto y que CilindroYa use mis datos solo para registrarme y enviarme pedidos (<a href="/privacidad.html" target="_blank">privacidad</a>).</span></label></div>'; },
+      validar: function () { return !!d.acepta || 'Marca la casilla para continuar.'; } },
+    { id: 'resumen', boton: 'Enviar mi registro',
+      html: function () {
+        var fila = function (t, v, paso) { return '<div><dt>' + t + '</dt><dd>' + esc(v || '—') + '<button type="button" data-ir="' + paso + '">Cambiar</button></dd></div>'; };
+        var cobro = [];
+        if (d.cobro === 'deuna' || d.cobro === 'ambos') cobro.push('DeUna ' + (d.deuna_alias || '(QR)'));
+        if (d.cobro === 'banco' || d.cobro === 'ambos') cobro.push((d.banco || '') + ' · ' + (d.numero_cuenta || ''));
+        return burbuja('¡Casi listo, <b>' + esc(primerNombre()) + '</b>! Revisa que todo esté bien:') +
+          '<dl class="resumen">' + fila('Nombre', d.nombre, 'nombre') + fila('WhatsApp', d.whatsapp, 'whatsapp') +
+          fila(d.tipo === 'ruc' ? 'RUC' : 'Cédula', d.ruc_cedula, 'ruc') + fila('Negocio', d.nombre_comercial, 'negocio') +
+          fila('Dirección', d.direccion, 'direccion') + fila('Zonas', d.parroquias.join(', '), 'parroquias') +
+          fila('Camiones', d.num_camiones + ' · ' + (d.placas || ''), 'camiones') + fila('Cobro', cobro.join(' + '), 'cobro') +
+          (d.tipo === 'ruc' ? fila('Firma electrónica', d.firma === 'si' ? 'Sí' : 'Después', 'firma') : '') +
+          fila('Correo', d.email, 'email') + '</dl>' +
+          '<div class="trampa" aria-hidden="true"><label>Sitio web <input type="text" id="sitio_web" tabindex="-1" autocomplete="off"></label></div>' +
+          '<div class="error" id="errorEnvio" role="alert"></div>';
+      },
+      enviar: true }
+  ];
+
+  function animo(id) {
+    var t = ANIMO[id];
+    return t ? '<div class="animo">' + esc(t.replace('{n}', primerNombre() || 'amigo')) + '</div>' : '';
+  }
+  function textoBoton(p, i, total) {
+    if (p.boton) return p.boton;
+    var faltan = total - 1 - i;
+    if (faltan <= 3) return '¡Ya casi! →';
+    if (i >= 3) return 'Sigamos →';
+    return 'Siguiente →';
+  }
+  var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function burbuja(t) { return '<div class="chat"><div class="cili"><img src="/static/brand/symbol.svg?v=flame-pin-20261004" alt="Cili"></div><div class="burbuja">' + t + '</div></div>'; }
+  function entrada(campo, tipo, ph, auto, modo) {
+    return '<div class="campo"><input id="f_' + campo + '" type="' + tipo + '" data-campo="' + campo + '" placeholder="' + esc(ph) + '"' +
+      (auto ? ' autocomplete="' + auto + '"' : '') + (modo ? ' inputmode="' + modo + '"' : '') + ' value="' + esc(d[campo] || '') + '">' +
+      '<div class="error" id="errorCampo" role="alert"></div></div>';
+  }
+  function opcion(grupo, valor, ico, titulo, sub, elegido) {
+    return '<button type="button" class="opcion" data-grupo="' + grupo + '" data-valor="' + esc(valor) + '" aria-pressed="' + !!elegido + '">' +
+      '<span>' + esc(titulo) + '<small>' + esc(sub) + '</small></span></button>';
+  }
+
+  // ── Motor del asistente ──
+  var actual = 0, pintado = 0, ultimoPaso = "";
+  var cont = document.getElementById('contenido');
+  var btnSig = document.getElementById('siguiente');
+  var btnAtras = document.getElementById('atras');
+
+  function visibles() { return PASOS.filter(function (p) { return !(p.saltar && p.saltar()); }); }
+  function pintar() {
+    var lista = visibles();
+    if (actual >= lista.length) actual = lista.length - 1;
+    var p = lista[actual];
+    var turno = ++pintado;
+    var mismo = p.id === ultimoPaso; ultimoPaso = p.id;   // al elegir una opción se repinta el mismo paso: sin animar de nuevo
+    d.paso = p.id; guardar();
+    var mostrar = function () {
+      if (turno !== pintado) return;                       // el usuario ya avanzó o volvió
+      cont.innerHTML = '<section class="paso' + (mismo ? ' quieto' : '') + '" data-paso="' + p.id + '">' + animo(p.id) + p.html() +
+        (p.campo ? '' : '<div class="error" id="errorCampo" role="alert"></div>') + '</section>';
+      var primero = cont.querySelector('input[type=text],input[type=tel],input[type=email]');
+      if (primero && window.matchMedia('(min-width: 700px)').matches) primero.focus();
+      if (p.alEscribir) p.alEscribir();
+      marcarBien();
+    };
+    if (quieto || actual === 0 || mismo) { mostrar(); }
+    else {
+      cont.innerHTML = '<section class="paso"><div class="chat"><div class="cili"><img src="/static/brand/symbol.svg?v=flame-pin-20261004" alt="Cili"></div>' +
+        '<div class="burbuja escribiendo" aria-label="Cili está escribiendo"><i></i><i></i><i></i></div></div></section>';
+      setTimeout(mostrar, 520);
+    }
+    btnSig.textContent = textoBoton(p, actual, lista.length);
+    btnSig.classList.toggle('listo-ya', !!p.enviar);
+    btnSig.disabled = false;
+    var faltanPasos = lista.length - 1 - actual;
+    document.getElementById('metaPaso').innerHTML = actual === 0 ? '' : 'Paso <b>' + actual + '</b> de ' + (lista.length - 1);
+    document.getElementById('metaTiempo').textContent = actual === 0 ? '' :
+      (faltanPasos <= 0 ? '¡Último paso!' : 'Te falta' + (faltanPasos === 1 ? ' 1 paso' : 'n ' + faltanPasos + ' pasos') +
+       ' · menos de ' + Math.max(1, Math.ceil(faltanPasos * 0.25)) + ' min');
+    btnAtras.style.visibility = actual === 0 ? 'hidden' : 'visible';
+    var pct = Math.round(actual / (lista.length - 1) * 100);
+    document.getElementById('barra').style.width = pct + '%';
+    document.querySelector('.progreso').setAttribute('aria-valuenow', pct);
+    document.getElementById('barra').classList.toggle('hito', pct >= 50);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function mostrarError(msg) {
+    var el = document.getElementById('errorCampo') || document.getElementById('errorEnvio');
+    if (el) el.textContent = msg;
+    var inp = cont.querySelector('[data-campo]');
+    if (inp) { inp.classList.add('malo'); setTimeout(function () { inp.classList.remove('malo'); }, 1800); }
+    try { if (navigator.vibrate) navigator.vibrate([20, 40, 20]); } catch (e) {}
+  }
+
+  function avanzar() {
+    var lista = visibles(), p = lista[actual];
+    if (p.validar) { var r = p.validar(); if (r !== true) { mostrarError(r); return; } }
+    guardar();
+    if (p.enviar) { enviar(); return; }
+    actual = Math.min(actual + 1, lista.length - 1);
+    pintar();
+  }
+
+  // Visto bueno verde cuando lo escrito ya es válido (anima a seguir)
+  var BIEN = {
+    nombre: function (v) { return v.trim().split(/\s+/).length >= 2 && v.trim().length >= 5; },
+    whatsapp: function (v) { return /^09\d{8}$/.test(tel(v)); },
+    ruc_cedula: function (v) { return !!identificacion(v); },
+    direccion: function (v) { return v.trim().length >= 8; },
+    nombre_comercial: function (v) { return v.trim().length >= 2; },
+    email: function (v) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.trim()); },
+    placas: function (v) { return v.trim().length >= 5; },
+    deuna_alias: function (v) { return v.trim().length >= 4; },
+    numero_cuenta: function (v) { return v.replace(/\D/g, '').length >= 6; }
+  };
+  function marcarBien() {
+    var campos = cont.querySelectorAll('input[data-campo]');
+    for (var i = 0; i < campos.length; i++) {
+      var f = BIEN[campos[i].dataset.campo];
+      campos[i].classList.toggle('bien', !!(f && f(campos[i].value || '')));
+    }
+  }
+
+  cont.addEventListener('input', function (ev) {
+    var t = ev.target;
+    marcarBien();
+    if (t.dataset.campo) { d[t.dataset.campo] = t.value; var e = document.getElementById('errorCampo'); if (e) e.textContent = ''; }
+    if (t.dataset.clave) claveFirma = t.value;
+    var p = visibles()[actual]; if (p.alEscribir) p.alEscribir();
+  });
+  cont.addEventListener('change', function (ev) {
+    var t = ev.target;
+    if (t.dataset.campo) d[t.dataset.campo] = t.value;
+    if (t.id === 'acepto') d.acepta = t.checked;
+    if (t.dataset.archivo && t.files && t.files[0]) {
+      archivos[t.dataset.archivo] = t.files[0];
+      var nom = document.getElementById(t.dataset.archivo === 'qr_deuna' ? 'nomQr' : 'nomP12');
+      if (nom) nom.textContent = '✓ ' + t.files[0].name;
+    }
+  });
+  cont.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' && ev.target.tagName === 'INPUT') { ev.preventDefault(); avanzar(); } });
+  cont.addEventListener('click', function (ev) {
+    var b = ev.target.closest('button');
+    if (!b) return;
+    if (b.dataset.grupo) {
+      d[b.dataset.grupo] = b.dataset.valor;
+      if (b.dataset.grupo === 'regimen') d.regimenElegido = true;
+      guardar(); pintar();
+      try { if (navigator.vibrate) navigator.vibrate(8); } catch (e) {}
+    } else if (b.dataset.parroquia) {
+      var i = d.parroquias.indexOf(b.dataset.parroquia);
+      if (i >= 0) d.parroquias.splice(i, 1); else d.parroquias.push(b.dataset.parroquia);
+      b.setAttribute('aria-pressed', i < 0); guardar();
+    } else if (b.dataset.cambio) {
+      d.num_camiones = Math.max(1, Math.min(50, d.num_camiones + (+b.dataset.cambio)));
+      document.getElementById('numCam').textContent = d.num_camiones; guardar();
+    } else if (b.dataset.ir) {
+      var lista = visibles();
+      for (var k = 0; k < lista.length; k++) if (lista[k].id === b.dataset.ir) actual = k;
+      pintar();
+    }
+  });
+  btnSig.addEventListener('click', function (ev) { onda(ev, btnSig); avanzar(); });
+  btnAtras.addEventListener('click', function () { if (actual > 0) { actual--; pintar(); } });
+
+  function onda(ev, btn) {
+    var r = btn.getBoundingClientRect(), s = document.createElement('span'), t = Math.max(r.width, r.height);
+    s.className = 'onda'; s.style.width = s.style.height = t + 'px';
+    s.style.left = ((ev.clientX || r.left + r.width / 2) - r.left - t / 2) + 'px';
+    s.style.top = ((ev.clientY || r.top + r.height / 2) - r.top - t / 2) + 'px';
+    btn.appendChild(s); setTimeout(function () { s.remove(); }, 520);
+  }
+
+  function enviar() {
+    var fd = new FormData();
+    var campos = { nombre: d.nombre, whatsapp: d.whatsapp, ruc_cedula: d.ruc_cedula, razon_social: d.razon_social || '',
+      nombre_comercial: d.nombre_comercial, direccion: d.direccion, parroquias: d.parroquias.join(', '),
+      num_camiones: d.num_camiones, placas: d.placas || '', email: d.email || '', regimen: d.regimen || '',
+      acepta_terminos: d.acepta ? '1' : '0', origen_campana: campana,
+      sitio_web: (document.getElementById('sitio_web') || {}).value || '' };
+    if (d.cobro === 'deuna' || d.cobro === 'ambos') campos.deuna_alias = d.deuna_alias || '';
+    if (d.cobro === 'banco' || d.cobro === 'ambos') { campos.banco = d.banco || ''; campos.tipo_cuenta = d.tipo_cuenta || 'Ahorros'; campos.numero_cuenta = d.numero_cuenta || ''; }
+    if (d.firma === 'si' && d.tipo === 'ruc') { campos.p12_clave = claveFirma; if (archivos.firma_p12) fd.append('firma_p12', archivos.firma_p12); }
+    if (archivos.qr_deuna && (d.cobro === 'deuna' || d.cobro === 'ambos')) fd.append('qr_deuna', archivos.qr_deuna);
+    Object.keys(campos).forEach(function (k) { fd.append(k, campos[k] == null ? '' : campos[k]); });
+
+    btnSig.disabled = true;
+    btnSig.innerHTML = '<span class="girando" aria-hidden="true"></span>Enviando…';
+    fetch('/api/distribuidores/postulacion', { method: 'POST', body: fd })
+      .then(function (r) {
+        if (r.status >= 500) throw { caida: true };   // el servidor de CilindroYa no responde (502/530)
+        return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j && res.j.detail ? res.j.detail : 'No se pudo enviar.');
+        try { localStorage.removeItem(CLAVE); } catch (e) {}
+        exito(res.j.faltantes || []);
+      })
+      .catch(function (e) {
+        // Servidor caído o respuesta que no es JSON: guardamos el contacto en la nube para no perder al distribuidor
+        // (08/11/2026: un registro se perdió mientras la PC estaba suspendida).
+        if (!e || e.caida || e instanceof SyntaxError || e.message === 'Failed to fetch') {
+          return respaldoNube().then(exitoEnEspera).catch(function () { errorEnvio(e); });
+        }
+        errorEnvio(e);
+      });
+  }
+
+  function errorEnvio(e) {
+    btnSig.disabled = false; btnSig.textContent = 'Intentar de nuevo';
+    var el = document.getElementById('errorEnvio');
+    if (el) el.textContent = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'No hay conexión. Revisa tu internet e inténtalo otra vez.';
+  }
+
+  // Respaldo en la nube (Firestore de MAIA): solo contacto mínimo; nada de RUC, banco ni firma. Las reglas dejan
+  // crear y no dejan leer; MAIA lo recoge, avisa a Wilo y lo borra.
+  var NUBE = 'https://firestore.googleapis.com/v1/projects/maia-nube/databases/(default)/documents/cilindroya_espera' +
+    '?key=AIzaSyCbCr4RuVQKvX9HuuknvpFf26LWfyl5-wM';
+  function respaldoNube() {
+    var tel = String(d.whatsapp || '').replace(/\D/g, '');
+    if (tel.indexOf('593') === 0 && tel.length === 12) tel = '0' + tel.slice(3);
+    function txt(v, max) { return { stringValue: String(v || '').trim().slice(0, max) }; }
+    var cuerpo = { fields: { nombre: txt(d.nombre, 80), whatsapp: { stringValue: tel },
+      negocio: txt(d.nombre_comercial || d.razon_social, 120), zonas: txt((d.parroquias || []).join(', '), 400),
+      origen: txt(campana, 60) } };
+    return fetch(NUBE, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cuerpo) })
+      .then(function (r) { if (!r.ok) throw new Error('nube ' + r.status); });
+  }
+
+  function exitoEnEspera() {
+    document.getElementById('barra').style.width = '100%';
+    document.querySelector('.acciones').style.display = 'none';
+    document.getElementById('metaPaso').innerHTML = '<b>¡Recibimos tus datos!</b>';
+    document.getElementById('metaTiempo').textContent = '';
+    cont.innerHTML = '<section class="paso listo"><svg class="sello" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12"/><path d="M6.5 12.5l3.6 3.6L17.5 8.7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<h2>¡Gracias, ' + esc(primerNombre()) + '!</h2>' +
+      '<p>Guardamos tu nombre y tu WhatsApp. En este momento no pudimos recibir la ficha completa, así que ' +
+      'te escribimos al <b>' + esc(d.whatsapp) + '</b> para terminar tu registro contigo.</p>' +
+      '<p class="botones"><a class="btn btn-sec" style="display:inline-flex;align-items:center;text-decoration:none" href="/distribuidores/">Volver al inicio</a></p></section>';
+  }
+
+  function exito(falta) {
+    document.getElementById('barra').style.width = '100%';
+    document.querySelector('.acciones').style.display = 'none';
+    document.getElementById('metaPaso').innerHTML = '<b>¡Registro completo!</b>';
+    document.getElementById('metaTiempo').textContent = '';
+    var compartir = 'https://wa.me/?text=' + encodeURIComponent('Yo ya me registré como distribuidor en CilindroYa: pedidos de gas directo al celular y 30 días sin comisión. Regístrate aquí: https://cilindroya.com/distribuidores/registro/');
+    cont.innerHTML = '<section class="paso listo"><svg class="sello" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12"/><path d="M6.5 12.5l3.6 3.6L17.5 8.7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<h2>¡Felicitaciones, ' + esc(primerNombre()) + '!</h2>' +
+      '<p>Tu registro llegó a CilindroYa. Te escribimos por <b>WhatsApp al ' + esc(d.whatsapp) + '</b> en menos de 24 horas.</p>' +
+      '<div class="siguientes"><b>Lo que sigue:</b><ol><li>Revisamos tus datos.</li><li>Te damos la bienvenida por WhatsApp.</li>' +
+      '<li>Abres la app de distribuidores y empiezas a recibir pedidos de tu zona.</li></ol></div>' +
+      (falta.length ? '<div class="terminos"><b>Para facturar desde la app te faltará:</b><ul>' +
+        falta.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul><small style="color:var(--gris)">Te ayudamos con esto por WhatsApp.</small></div>' : '') +
+      '<p class="botones"><a class="btn btn-wa" href="' + compartir + '" target="_blank" rel="noopener">Pásale el enlace a otro distribuidor</a>' +
+      '<a class="btn btn-sec" style="display:inline-flex;align-items:center;text-decoration:none" href="/distribuidores/">Volver al inicio</a></p></section>';
+  }
+
+
+  // ¿Volvió después de dejarlo a medias? Lo llevamos al mismo paso con un saludo
+  if (d.paso && d.paso !== 'inicio' && d.nombre) {
+    var lista0 = visibles();
+    for (var q = 0; q < lista0.length; q++) if (lista0[q].id === d.paso) actual = q;
+    if (actual > 0) ANIMO[d.paso] = '¡Hola de nuevo, {n}! Sigamos donde lo dejaste.';
+  }
+  pintar();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Acuerdo y Convenio Piloto B2B — CilindroYa Red Logística GLP</title>
+  <meta name="description" content="Acuerdo Comercial y Registro Interactivo de Distribuidores de GLP en Ibarra. Piloto Operativo de 30 Días con Costo Cero.">
+  <link rel="icon" type="image/svg+xml" href="/static/brand/logo-color.svg">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #060B14;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* TOOLBAR SUPERIOR FIJA */
+    .top-nav {
+      background: #0B132B;
+      border-bottom: 1px solid #1E293B;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.08);
+      color: #F8FAFC;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .nav-title {
+      color: #94A3B8;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-primary-blue {
+      background: #0A59DA;
+      color: #FFFFFF;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(10, 89, 218, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-primary-blue:hover {
+      background: #0847AD;
+      transform: translateY(-1px);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .wrapper {
+      flex: 1;
+      padding: 32px 16px 60px;
+      display: flex;
+      justify-content: center;
+    }
+    .document-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 860px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+      padding: 40px 48px;
+      position: relative;
+    }
+
+    /* HEADER DOCUMENTO */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #0A59DA;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+    }
+    .brand-names {
+      line-height: 1.25;
+    }
+    .brand-name {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0A2540;
+    }
+    .brand-tag {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0284C7;
+      margin-left: 6px;
+    }
+    .brand-sub {
+      font-size: 12.5px;
+      color: #64748B;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+    .badge-pilot {
+      background: #E0F2FE;
+      color: #0369A1;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      text-align: right;
+    }
+    .badge-ref {
+      font-size: 10px;
+      color: #64748B;
+      margin-top: 4px;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* TEXTO INTRODUCTORIO */
+    .intro-text {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #334155;
+      margin-bottom: 28px;
+      text-align: justify;
+    }
+
+    /* GRID DE BENEFICIOS / CLÁUSULAS (FOTO 1) */
+    .clauses-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .clause-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 16px 20px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .clause-box:hover {
+      border-color: #BAE6FD;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.06);
+    }
+    .clause-box.full-width {
+      grid-column: 1 / -1;
+    }
+    .clause-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .clause-icon {
+      color: #0284C7;
+      font-size: 18px;
+    }
+    .clause-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #0F172A;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .clause-desc {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #475569;
+    }
+    .clause-desc strong {
+      color: #0F172A;
+      font-weight: 700;
+    }
+
+    /* SECCIÓN ACCIÓN: FORMULARIO INTERACTIVO */
+    .interactive-action-area {
+      margin-top: 36px;
+      padding-top: 32px;
+      border-top: 2px dashed #E2E8F0;
+    }
+    .action-banner {
+      background: linear-gradient(135deg, #0A59DA 0%, #0284C7 100%);
+      border-radius: 16px;
+      padding: 24px 28px;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(10, 89, 218, 0.25);
+    }
+    .action-info h3 {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .action-info p {
+      font-size: 12.5px;
+      opacity: 0.9;
+    }
+    .btn-open-form {
+      background: #FFFFFF;
+      color: #0A59DA;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-open-form:hover {
+      background: #F8FAFC;
+      transform: scale(1.02);
+    }
+
+    /* MODAL INTERACTIVO */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(2, 6, 23, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 680px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px 36px;
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0A2540;
+    }
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #64748B;
+      line-height: 1;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #CBD5E1;
+      font-size: 13px;
+      color: #0F172A;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: #0A59DA;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* SECCIÓN DE PREVISUALIZACIÓN DE CONTRATO (FOTO 2 REEMPLAZADA Y DINÁMICA) */
+    .preview-contract-area {
+      display: none;
+      margin-top: 36px;
+      padding-top: 32px;
+      border-top: 2px solid #0A59DA;
+      animation: fadeIn 0.4s ease;
+    }
+    .preview-contract-area.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .contract-heading {
+      color: #09294A;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .status-alert-box {
+      background: #FFF4E2;
+      border: 1.5px solid #FFD79E;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #78350F;
+      margin-bottom: 24px;
+    }
+    .status-alert-box b {
+      color: #B45309;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+    .ficha-title {
+      font-size: 15px;
+      font-weight: 900;
+      color: #09294A;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 6px;
+    }
+    .ficha-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 24px;
+      margin-bottom: 28px;
+    }
+    .ficha-item {
+      border-bottom: 1px solid #E2E8F0;
+      padding-bottom: 6px;
+    }
+    .ficha-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+    }
+    .ficha-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-top: 3px;
+      min-height: 18px;
+    }
+    .ficha-val.highlight {
+      color: #0A59DA;
+      font-weight: 800;
+    }
+    .signatures-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin: 36px 0 24px;
+    }
+    .sig-box {
+      border-top: 1.5px solid #09294A;
+      padding-top: 10px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #334155;
+    }
+    .sig-box strong {
+      color: #09294A;
+    }
+    .contract-print-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #E2E8F0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .document-card { padding: 24px 20px; }
+      .clauses-grid, .form-row, .ficha-grid, .signatures-block { grid-template-columns: 1fr; }
+      .doc-header { flex-direction: column; gap: 12px; }
+      .badge-pilot { text-align: left; }
+      .action-banner { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    /* PRINT STYLES */
+    @media print {
+      body { background: #FFFFFF; }
+      .top-nav, .interactive-action-area, .contract-print-actions, .modal-overlay { display: none !important; }
+      .wrapper { padding: 0; }
+      .document-card { box-shadow: none; padding: 0; max-width: 100%; }
+      .preview-contract-area { display: block !important; border-top: none; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── 1. BARRA SUPERIOR FIJA ────────────────────────────────────────────── -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="/distribuidores" class="btn-nav">
+        <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+        <span>Volver a Distribuidores</span>
+      </a>
+      <span class="nav-title">Documento Legal de Alianza B2B</span>
+    </div>
+    <div class="nav-actions">
+      <button onclick="window.print()" class="btn-primary-blue">
+        <span class="material-symbols-outlined" style="font-size: 18px;">print</span>
+        <span>Imprimir o Guardar PDF</span>
+      </button>
+      <a href="/distribuidores#calculadora" class="btn-nav">
+        <span class="material-symbols-outlined" style="font-size: 18px;">calculate</span>
+        <span>Calculadora B2B</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ── 2. HOJA DE DOCUMENTO PRINCIPAL ────────────────────────────────────── -->
+  <main class="wrapper">
+    <div class="document-card">
+      
+      <!-- ENCABEZADO OFICIAL -->
+      <div class="doc-header">
+        <div class="brand-group">
+          <div class="brand-icon-box">CY</div>
+          <div class="brand-names">
+            <div>
+              <span class="brand-name">CilindroYa</span>
+              <span class="brand-tag">| Red Logística GLP</span>
+            </div>
+            <div class="brand-sub">Plataforma de Despacho Digital de GLP — Ibarra, Ecuador</div>
+          </div>
+        </div>
+        <div>
+          <span class="badge-pilot">Piloto Operativo de 30 Días</span>
+          <span class="badge-ref">Ref: ACUERDO-PILOTO-IBARRA-2026</span>
+        </div>
+      </div>
+
+      <!-- TEXTO INTRODUCTORIO -->
+      <p class="intro-text">
+        El presente acuerdo establece los términos de participación voluntaria en el <strong>Programa Piloto de Validación Operativa de 30 Días</strong> suscrito entre <strong>CilindroYa</strong> (en adelante, "La Plataforma") y el <strong>Distribuidor / Transportista Autorizado</strong> (en adelante, "El Aliado"), con el fin de conectar pedidos domiciliarios de gas licuado de petróleo (GLP) a través de tecnología digital en la ciudad de Ibarra.
+      </p>
+
+      <!-- TARJETAS DE CLÁUSULAS Y BENEFICIOS (ESTRUCTURA EXACTA FOTO 1) -->
+      <div class="clauses-grid">
+        
+        <!-- 1. COSTO CERO -->
+        <div class="clause-box">
+          <div class="clause-header">
+            <span class="material-symbols-outlined clause-icon">percent</span>
+            <span class="clause-title">1. Costo Cero y 100% de Margen</span>
+          </div>
+          <p class="clause-desc">
+            Durante los primeros 30 días de operación, <strong>no se cobrará ninguna comisión por pedido</strong>. El Aliado retiene el 100% del ingreso cobrado por cada cilindro entregado ($3.50 oficial).
+          </p>
+        </div>
+
+        <!-- 2. NO EXCLUSIVIDAD -->
+        <div class="clause-box">
+          <div class="clause-header">
+            <span class="material-symbols-outlined clause-icon">route</span>
+            <span class="clause-title">2. No Exclusividad & Compatibilidad</span>
+          </div>
+          <p class="clause-desc">
+            El Aliado mantiene su ruta habitual y sus clientes tradicionales de calle. CilindroYa es un canal adicional de pedidos para despachar cilindros sin desvíos excesivos ni consumo extra de gasolina.
+          </p>
+        </div>
+
+        <!-- 3. TIEMPO DE RESPUESTA -->
+        <div class="clause-box">
+          <div class="clause-header">
+            <span class="material-symbols-outlined clause-icon">schedule</span>
+            <span class="clause-title">3. Tiempo de Respuesta (&lt; 30 Min)</span>
+          </div>
+          <p class="clause-desc">
+            El Aliado se compromete a atender los pedidos aceptados en un rango promedio menor a 25-30 minutos en los barrios acordados (Los Ceibos, Centro, Caranqui, San Antonio, etc.).
+          </p>
+        </div>
+
+        <!-- 4. SEGURIDAD Y PRECIO -->
+        <div class="clause-box">
+          <div class="clause-header">
+            <span class="material-symbols-outlined clause-icon">verified_user</span>
+            <span class="clause-title">4. Seguridad y Precio Oficial</span>
+          </div>
+          <p class="clause-desc">
+            Los cilindros deben contar con sello de seguridad intacto, peso reglamentario y realizar prueba básica de espuma al conectar. El precio al cliente final es el oficial de <strong>$3.50</strong>.
+          </p>
+        </div>
+
+        <!-- 5. SOPORTE Y CAPACITACIÓN -->
+        <div class="clause-box full-width">
+          <div class="clause-header">
+            <span class="material-symbols-outlined clause-icon">support_agent</span>
+            <span class="clause-title">5. Soporte y Capacitación Inmediata</span>
+          </div>
+          <p class="clause-desc">
+            CilindroYa suministra sin costo la aplicación móvil para el conductor (PWA con GPS y Google Maps), capacitación presencial de 15 minutos y material promocional para clientes de la zona.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ── 3. BANNER DE ACCIÓN: INICIAR REGISTRO INTERACTIVO ──────────────── -->
+      <div class="interactive-action-area">
+        <div class="action-banner">
+          <div class="action-info">
+            <h3>¿Listo para afiliar tu camión y validar tu contrato?</h3>
+            <p>Ingresa tus datos en el formulario interactivo para personalizar tu convenio piloto y previsualizarlo listo para firmar.</p>
+          </div>
+          <button onclick="openRegistrationModal()" class="btn-open-form">
+            <span class="material-symbols-outlined">edit_document</span>
+            <span>Completar Formulario de Aliado</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── 4. ÁREA DINÁMICA DE PREVISUALIZACIÓN DEL CONTRATO ──────────────── -->
+      <div id="previewContractSection" class="preview-contract-area">
+        <h2 class="contract-heading">Convenio piloto de servicios tecnológicos y coordinación de pedidos de GLP</h2>
+        
+        <div class="status-alert-box">
+          <b>CONVENIO PILOTO PERSONALIZADO — LISTO PARA REVISIÓN Y SUSCRIPCIÓN</b>
+          Modelo de intermediación tecnológica: CilindroYa conecta clientes con distribuidores habilitados; no vende, transporta ni instala GLP directamente. Operador de la Plataforma: <strong>Wilson Pérez (WYD Solutions)</strong>, RUC <strong>1002518411001</strong>. Matriz: San José de Cananvalle y Las Chirimoyas 1-27, Ibarra - Imbabura.
+        </div>
+
+        <div class="ficha-title">Ficha de partes y operación</div>
+
+        <div class="ficha-grid">
+          <div class="ficha-item">
+            <div class="ficha-label">Lugar y Fecha</div>
+            <div class="ficha-val highlight" id="doc_fecha">Ibarra, Ecuador — 07 de Octubre de 2026</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Operador Tecnológico (Plataforma)</div>
+            <div class="ficha-val">Wilson Pérez (WYD Solutions) · CilindroYa</div>
+          </div>
+
+          <div class="ficha-item">
+            <div class="ficha-label">RUC del Operador</div>
+            <div class="ficha-val">1002518411001 (Contribuyente RIMPE Emprendedor)</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Domicilio y Contacto del Operador</div>
+            <div class="ficha-val">San José de Cananvalle 1-27 · +593 99 305 2744</div>
+          </div>
+
+          <div class="ficha-item">
+            <div class="ficha-label">Aliado: Razón Social / Nombre Completo</div>
+            <div class="ficha-val highlight" id="doc_razonSocial">Carlos Méndez Distribuciones</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Nombre Comercial del Aliado</div>
+            <div class="ficha-val highlight" id="doc_nombreComercial">CilindroYa Ibarra</div>
+          </div>
+
+          <div class="ficha-item">
+            <div class="ficha-label">RUC / Cédula del Aliado</div>
+            <div class="ficha-val highlight" id="doc_ruc">1002345678001</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Teléfono Móvil / WhatsApp de Contacto</div>
+            <div class="ficha-val highlight" id="doc_telefono">0993052744</div>
+          </div>
+
+          <div class="ficha-item">
+            <div class="ficha-label">Unidades de Transporte (Camiones)</div>
+            <div class="ficha-val" id="doc_camiones">1 Camión Repartidor</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Marca de GLP Distribuida</div>
+            <div class="ficha-val" id="doc_marca">CilindroYa (Doméstico 15kg)</div>
+          </div>
+
+          <div class="ficha-item">
+            <div class="ficha-label">Zonas / Parroquias de Cobertura</div>
+            <div class="ficha-val" id="doc_zona">Ibarra — Centro / El Sagrario / San Francisco</div>
+          </div>
+          <div class="ficha-item">
+            <div class="ficha-label">Datos Bancarios / Cuenta de Cobro</div>
+            <div class="ficha-val" id="doc_banco">Banco Pichincha (Ahorros) - DeUna! Vinculado</div>
+          </div>
+        </div>
+
+        <p style="font-size: 12.5px; line-height: 1.6; color: #475569; margin-bottom: 24px;">
+          Las partes declaran aceptar las condiciones del piloto de 30 días sin costo tecnológico, comprometiéndose a mantener el precio de venta a domicilio de $3.50 por cilindro (cilindro a precio oficial ARCH de $1.65 + $1.85 de entrega), los estándares de seguridad exigidos por la normativa ecuatoriana de hidrocarburos y la confidencialidad de datos conforme a la LOPDP.
+        </p>
+
+        <!-- BLOQUE DE FIRMAS -->
+        <div class="signatures-block">
+          <div class="sig-box">
+            <strong>POR CILINDROYA (OPERADOR)</strong><br>
+            Wilson Pérez — WYD Solutions<br>
+            RUC: 1002518411001<br><br>
+            ___________________________________________<br>
+            Firma Autorizada
+          </div>
+          <div class="sig-box">
+            <strong id="sig_label_aliado">POR EL DISTRIBUIDOR ALIADO</strong><br>
+            <span id="sig_nombre_aliado">Carlos Méndez</span><br>
+            <span id="sig_ruc_aliado">RUC / C.I.: 1002345678001</span><br><br>
+            ___________________________________________<br>
+            Firma y Sello del Distribuidor
+          </div>
+        </div>
+
+        <!-- ACCIONES AL COMPLETAR -->
+        <div class="contract-print-actions">
+          <button onclick="openRegistrationModal()" class="btn-nav" style="color: #0A2540;">
+            <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+            <span>Modificar Datos</span>
+          </button>
+          <button onclick="window.print()" class="btn-primary-blue">
+            <span class="material-symbols-outlined" style="font-size: 18px;">print</span>
+            <span>Imprimir Convenio para Suscripción</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── 5. MODAL FORMULARIO INTERACTIVO DE AFILIACIÓN ─────────────────────── -->
+  <div id="registrationModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Formulario de Registro e Información B2B</h3>
+        <button onclick="closeRegistrationModal()" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="pilotForm" onsubmit="handleFormSubmission(event)">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre Comercial de la Distribuidora *</label>
+            <input type="text" id="m_nombreComercial" required placeholder="Ej: CilindroYa Ibarra" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Razón Social o Nombre Completo *</label>
+            <input type="text" id="m_razonSocial" required placeholder="Ej: Carlos Méndez Distribuciones" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">RUC o Cédula de Identidad *</label>
+            <input type="text" id="m_ruc" required maxlength="13" placeholder="10 o 13 dígitos numéricos" class="form-input font-mono">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono WhatsApp de Contacto *</label>
+            <input type="tel" id="m_telefono" required placeholder="Ej: 0993052744" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Marca de GLP Distribuida *</label>
+            <select id="m_marca" class="form-select">
+              <option value="CilindroYa (Doméstico 15kg)">CilindroYa (Oficial)</option>
+              <option value="Congas / Agip">Congas / Agip</option>
+              <option value="Duragas">Duragas</option>
+              <option value="Distribuidor Multimarca">Multimarca</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Número de Camiones en Flota *</label>
+            <select id="m_camiones" class="form-select">
+              <option value="1 Camión (Independiente)">1 Camión (Independiente)</option>
+              <option value="2 Camiones">2 Camiones</option>
+              <option value="3 a 5 Camiones">3 a 5 Camiones</option>
+              <option value="Flota Grande (6+ Camiones)">Flota Grande (6+ Camiones)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Parroquia / Zona Principal de Ibarra *</label>
+          <select id="m_zona" class="form-select">
+            <option value="Ibarra — Centro / El Sagrario / San Francisco">Ibarra — Centro / El Sagrario / San Francisco</option>
+            <option value="Ibarra — Sur / Caranqui / Ajaví / Yacucalle">Ibarra — Sur / Caranqui / Ajaví / Yacucalle</option>
+            <option value="Ibarra — Norte / Priorato / Yahuarcocha / Alpachaca">Ibarra — Norte / Priorato / Yahuarcocha / Alpachaca</option>
+            <option value="Ibarra — Rural / San Antonio / La Esperanza">Ibarra — Rural / San Antonio / La Esperanza</option>
+            <option value="Otavalo / Antonio Ante / Cotacachi">Otavalo / Antonio Ante / Cotacachi</option>
+            <option value="Toda la Provincia de Imbabura">Toda la Provincia de Imbabura</option>
+          </select>
+        </div>
+
+        <!-- DATOS DE COBRO Y BANCO -->
+        <div style="background: #F1F5F9; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px; border: 1px solid #E2E8F0;">
+          <div style="font-size: 11px; font-weight: 800; color: #0284C7; text-transform: uppercase; margin-bottom: 8px;">
+            🏦 Cuenta para recibir pagos directos de clientes (DeUna / Transferencia)
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Banco / Cooperativa *</label>
+              <select id="m_banco" class="form-select">
+                <option value="Banco Pichincha">Banco Pichincha</option>
+                <option value="Banco Guayaquil">Banco Guayaquil</option>
+                <option value="Produbanco">Produbanco</option>
+                <option value="Banco del Pacífico">Banco del Pacífico</option>
+                <option value="Coop. JEP / 29 de Octubre">Coop. JEP / 29 de Octubre</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Número de Cuenta *</label>
+              <input type="text" id="m_numCuenta" required placeholder="Nº de Cuenta" class="form-input">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary-blue" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px;">
+          <span class="material-symbols-outlined">visibility</span>
+          <span>Generar y Previsualizar mi Convenio Piloto</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── SCRIPTS DE INTERACCIÓN REACTIVA ───────────────────────────────────── -->
+  <script>
+    function openRegistrationModal() {
+      document.getElementById('registrationModal').classList.add('active');
+    }
+
+    function closeRegistrationModal() {
+      document.getElementById('registrationModal').classList.remove('active');
+    }
+
+    // Cerrar modal al hacer clic afuera
+    document.getElementById('registrationModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeRegistrationModal();
+      }
+    });
+
+    async function handleFormSubmission(e) {
+      e.preventDefault();
+
+      const nombreComercial = document.getElementById('m_nombreComercial').value.trim();
+      const razonSocial = document.getElementById('m_razonSocial').value.trim();
+      const ruc = document.getElementById('m_ruc').value.trim();
+      const telefono = document.getElementById('m_telefono').value.trim();
+      const marca = document.getElementById('m_marca').value;
+      const camiones = document.getElementById('m_camiones').value;
+      const zona = document.getElementById('m_zona').value;
+      const banco = document.getElementById('m_banco').value;
+      const numCuenta = document.getElementById('m_numCuenta').value.trim();
+
+      // 1. Rellenar los campos dinámicos de la ficha contractual (Foto 2 interactiva)
+      document.getElementById('doc_nombreComercial').innerText = nombreComercial;
+      document.getElementById('doc_razonSocial').innerText = razonSocial;
+      document.getElementById('doc_ruc').innerText = ruc;
+      document.getElementById('doc_telefono').innerText = telefono;
+      document.getElementById('doc_marca').innerText = marca;
+      document.getElementById('doc_camiones').innerText = camiones;
+      document.getElementById('doc_zona').innerText = zona;
+      document.getElementById('doc_banco').innerText = `${banco} - Cta. ${numCuenta}`;
+
+      // Firmas
+      document.getElementById('sig_label_aliado').innerText = `POR EL ALIADO: ${nombreComercial.toUpperCase()}`;
+      document.getElementById('sig_nombre_aliado').innerText = razonSocial;
+      document.getElementById('sig_ruc_aliado').innerText = `RUC / C.I.: ${ruc}`;
+
+      // Fecha actual formateada
+      const hoy = new Date();
+      const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+      document.getElementById('doc_fecha').innerText = `Ibarra, Ecuador — ${hoy.toLocaleDateString('es-EC', opciones)}`;
+
+      // 2. Cerrar modal y mostrar la previsualización del contrato
+      closeRegistrationModal();
+      const previewSec = document.getElementById('previewContractSection');
+      previewSec.classList.add('active');
+
+      // Scroll suave hasta el contrato generado
+      previewSec.scrollIntoView({ behavior: 'smooth' });
+
+      // 3. Enviar registro al backend en segundo plano
+      try {
+        const payload = {
+          distribuidora: nombreComercial,
+          contacto: razonSocial,
+          telefono: telefono,
+          ciudad: `Ibarra (${zona})`,
+          camiones: camiones,
+          marca: marca,
+          mensaje: `Convenio generado desde Alianza B2B | RUC: ${ruc} | Banco: ${banco} ${numCuenta}`
+        };
+
+        fetch('/api/distribuidores/solicitar-piloto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => null);
+      } catch (err) {
+        console.warn('Backend notification error:', err);
+      }
+    }
+  </script>
+</body>
+</html>

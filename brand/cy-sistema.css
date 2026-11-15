@@ -1,0 +1,171 @@
+/*
+ * brand/cy-sistema.css — Sistema de diseño de CilindroYa (03/11/2026).
+ *
+ * Una sola fuente de verdad para colores, escala de letra, espacios, esquinas, sombras y componentes.
+ * Se carga DESPUÉS del CSS de cada página: los componentes nuevos usan clases cy-*, y la sección
+ * «Normalización» corrige lo que ya existe (letra diminuta, botones pequeños, colores sueltos) sin tocar
+ * la lógica de las páginas.
+ *
+ * Componentes: .cy-btn (--primario, --secundario, --fantasma, --peligro), .cy-tarjeta, .cy-campo,
+ * .cy-chip, .cy-aviso (--ok, --atencion, --error, --info), .cy-insignia, .cy-esqueleto (carga).
+ */
+
+/* ── 1. Tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  /* Marca: azul CilindroYa (acción), azul noche (texto fuerte y cabeceras), naranja llama (acento puntual) */
+  --cy-azul-50: #EEF4FF;
+  --cy-azul-100: #DCE8FE;
+  --cy-azul-500: #0A59DA;
+  --cy-azul-600: #0849B4;
+  --cy-azul-700: #073B90;
+  --cy-noche: #09294A;
+  --cy-llama: #FF8A00;
+  --cy-llama-600: #D96F00;
+
+  /* Neutros (fríos, para que el azul mande) */
+  --cy-gris-0: #FFFFFF;
+  --cy-gris-25: #F7F9FC;
+  --cy-gris-50: #F1F4F9;
+  --cy-gris-100: #E4E9F1;
+  --cy-gris-300: #C3CCDA;
+  --cy-gris-500: #66738A;
+  --cy-gris-700: #36425A;
+  --cy-gris-900: #0F1B2D;
+
+  /* Estados: cada uno con su fondo, borde y texto (contraste AA sobre su fondo) */
+  --cy-ok: #0B7A43;      --cy-ok-fondo: #E8F7EF;      --cy-ok-borde: #A9DFC2;
+  --cy-atencion: #8A5300; --cy-atencion-fondo: #FFF5E0; --cy-atencion-borde: #F3D08B;
+  --cy-error: #B42318;   --cy-error-fondo: #FEEFED;   --cy-error-borde: #F5B5AE;
+  --cy-info: #0849B4;    --cy-info-fondo: #EEF4FF;    --cy-info-borde: #BCD2FB;
+
+  /* Tipografía: Plus Jakarta Sans y una escala de 7 pasos (antes había 15 tamaños sueltos) */
+  --cy-fuente: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cy-t-xs: 12px;   /* notas legales, sellos */
+  --cy-t-sm: 14px;   /* texto secundario, etiquetas */
+  --cy-t-md: 16px;   /* texto base y campos (16 evita el zoom automático del iPhone) */
+  --cy-t-lg: 18px;   /* títulos de tarjeta */
+  --cy-t-xl: 22px;   /* títulos de sección */
+  --cy-t-2xl: 28px;  /* título de pantalla */
+  --cy-t-3xl: clamp(32px, 6vw, 44px); /* portada */
+  --cy-alto-linea: 1.5;
+
+  /* Espacios en múltiplos de 4 */
+  --cy-e-1: 4px; --cy-e-2: 8px; --cy-e-3: 12px; --cy-e-4: 16px; --cy-e-5: 20px; --cy-e-6: 24px; --cy-e-8: 32px; --cy-e-10: 40px;
+
+  /* Esquinas: campos y chips 12, botones 14, tarjetas 20, píldoras completas */
+  --cy-r-sm: 12px; --cy-r-md: 14px; --cy-r-lg: 20px; --cy-r-pill: 999px;
+
+  /* Sombras suaves y frías: una para tarjetas, otra para elementos que flotan */
+  --cy-sombra-1: 0 1px 2px rgba(15, 27, 45, .05), 0 4px 16px rgba(15, 27, 45, .06);
+  --cy-sombra-2: 0 2px 6px rgba(15, 27, 45, .08), 0 16px 40px rgba(15, 27, 45, .12);
+
+  --cy-toque: 44px;        /* área táctil mínima */
+  --cy-transicion: 160ms cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ── 2. Componentes ────────────────────────────────────────────────────────── */
+.cy-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--cy-e-2);
+  min-height: var(--cy-toque); padding: 0 var(--cy-e-5);
+  border-radius: var(--cy-r-md); border: 1px solid transparent;
+  font: 700 var(--cy-t-md)/1.2 var(--cy-fuente); text-decoration: none; cursor: pointer;
+  transition: background-color var(--cy-transicion), border-color var(--cy-transicion), transform var(--cy-transicion);
+}
+.cy-btn:active:not(:disabled) { transform: translateY(1px); }
+.cy-btn:disabled, .cy-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.cy-btn--primario { background: var(--cy-azul-500); color: #fff; }
+.cy-btn--primario:hover:not(:disabled) { background: var(--cy-azul-600); }
+.cy-btn--secundario { background: var(--cy-gris-0); color: var(--cy-azul-600); border-color: var(--cy-gris-100); }
+.cy-btn--secundario:hover:not(:disabled) { border-color: var(--cy-azul-500); }
+.cy-btn--fantasma { background: transparent; color: var(--cy-azul-600); }
+.cy-btn--fantasma:hover:not(:disabled) { background: var(--cy-azul-50); }
+.cy-btn--peligro { background: var(--cy-error); color: #fff; }
+.cy-btn--ancho { width: 100%; }
+
+.cy-tarjeta {
+  background: var(--cy-gris-0); border: 1px solid var(--cy-gris-100); border-radius: var(--cy-r-lg);
+  box-shadow: var(--cy-sombra-1); padding: var(--cy-e-5);
+}
+.cy-tarjeta__titulo { margin: 0 0 var(--cy-e-1); font: 800 var(--cy-t-lg)/1.25 var(--cy-fuente); color: var(--cy-gris-900); letter-spacing: -.01em; }
+.cy-tarjeta__texto { margin: 0; font-size: var(--cy-t-sm); color: var(--cy-gris-500); line-height: var(--cy-alto-linea); }
+
+.cy-campo { display: grid; gap: var(--cy-e-1); }
+.cy-campo > label { font: 600 var(--cy-t-sm)/1.3 var(--cy-fuente); color: var(--cy-gris-700); }
+.cy-campo input, .cy-campo select, .cy-campo textarea {
+  min-height: 48px; padding: 0 var(--cy-e-4); border-radius: var(--cy-r-sm);
+  border: 1px solid var(--cy-gris-300); background: var(--cy-gris-0); font: 500 var(--cy-t-md)/1.4 var(--cy-fuente); color: var(--cy-gris-900);
+}
+.cy-campo textarea { padding-top: var(--cy-e-3); min-height: 96px; }
+.cy-campo input:focus, .cy-campo select:focus, .cy-campo textarea:focus { outline: none; border-color: var(--cy-azul-500); box-shadow: 0 0 0 3px var(--cy-azul-100); }
+.cy-campo [aria-invalid="true"] { border-color: var(--cy-error); }
+.cy-campo__ayuda { font-size: var(--cy-t-xs); color: var(--cy-gris-500); }
+.cy-campo__error { font-size: var(--cy-t-xs); color: var(--cy-error); font-weight: 600; }
+
+.cy-chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--cy-e-3);
+  border-radius: var(--cy-r-sm); border: 1px solid var(--cy-gris-100); background: var(--cy-gris-25);
+  font: 600 var(--cy-t-sm)/1.2 var(--cy-fuente); color: var(--cy-gris-700); cursor: pointer;
+}
+.cy-chip:hover { border-color: var(--cy-azul-500); color: var(--cy-azul-600); }
+.cy-chip[aria-pressed="true"] { background: var(--cy-azul-50); border-color: var(--cy-azul-500); color: var(--cy-azul-700); }
+
+.cy-aviso {
+  display: flex; align-items: flex-start; gap: var(--cy-e-3); padding: var(--cy-e-3) var(--cy-e-4);
+  border-radius: var(--cy-r-md); border: 1px solid; font: 600 var(--cy-t-sm)/1.45 var(--cy-fuente);
+}
+.cy-aviso--ok { background: var(--cy-ok-fondo); border-color: var(--cy-ok-borde); color: var(--cy-ok); }
+.cy-aviso--atencion { background: var(--cy-atencion-fondo); border-color: var(--cy-atencion-borde); color: var(--cy-atencion); }
+.cy-aviso--error { background: var(--cy-error-fondo); border-color: var(--cy-error-borde); color: var(--cy-error); }
+.cy-aviso--info { background: var(--cy-info-fondo); border-color: var(--cy-info-borde); color: var(--cy-info); }
+
+.cy-insignia { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: var(--cy-r-pill);
+  font: 700 var(--cy-t-xs)/1.6 var(--cy-fuente); background: var(--cy-gris-50); color: var(--cy-gris-700); }
+
+/* Estado de carga: bloque gris que late (sin movimiento si el usuario lo pidió) */
+.cy-esqueleto { border-radius: var(--cy-r-sm); background: linear-gradient(90deg, var(--cy-gris-50), var(--cy-gris-100), var(--cy-gris-50));
+  background-size: 200% 100%; animation: cy-latido 1.4s ease-in-out infinite; color: transparent !important; }
+@keyframes cy-latido { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+/* ── 3. Normalización de lo existente (sin tocar la lógica de las páginas) ───── */
+/* Letra diminuta (10-11,5 px) → mínimo 12 px; el texto pequeño se sigue viendo pequeño, pero legible */
+.text-\[9px\], .text-\[10px\], .text-\[10\.5px\], .text-\[11px\], .text-\[11\.5px\], #cyxBarra .cyx-total small { font-size: var(--cy-t-xs) !important; }
+
+/* Chips de referencia e instrucciones de la app de pedido: eran de ~24 px de alto */
+button[onclick^="appendReferenceChip"], button[onclick^="appendInstructionChip"],
+button[onclick="setConsumidorFinal()"], #btnToggleIdentityEdit {
+  min-height: 40px !important; padding: 0 var(--cy-e-3) !important; font-size: var(--cy-t-sm) !important; border-radius: var(--cy-r-sm) !important;
+}
+
+/* Enlaces del menú y del pie: eran de 18 px de alto; ahora área táctil completa */
+header nav a, footer a, a[href="#top"], a[href="#inicio"], .cy-volver-arriba {
+  display: inline-flex; align-items: center; min-height: var(--cy-toque);
+}
+footer a { padding-block: 0; }
+.cy-brand, a[aria-label$="inicio"], header .barra > a { min-height: var(--cy-toque); display: inline-flex; align-items: center; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select { min-height: var(--cy-toque); }
+
+/* Foco visible y coherente en toda la app */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid var(--cy-azul-500); outline-offset: 3px; }
+
+/* App de pedido en la escala de 7 tamaños (precios, cantidad, total y botones de vuelto venían en 15, 20, 26 y 30 px) */
+body.cy-client .btn-vuelto, body.cy-client #btnChangeExactLabel { font-size: var(--cy-t-md) !important; }
+body.cy-client .text-xl:not(.material-symbols-outlined), body.cy-client #cyxBarraTotal { font-size: var(--cy-t-xl) !important; }
+body.cy-client #qtyLabel, body.cy-client #summaryTotalLabel { font-size: var(--cy-t-2xl) !important; }
+body.cy-client .btn-qty { font-size: var(--cy-t-xl) !important; }
+body.cy-client button[onclick^="startVoice"] span:not(.material-symbols-outlined),
+body.cy-client button[onclick^="useGPS"] span:not(.material-symbols-outlined),
+body.cy-client .text-xs:not(.material-symbols-outlined) { font-size: var(--cy-t-sm) !important; }
+
+/* Zona elegida en la portada (brand/cy-zonas.js) */
+.cyx-zona-elegida { margin: var(--cy-e-2) 0 0; font: 600 var(--cy-t-sm)/1.4 var(--cy-fuente); color: var(--cy-azul-600); }
+
+/* App del chofer: saldo, caja y salir solo tienen sentido con el turno iniciado */
+body:has(#loginView:not(.hidden)) .cy-solo-sesion { display: none !important; }
+
+/* Barra fija en lista de espera: el total deja de verse como cobro */
+body.cy-en-espera #cyxBarraTotal { color: var(--cy-gris-500); font-size: var(--cy-t-md); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cy-esqueleto { animation: none; }
+  .cy-btn { transition: none; }
+}

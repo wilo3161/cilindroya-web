@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-EC">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Regístrate como distribuidor · CilindroYa</title>
-  <meta name="description" content="Registro guiado para distribuidores de gas en Imbabura. En pocos minutos, sin papeles: 30 días sin comisión, luego $0,10 por cilindro vendido.">
+  <meta name="description" content="Registro guiado para distribuidores de gas autorizados de Vepagas en Imbabura. En pocos minutos: 30 días sin comisión, luego $0,10 por cilindro vendido.">
   <meta name="theme-color" content="#09294A">
   <link rel="canonical" href="https://cilindroya.com/distribuidores/registro/">
   <meta property="og:title" content="Regístrate como distribuidor de CilindroYa">
   <meta property="og:description" content="Registro guiado en pocos minutos. 30 días sin comisión, luego $0,10 por cilindro vendido. Sin mensualidad ni exclusividad.">
   <meta property="og:image" content="https://cilindroya.com/assets/og-cilindroya.jpg">
+  <meta property="og:url" content="https://cilindroya.com/distribuidores/registro/">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -223,7 +225,7 @@
 
   var CLAVE = 'cy_registro_distribuidor';
   var PARROQUIAS = ['San Francisco', 'El Sagrario', 'Caranqui', 'Alpachaca', 'Priorato', 'La Esperanza', 'San Antonio',
-    'Angochagua', 'Ambuquí', 'Salinas', 'La Carolina', 'Lita', 'Atuntaqui', 'Otavalo', 'Cotacachi', 'Urcuquí', 'Pimampiro'];
+    'Angochagua', 'Ambuquí', 'Salinas', 'La Carolina', 'Lita', 'Atuntaqui', 'Otavalo', 'Cotacachi'];
   var BANCOS = ['Banco Pichincha', 'Banco Guayaquil', 'Produbanco', 'Banco del Pacífico', 'Banco Internacional',
     'Banco Bolivariano', 'Cooperativa Atuntaqui', 'Cooperativa 29 de Octubre', 'Otra cooperativa o banco'];
   var REGIMENES = [
@@ -340,7 +342,7 @@
           (c === 'deuna' || c === 'ambos' ?
             '<div class="campo"><label for="f_deuna_alias">Alias o número de DeUna</label><input id="f_deuna_alias" type="text" data-campo="deuna_alias" value="' + esc(d.deuna_alias || '') + '" placeholder="Ej. 0991234567"></div>' +
             '<div class="campo"><label class="archivo"><span id="nomQr">' + (archivos.qr_deuna ? esc(archivos.qr_deuna.name) : 'Subir foto del QR de DeUna (opcional)') + '</span>' +
-            '<input type="file" accept="image/*" data-archivo="qr_deuna"></label></div>' : '') +
+            '<input type="file" accept=".png,.jpg,.jpeg,.webp" data-archivo="qr_deuna"></label></div>' : '') +
           (c === 'banco' || c === 'ambos' ?
             '<div class="campo"><label for="f_banco">Banco o cooperativa</label><select id="f_banco" data-campo="banco"><option value="">Elige…</option>' +
             BANCOS.map(function (b) { return '<option' + (d.banco === b ? ' selected' : '') + '>' + esc(b) + '</option>'; }).join('') + '</select></div>' +
@@ -418,8 +420,10 @@
   var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function burbuja(t) { return '<div class="chat"><div class="cili"><img src="/static/brand/symbol.svg?v=flame-pin-20261004" alt="Cili"></div><div class="burbuja">' + t + '</div></div>'; }
+  var ETIQUETAS = { nombre: 'Nombre y apellido', whatsapp: 'Número de WhatsApp', ruc_cedula: 'RUC o cédula',
+    nombre_comercial: 'Nombre comercial', direccion: 'Dirección del negocio', email: 'Correo electrónico' };
   function entrada(campo, tipo, ph, auto, modo) {
-    return '<div class="campo"><input id="f_' + campo + '" type="' + tipo + '" data-campo="' + campo + '" placeholder="' + esc(ph) + '"' +
+    return '<div class="campo"><input id="f_' + campo + '" type="' + tipo + '" data-campo="' + campo + '" aria-label="' + esc(ETIQUETAS[campo] || ph) + '" placeholder="' + esc(ph) + '"' +
       (auto ? ' autocomplete="' + auto + '"' : '') + (modo ? ' inputmode="' + modo + '"' : '') + ' value="' + esc(d[campo] || '') + '">' +
       '<div class="error" id="errorCampo" role="alert"></div></div>';
   }
@@ -522,6 +526,11 @@
     if (t.dataset.campo) d[t.dataset.campo] = t.value;
     if (t.id === 'acepto') d.acepta = t.checked;
     if (t.dataset.archivo && t.files && t.files[0]) {
+      if (t.dataset.archivo === 'qr_deuna' && t.files[0].size > 5 * 1024 * 1024) {   // el servidor acepta hasta 5 MB
+        t.value = '';
+        mostrarError('La foto del QR pesa más de 5 MB. Elige una más liviana o envía una captura de pantalla.');
+        return;
+      }
       archivos[t.dataset.archivo] = t.files[0];
       var nom = document.getElementById(t.dataset.archivo === 'qr_deuna' ? 'nomQr' : 'nomP12');
       if (nom) nom.textContent = '✓ ' + t.files[0].name;
@@ -577,11 +586,11 @@
     btnSig.innerHTML = '<span class="girando" aria-hidden="true"></span>Enviando…';
     fetch('/api/distribuidores/postulacion', { method: 'POST', body: fd })
       .then(function (r) {
-        if (r.status >= 500) throw { caida: true };   // el servidor de CilindroYa no responde (502/530)
+        if (r.status >= 500 || r.status === 429) throw { caida: true };   // no responde (502/530) o frenó por exceso de envíos (429)
         return r.json().then(function (j) { return { ok: r.ok, j: j }; });
       })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.j && res.j.detail ? res.j.detail : 'No se pudo enviar.');
+        if (!res.ok) throw new Error(res.j && res.j.detail ? (typeof res.j.detail === 'string' ? res.j.detail : 'Revisa tus datos e inténtalo de nuevo') : 'No se pudo enviar.');
         try { localStorage.removeItem(CLAVE); } catch (e) {}
         exito(res.j.faltantes || []);
       })
@@ -601,8 +610,6 @@
     if (el) el.textContent = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'No hay conexión. Revisa tu internet e inténtalo otra vez.';
   }
 
-  // Respaldo en la nube (Firestore de MAIA): solo contacto mínimo; nada de RUC, banco ni firma. Las reglas dejan
-  // crear y no dejan leer; MAIA lo recoge, avisa a Wilo y lo borra.
   var NUBE = 'https://firestore.googleapis.com/v1/projects/maia-nube/databases/(default)/documents/cilindroya_espera' +
     '?key=AIzaSyCbCr4RuVQKvX9HuuknvpFf26LWfyl5-wM';
   function respaldoNube() {

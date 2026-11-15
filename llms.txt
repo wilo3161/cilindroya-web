@@ -8,7 +8,7 @@
 - Otros productos y servicios: válvula reguladora certificada ($12,00), gas industrial de 45 kg para negocios con factura ($22,50) y revisión gratuita de conexión y fugas al entregar.
 - Zonas de cobertura (zona piloto): Ibarra, Otavalo, Antonio Ante y Cotacachi. Próximamente en Pimampiro y San Miguel de Urcuquí.
 - Horario: todos los días (lunes a domingo) de 06:30 a 19:30. Fuera de horario, el pedido queda programado para primera hora del día siguiente.
-- Cómo pedir: desde el navegador del celular en https://cilindroya.com/cliente (no hace falta descargar ninguna aplicación) o desde la portada en https://cilindroya.com/hogar/.
+- Cómo pedir: desde el navegador del celular en https://cilindroya.com/cliente/ (no hace falta descargar ninguna aplicación) o desde la portada en https://cilindroya.com/hogar/.
 - Pagos: al recibir en tu puerta, en efectivo (el repartidor lleva cambio), con código QR de DeUna o por transferencia, directo a quien entrega.
 - Canje universal: se recibe el cilindro vacío de cualquier marca o color en buen estado.
 - Tiempo de entrega: alrededor de 15 a 20 minutos desde que un distribuidor acepta el pedido, según la zona; se avisa por WhatsApp y se sigue el camión en el mapa.
@@ -23,7 +23,7 @@
 
 ## Enlaces clave
 - [Inicio y pedido en portada](https://cilindroya.com/hogar/)
-- [Pedir gas a domicilio](https://cilindroya.com/cliente)
+- [Pedir gas a domicilio](https://cilindroya.com/cliente/)
 - [Gas a domicilio en Imbabura (índice por cantón)](https://cilindroya.com/gas-a-domicilio/)
 - [Gas a domicilio en Ibarra](https://cilindroya.com/gas-a-domicilio/ibarra/)
 - [Gas a domicilio en Otavalo](https://cilindroya.com/gas-a-domicilio/otavalo/)

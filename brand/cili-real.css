@@ -58,3 +58,6 @@
 .sello-deuna { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; padding: 8px 12px;
   border-radius: 10px; background: #fff; box-shadow: 0 8px 20px -10px rgba(9, 41, 74, .6); }
 .sello-deuna img { display: block; width: 84px; height: 24px; max-height: none; object-fit: contain; border-radius: 0; }
+
+/* Área táctil de 44 px para los puntos de Cili, sin cambiar su tamaño visual */
+.cili-real__punto::after{content:"";position:absolute;inset:-6px;border-radius:50%}

@@ -1,7 +1,7 @@
 {
   "name": "CilindroYa · Gas a domicilio",
   "short_name": "CilindroYa",
-  "description": "Pide tu cilindro de gas doméstico en Imbabura (Ibarra, Otavalo, Cotacachi, Antonio Ante, Pimampiro, Urcuquí) en minutos con CilindroYa.",
+  "description": "Pide tu cilindro de gas doméstico en Imbabura (Ibarra, Otavalo, Antonio Ante y Cotacachi) en minutos con CilindroYa.",
   "start_url": "/cliente/",
   "scope": "/cliente/",
   "display": "standalone",

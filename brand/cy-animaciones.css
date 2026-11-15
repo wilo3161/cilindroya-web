@@ -280,3 +280,10 @@ body:not(:has(#submitOrderBtn)) :is(input, select, textarea):focus { outline: no
   .registro-lado .lead { font-size: 15px; margin-bottom: 0; }
 }
 .cy-autor-meta { display: block; margin-top: 6px; font-size: 14px; color: #5F6C7B; }
+
+/* Contenido local por cantón: referencias y mapa */
+.cy-referencias { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 10px 0 18px; }
+.cy-referencias li { padding: 8px 12px; border-radius: 999px; background: #EAF4FB; color: #09294A; font-size: 14px; font-weight: 600; }
+.cy-mapa-caja { margin: 0; }
+.cy-mapa { display: block; width: 100%; max-width: 100%; height: 320px; border: 0; border-radius: 14px; box-shadow: 0 14px 30px -20px rgba(9, 41, 74, .5); }
+.cy-mapa-caja figcaption { margin-top: 6px; font-size: 13px; color: #5F6C7B; }

@@ -164,7 +164,7 @@
     pie.parentNode.insertBefore(sec, pie);
     var dice = sec.querySelector('.cy-invita__dice');
     var chat = sec.querySelector('.cy-invita__chat');
-    if (chat) chat.addEventListener('click', function () { var b = document.getElementById('cyMayaBtnAbrir'); if (b) b.click(); });
+    if (chat) chat.addEventListener('click', function () { var b = document.getElementById('cyCiliBtnAbrir'); if (b) b.click(); });
     if (quieto || !('IntersectionObserver' in window)) { dice.textContent = cfg.datos.texto; sec.classList.add('cy-entra'); return; }
     var obs = new IntersectionObserver(function (ent) {
       if (!ent[0].isIntersecting) return;

@@ -2,7 +2,7 @@
  * brand/cili-real.js — Cili de cuerpo completo en el héroe de /hogar/.
  *
  *  - Tres puntos numerados con burbuja que explican precio, canje y forma de pago.
- *  - Tocar a Cili abre el asistente «Habla con Cili» (#cyMayaBtnAbrir).
+ *  - Tocar a Cili abre el asistente «Habla con Cili» (#cyCiliBtnAbrir).
  *  - La imagen queda fija (cili-real.css anula la inclinación); con prefers-reduced-motion no hay animaciones.
  */
 (function () {
@@ -75,7 +75,7 @@
     figura.setAttribute('aria-label', 'Habla con Cili, la mascota de CilindroYa');
     function abrirChat() {
       figura.classList.remove('saluda'); void figura.offsetWidth; figura.classList.add('saluda');
-      var b = document.getElementById('cyMayaBtnAbrir');
+      var b = document.getElementById('cyCiliBtnAbrir');
       if (b) b.click();
     }
     figura.addEventListener('click', abrirChat);

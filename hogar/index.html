@@ -181,7 +181,7 @@
   <link rel="apple-touch-icon" href="/static/brand/icon-180.png?v=corporate-all-20261004">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
   <style>
     /*
      * Página de entrada de CilindroYa (Dirección A «Pedido en la portada» + toque B y C).
@@ -434,12 +434,12 @@
   <script src="/static/brand/cy-zonas.js?v=2" defer></script>
   <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
   <link rel="stylesheet" href="/static/brand/cy-portada.css?v=9">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=7" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=9" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="/static/brand/cy-asistente.css?v=9"></noscript>
+  <script src="/static/brand/cy-asistente.js?v=8" defer></script>
   <link rel="stylesheet" href="/static/brand/cili-real.css?v=6">
-  <script src="/static/brand/cili-real.js?v=2" defer></script>
-  <link rel="stylesheet" href="/static/brand/cy-animaciones.css?v=1">
-  <script src="/static/brand/cy-animaciones.js?v=1" defer></script>
+  <script src="/static/brand/cili-real.js?v=3" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-animaciones.css?v=2">
+  <script src="/static/brand/cy-animaciones.js?v=2" defer></script>
 </head>
 <body>
   <div class="cinta" aria-label="Avisos">
@@ -480,7 +480,7 @@
           </div>
           <div class="portada-a__cta-par">
             <a class="boton boton-sf-azul" href="/cliente/">Pedir cilindro · $3,60</a>
-            <button type="button" class="boton boton-sf-naranja" onclick="var b=document.getElementById('cyMayaBtnAbrir');if(b)b.click();">Hablar con Cili</button>
+            <button type="button" class="boton boton-sf-naranja" onclick="var b=document.getElementById('cyCiliBtnAbrir');if(b)b.click();">Hablar con Cili</button>
           </div>
 
           <!-- Tarjeta de pedido en la portada -->
@@ -524,12 +524,12 @@
         <!-- Modelo 3D interactivo de Cili con imagen póster inmediata y anotaciones numeradas -->
         <div class="cili3d-visor" id="cili3dEscenario" role="region" aria-label="Cili, la mascota de CilindroYa, con los puntos clave del servicio">
           <div class="cili3d-lienzo">
-            <img class="cili3d-poster" src="/assets/web/cili_render_saluda.webp" alt="Cili, la mascota de CilindroYa, saludando: cilindro de gas azul con chaleco reflectivo, guantes blancos y zapatillas" width="700" height="1096" fetchpriority="high" decoding="async">
+            <img class="cili3d-poster" src="/assets/web/cili_render_saluda.webp" srcset="/assets/web/cili_render_saluda_420.webp 420w, /assets/web/cili_render_saluda.webp 700w" sizes="(max-width: 760px) 62vw, 330px" alt="Cili, la mascota de CilindroYa, saludando: cilindro de gas azul con chaleco reflectivo, guantes blancos y zapatillas" width="700" height="1096" fetchpriority="high" decoding="async">
           </div>
           <div class="cili3d-anotaciones" aria-label="Puntos destacados del servicio"></div>
           <div class="cili3d-controles-hud">
             <span>Mueve el mouse o toca a Cili</span>
-            <button type="button" style="min-height:44px" onclick="var b=document.getElementById('cyMayaBtnAbrir');if(b)b.click();">Habla con Cili</button>
+            <button type="button" style="min-height:44px" onclick="var b=document.getElementById('cyCiliBtnAbrir');if(b)b.click();">Habla con Cili</button>
           </div>
           <p class="oculto">Cili: 1) $3,60 en tu puerta ($1,65 cilindro + $1,85 entrega + $0,10 plataforma). 2) Canje de cualquier color o marca. 3) Pagas al recibir en efectivo o DeUna.</p>
         </div>

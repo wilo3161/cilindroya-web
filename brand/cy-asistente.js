@@ -16,11 +16,11 @@
 (function () {
   'use strict';
 
-  if (window.__cyMayaIniciado) return;
-  window.__cyMayaIniciado = true;
+  if (window.__cyCiliIniciado) return;
+  window.__cyCiliIniciado = true;
 
-  var CLAVE_SESION = 'cy_maya_sesion_v1';
-  var CLAVE_HISTORIAL = 'cy_maya_historial_v1';
+  var CLAVE_SESION = 'cy_cili_sesion_v1';
+  var CLAVE_HISTORIAL = 'cy_cili_historial_v1';
   var CLAVE_SILENCIO = 'cy_cili_silencio_v1';
   var CLAVE_SALUDO_VOZ = 'cy_cili_saludo_voz_v1';
   var WA_RESPALDO = 'https://wa.me/593993052744?text=' + encodeURIComponent('Hola CilindroYa, necesito ayuda con mi consulta');
@@ -41,13 +41,13 @@
         if (window.crypto && window.crypto.randomUUID) {
           s = window.crypto.randomUUID();
         } else {
-          s = 'maya-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+          s = 'cili-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
         }
         sessionStorage.setItem(CLAVE_SESION, s);
       }
       return s;
     } catch (e) {
-      return 'maya-' + Date.now().toString(36) + '-mem';
+      return 'cili-' + Date.now().toString(36) + '-mem';
     }
   }
 
@@ -93,14 +93,14 @@
 
   function crearAvatarHTML(claseExtra, tamano) {
     var px = tamano || 96;
-    var cls = 'cy-maya-avatar' + (claseExtra ? ' ' + claseExtra : '');
+    var cls = 'cy-cili-avatar' + (claseExtra ? ' ' + claseExtra : '');
     return (
       '<span class="' + cls + '" aria-hidden="true">' +
         '<img src="/assets/web/cili_avatar.webp" alt="" width="' + px + '" height="' + px + '" decoding="async">' +
         '<video class="cy-cili-habla" muted playsinline loop preload="metadata" poster="/assets/web/cili_cara.webp">' +
           '<source src="/assets/web/cili_habla.webm" type="video/webm"><source src="/assets/web/cili_habla.mp4" type="video/mp4">' +
         '</video>' +
-        '<span class="cy-maya-estado-punto"></span>' +
+        '<span class="cy-cili-estado-punto"></span>' +
       '</span>'
     );
   }
@@ -109,13 +109,13 @@
     // El registro de distribuidores ya es una conversación guiada con Cili: ahí no se muestra el botón flotante,
     // que taparía los botones del asistente en el celular.
     if (/^\/distribuidores\/registro(\/|$)/.test(location.pathname)) return;
-    if (document.getElementById('cyMayaRaiz')) return;
+    if (document.getElementById('cyCiliRaiz')) return;
 
     var raiz = document.createElement('div');
-    raiz.id = 'cyMayaRaiz';
-    raiz.className = 'cy-maya-raiz';
+    raiz.id = 'cyCiliRaiz';
+    raiz.className = 'cy-cili-raiz';
     if (document.getElementById('cyxBarra') || document.querySelector('.acciones[style*="sticky"], .wa-float, .whatsapp-float')) {
-      raiz.classList.add('cy-maya-raiz--con-barra');
+      raiz.classList.add('cy-cili-raiz--con-barra');
     }
 
     var silenciado = leerSilencio();
@@ -128,63 +128,63 @@
           '<source src="/assets/web/cili_explica.webm" type="video/webm"><source src="/assets/web/cili_explica.mp4" type="video/mp4">' +
         '</video>' +
       '</div>' +
-      '<button type="button" class="cy-maya-burbuja" id="cyMayaBtnAbrir" aria-haspopup="dialog" aria-expanded="false" aria-controls="cyMayaPanel">' +
+      '<button type="button" class="cy-cili-burbuja" id="cyCiliBtnAbrir" aria-haspopup="dialog" aria-expanded="false" aria-controls="cyCiliPanel">' +
         crearAvatarHTML('', 96) +
         '<span>Habla con Cili</span>' +
       '</button>' +
-      '<section class="cy-maya-panel" id="cyMayaPanel" role="dialog" aria-modal="false" aria-labelledby="cyMayaTitulo" hidden>' +
-        '<header class="cy-maya-cabecera">' +
-          '<div class="cy-maya-cabecera__info">' +
+      '<section class="cy-cili-panel" id="cyCiliPanel" role="dialog" aria-modal="false" aria-labelledby="cyCiliTitulo" hidden>' +
+        '<header class="cy-cili-cabecera">' +
+          '<div class="cy-cili-cabecera__info">' +
             crearAvatarHTML('', 96) +
             '<div>' +
-              '<h2 class="cy-maya-cabecera__titulo" id="cyMayaTitulo">Cili · CilindroYa</h2>' +
-              '<p class="cy-maya-cabecera__sub">Asistente por voz · Imbabura</p>' +
+              '<h2 class="cy-cili-cabecera__titulo" id="cyCiliTitulo">Cili · CilindroYa</h2>' +
+              '<p class="cy-cili-cabecera__sub">Asistente por voz · Imbabura</p>' +
             '</div>' +
           '</div>' +
-          '<div class="cy-maya-cabecera__acciones">' +
-            '<button type="button" class="cy-maya-silencio" id="cyMayaBtnSilencio" aria-pressed="' + (silenciado ? 'true' : 'false') + '" aria-label="' + (silenciado ? 'Activar voz de Cili' : 'Silenciar voz de Cili') + '" title="' + (silenciado ? 'Activar voz' : 'Silenciar voz') + '">' +
+          '<div class="cy-cili-cabecera__acciones">' +
+            '<button type="button" class="cy-cili-silencio" id="cyCiliBtnSilencio" aria-pressed="' + (silenciado ? 'true' : 'false') + '" aria-label="' + (silenciado ? 'Activar voz de Cili' : 'Silenciar voz de Cili') + '" title="' + (silenciado ? 'Activar voz' : 'Silenciar voz') + '">' +
               (silenciado ? '🔇' : '🔊') +
             '</button>' +
-            '<button type="button" class="cy-maya-cerrar" id="cyMayaBtnCerrar" aria-label="Cerrar chat con Cili">×</button>' +
+            '<button type="button" class="cy-cili-cerrar" id="cyCiliBtnCerrar" aria-label="Cerrar chat con Cili">×</button>' +
           '</div>' +
         '</header>' +
-        '<div class="cy-maya-escenario" id="cyMayaEscenario">' +
-          '<div class="cy-maya-escenario__avatar-wrap" id="cyMayaAvatarGrandeWrap">' +
-            '<span class="cy-maya-anillo-voz" id="cyMayaAnilloVoz" aria-hidden="true"></span>' +
-            crearAvatarHTML('cy-maya-avatar--grande', 120) +
+        '<div class="cy-cili-escenario" id="cyCiliEscenario">' +
+          '<div class="cy-cili-escenario__avatar-wrap" id="cyCiliAvatarGrandeWrap">' +
+            '<span class="cy-cili-anillo-voz" id="cyCiliAnilloVoz" aria-hidden="true"></span>' +
+            crearAvatarHTML('cy-cili-avatar--grande', 120) +
           '</div>' +
-          '<div class="cy-maya-subtitulo" id="cyMayaSubtitulo" aria-live="polite" aria-atomic="true">' +
+          '<div class="cy-cili-subtitulo" id="cyCiliSubtitulo" aria-live="polite" aria-atomic="true">' +
             SALUDO_INICIAL_VOZ +
           '</div>' +
-          '<div class="cy-maya-acciones cy-maya-acciones--escenario" id="cyMayaAccionesEscenario" hidden></div>' +
-          '<div class="cy-maya-mic-zona">' +
-            '<button type="button" class="cy-maya-mic-btn" id="cyMayaBtnMic" aria-pressed="false">' +
-              '<span class="cy-maya-mic-btn__icono" aria-hidden="true">🎙️</span>' +
-              '<span class="cy-maya-mic-btn__texto" id="cyMayaMicTexto">Toca y habla</span>' +
-              '<span class="cy-maya-ondas" id="cyMayaOndas" aria-hidden="true">' +
+          '<div class="cy-cili-acciones cy-cili-acciones--escenario" id="cyCiliAccionesEscenario" hidden></div>' +
+          '<div class="cy-cili-mic-zona">' +
+            '<button type="button" class="cy-cili-mic-btn" id="cyCiliBtnMic" aria-pressed="false">' +
+              '<span class="cy-cili-mic-btn__icono" aria-hidden="true">🎙️</span>' +
+              '<span class="cy-cili-mic-btn__texto" id="cyCiliMicTexto">Toca y habla</span>' +
+              '<span class="cy-cili-ondas" id="cyCiliOndas" aria-hidden="true">' +
                 '<span></span><span></span><span></span><span></span>' +
               '</span>' +
             '</button>' +
           '</div>' +
-          '<div class="cy-maya-opciones" id="cyMayaOpciones" role="group" aria-label="Opciones rápidas para responder a Cili"></div>' +
-          '<p class="cy-maya-privacidad">Tu voz se usa solo para entender tu pregunta; no la guardamos.</p>' +
+          '<div class="cy-cili-opciones" id="cyCiliOpciones" role="group" aria-label="Opciones rápidas para responder a Cili"></div>' +
+          '<p class="cy-cili-privacidad">Tu voz se usa solo para entender tu pregunta; no la guardamos.</p>' +
         '</div>' +
-        '<div class="cy-maya-mensajes" id="cyMayaMensajes" aria-live="polite" aria-atomic="false">' +
-          '<div class="cy-maya-escribiendo" id="cyMayaEscribiendo" hidden aria-label="Cili está pensando">' +
-            '<span class="cy-maya-punto"></span><span class="cy-maya-punto"></span><span class="cy-maya-punto"></span>' +
+        '<div class="cy-cili-mensajes" id="cyCiliMensajes" aria-live="polite" aria-atomic="false">' +
+          '<div class="cy-cili-escribiendo" id="cyCiliEscribiendo" hidden aria-label="Cili está pensando">' +
+            '<span class="cy-cili-punto"></span><span class="cy-cili-punto"></span><span class="cy-cili-punto"></span>' +
             '<span>Cili está pensando…</span>' +
           '</div>' +
-          '<form class="cy-maya-form-contacto" id="cyMayaFormContacto" hidden novalidate>' +
-            '<p class="cy-maya-form-contacto__titulo" id="cyMayaFormTitulo">Déjanos tus datos para contactarte por WhatsApp</p>' +
-            '<input type="hidden" id="cyMayaContactoTipo" value="familia">' +
+          '<form class="cy-cili-form-contacto" id="cyCiliFormContacto" hidden novalidate>' +
+            '<p class="cy-cili-form-contacto__titulo" id="cyCiliFormTitulo">Déjanos tus datos para contactarte por WhatsApp</p>' +
+            '<input type="hidden" id="cyCiliContactoTipo" value="familia">' +
             '<label>Nombre completo' +
-              '<input type="text" id="cyMayaContactoNombre" required maxlength="100" placeholder="Ej. María Tobar" autocomplete="name">' +
+              '<input type="text" id="cyCiliContactoNombre" required maxlength="100" placeholder="Ej. María Tobar" autocomplete="name">' +
             '</label>' +
             '<label>Celular WhatsApp (Ecuador)' +
-              '<input type="tel" id="cyMayaContactoTelefono" required maxlength="10" placeholder="0991234567" inputmode="numeric" autocomplete="tel">' +
+              '<input type="tel" id="cyCiliContactoTelefono" required maxlength="10" placeholder="0991234567" inputmode="numeric" autocomplete="tel">' +
             '</label>' +
             '<label>Cantón en Imbabura' +
-              '<select id="cyMayaContactoCanton">' +
+              '<select id="cyCiliContactoCanton">' +
                 '<option value="Ibarra">Ibarra</option>' +
                 '<option value="Otavalo">Otavalo</option>' +
                 '<option value="Antonio Ante">Antonio Ante (Atuntaqui)</option>' +
@@ -193,43 +193,43 @@
                 '<option value="San Miguel de Urcuquí">San Miguel de Urcuquí</option>' +
               '</select>' +
             '</label>' +
-            '<label id="cyMayaCampoCamiones" hidden>Número de camiones autorizados' +
-              '<input type="number" id="cyMayaContactoCamiones" min="1" max="50" value="1">' +
+            '<label id="cyCiliCampoCamiones" hidden>Número de camiones autorizados' +
+              '<input type="number" id="cyCiliContactoCamiones" min="1" max="50" value="1">' +
             '</label>' +
-            '<label class="cy-maya-consent">' +
-              '<input type="checkbox" id="cyMayaContactoConsentimiento" required>' +
+            '<label class="cy-cili-consent">' +
+              '<input type="checkbox" id="cyCiliContactoConsentimiento" required>' +
               '<span>Acepto que CilindroYa me contacte por WhatsApp conforme a la <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span>' +
             '</label>' +
-            '<button type="submit" class="cy-maya-form-contacto__btn" id="cyMayaContactoEnviar">Enviar mis datos</button>' +
-            '<p class="cy-maya-form-contacto__estado" id="cyMayaContactoEstado" aria-live="polite"></p>' +
+            '<button type="submit" class="cy-cili-form-contacto__btn" id="cyCiliContactoEnviar">Enviar mis datos</button>' +
+            '<p class="cy-cili-form-contacto__estado" id="cyCiliContactoEstado" aria-live="polite"></p>' +
           '</form>' +
         '</div>' +
-        '<form class="cy-maya-pie" id="cyMayaFormChat" novalidate>' +
-          '<label for="cyMayaInput" class="oculto" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">o escribe aquí tu pregunta a Cili</label>' +
-          '<input type="text" class="cy-maya-input" id="cyMayaInput" maxlength="500" placeholder="o escribe aquí…" autocomplete="off">' +
-          '<button type="submit" class="cy-maya-enviar" id="cyMayaBtnEnviar">Enviar</button>' +
+        '<form class="cy-cili-pie" id="cyCiliFormChat" novalidate>' +
+          '<label for="cyCiliInput" class="oculto" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">o escribe aquí tu pregunta a Cili</label>' +
+          '<input type="text" class="cy-cili-input" id="cyCiliInput" maxlength="500" placeholder="o escribe aquí…" autocomplete="off">' +
+          '<button type="submit" class="cy-cili-enviar" id="cyCiliBtnEnviar">Enviar</button>' +
         '</form>' +
       '</section>';
 
     document.body.appendChild(raiz);
 
-    var btnAbrir = document.getElementById('cyMayaBtnAbrir');
-    var btnCerrar = document.getElementById('cyMayaBtnCerrar');
-    var btnSilencio = document.getElementById('cyMayaBtnSilencio');
-    var btnMic = document.getElementById('cyMayaBtnMic');
-    var micTexto = document.getElementById('cyMayaMicTexto');
-    var anilloVoz = document.getElementById('cyMayaAnilloVoz');
-    var ondasEl = document.getElementById('cyMayaOndas');
-    var subtituloEl = document.getElementById('cyMayaSubtitulo');
-    var accionesEscenarioEl = document.getElementById('cyMayaAccionesEscenario');
-    var cajaOpciones = document.getElementById('cyMayaOpciones');
-    var panel = document.getElementById('cyMayaPanel');
-    var cajaMensajes = document.getElementById('cyMayaMensajes');
-    var indEscribiendo = document.getElementById('cyMayaEscribiendo');
-    var formChat = document.getElementById('cyMayaFormChat');
-    var inputChat = document.getElementById('cyMayaInput');
-    var btnEnviar = document.getElementById('cyMayaBtnEnviar');
-    var formContacto = document.getElementById('cyMayaFormContacto');
+    var btnAbrir = document.getElementById('cyCiliBtnAbrir');
+    var btnCerrar = document.getElementById('cyCiliBtnCerrar');
+    var btnSilencio = document.getElementById('cyCiliBtnSilencio');
+    var btnMic = document.getElementById('cyCiliBtnMic');
+    var micTexto = document.getElementById('cyCiliMicTexto');
+    var anilloVoz = document.getElementById('cyCiliAnilloVoz');
+    var ondasEl = document.getElementById('cyCiliOndas');
+    var subtituloEl = document.getElementById('cyCiliSubtitulo');
+    var accionesEscenarioEl = document.getElementById('cyCiliAccionesEscenario');
+    var cajaOpciones = document.getElementById('cyCiliOpciones');
+    var panel = document.getElementById('cyCiliPanel');
+    var cajaMensajes = document.getElementById('cyCiliMensajes');
+    var indEscribiendo = document.getElementById('cyCiliEscribiendo');
+    var formChat = document.getElementById('cyCiliFormChat');
+    var inputChat = document.getElementById('cyCiliInput');
+    var btnEnviar = document.getElementById('cyCiliBtnEnviar');
+    var formContacto = document.getElementById('cyCiliFormContacto');
     var asoma = document.getElementById('cyCiliAsoma');
 
     var sinMovimiento = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -371,7 +371,7 @@
         if (!limpio) return;
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'cy-maya-opcion-btn';
+        btn.className = 'cy-cili-opcion-btn';
         btn.textContent = limpio;
         btn.addEventListener('click', function () {
           enviarMensaje(limpio);
@@ -389,7 +389,7 @@
       acciones.forEach(function (acc) {
         if (!acc || !esUrlSegura(acc.url)) return;
         var a = document.createElement('a');
-        a.className = 'cy-maya-accion-enlace';
+        a.className = 'cy-cili-accion-enlace';
         a.href = acc.url;
         a.textContent = acc.texto || 'Abrir enlace';
         if (acc.url.indexOf('wa.me') !== -1) {
@@ -403,18 +403,18 @@
 
     function agregarBurbuja(rol, texto, acciones, reproducirVoz) {
       var div = document.createElement('div');
-      div.className = 'cy-maya-msg cy-maya-msg--' + (rol === 'usuario' ? 'usuario' : 'maya');
+      div.className = 'cy-cili-msg cy-cili-msg--' + (rol === 'usuario' ? 'usuario' : 'cili');
       var p = document.createElement('div');
       p.textContent = texto;
       div.appendChild(p);
 
       if (Array.isArray(acciones) && acciones.length) {
         var contAcc = document.createElement('div');
-        contAcc.className = 'cy-maya-acciones';
+        contAcc.className = 'cy-cili-acciones';
         acciones.forEach(function (acc) {
           if (!acc || !esUrlSegura(acc.url)) return;
           var a = document.createElement('a');
-          a.className = 'cy-maya-accion-enlace';
+          a.className = 'cy-cili-accion-enlace';
           a.href = acc.url;
           a.textContent = acc.texto || 'Abrir enlace';
           if (acc.url.indexOf('wa.me') !== -1) {
@@ -445,9 +445,9 @@
         formContacto.hidden = true;
         return;
       }
-      document.getElementById('cyMayaContactoTipo').value = tipo;
-      var titulo = document.getElementById('cyMayaFormTitulo');
-      var campoCamiones = document.getElementById('cyMayaCampoCamiones');
+      document.getElementById('cyCiliContactoTipo').value = tipo;
+      var titulo = document.getElementById('cyCiliFormTitulo');
+      var campoCamiones = document.getElementById('cyCiliCampoCamiones');
       if (tipo === 'distribuidor') {
         titulo.textContent = '¿Eres distribuidor autorizado Vepagas? Déjanos tus datos:';
         campoCamiones.hidden = false;
@@ -466,7 +466,7 @@
     var historialGuardado = leerHistorial();
     if (historialGuardado.length) {
       historialGuardado.forEach(function (t) {
-        if (t && (t.rol === 'usuario' || t.rol === 'maya') && t.texto) {
+        if (t && (t.rol === 'usuario' || t.rol === 'cili') && t.texto) {
           agregarBurbuja(t.rol, t.texto, [], false);
         }
       });
@@ -826,12 +826,12 @@
           var acciones = (data && Array.isArray(data.acciones)) ? data.acciones : [];
           var opciones = (data && Array.isArray(data.opciones) && data.opciones.length) ? data.opciones : OPCIONES_INICIALES;
           pintarOpciones(opciones);
-          agregarBurbuja('maya', respTexto, acciones, true);
+          agregarBurbuja('cili', respTexto, acciones, true);
           mostrarFormularioContacto(data ? data.pedir_contacto : null);
 
           var nuevoHist = historialActual.concat([
             { rol: 'usuario', texto: limpio },
-            { rol: 'maya', texto: respTexto.slice(0, 500) }
+            { rol: 'cili', texto: respTexto.slice(0, 500) }
           ]).slice(-8);
           guardarHistorial(nuevoHist);
         })
@@ -840,7 +840,7 @@
           btnEnviar.disabled = false;
           pintarOpciones(OPCIONES_INICIALES);
           agregarBurbuja(
-            'maya',
+            'cili',
             'En este momento mi conexión está ocupada, pero te atendemos enseguida por WhatsApp al 099 305 2744.',
             [{ tipo: 'enlace', texto: 'Escribir por WhatsApp · 099 305 2744', url: WA_RESPALDO }],
             false
@@ -855,14 +855,14 @@
 
     formContacto.addEventListener('submit', function (ev) {
       ev.preventDefault();
-      var estadoEl = document.getElementById('cyMayaContactoEstado');
-      var btnContacto = document.getElementById('cyMayaContactoEnviar');
-      var tipo = document.getElementById('cyMayaContactoTipo').value;
-      var nombre = (document.getElementById('cyMayaContactoNombre').value || '').trim();
-      var telefono = (document.getElementById('cyMayaContactoTelefono').value || '').replace(/\D/g, '');
-      var canton = document.getElementById('cyMayaContactoCanton').value;
-      var camionesVal = parseInt(document.getElementById('cyMayaContactoCamiones').value || '1', 10);
-      var consentimiento = !!document.getElementById('cyMayaContactoConsentimiento').checked;
+      var estadoEl = document.getElementById('cyCiliContactoEstado');
+      var btnContacto = document.getElementById('cyCiliContactoEnviar');
+      var tipo = document.getElementById('cyCiliContactoTipo').value;
+      var nombre = (document.getElementById('cyCiliContactoNombre').value || '').trim();
+      var telefono = (document.getElementById('cyCiliContactoTelefono').value || '').replace(/\D/g, '');
+      var canton = document.getElementById('cyCiliContactoCanton').value;
+      var camionesVal = parseInt(document.getElementById('cyCiliContactoCamiones').value || '1', 10);
+      var consentimiento = !!document.getElementById('cyCiliContactoConsentimiento').checked;
 
       if (nombre.length < 2) {
         estadoEl.style.color = '#B42318';

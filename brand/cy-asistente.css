@@ -5,7 +5,7 @@
  * foco visible de alto contraste y diseño adaptable a pantallas móviles desde 375 px sin tapar botones clave.
  */
 
-.cy-maya-raiz {
+.cy-cili-raiz {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
   bottom: calc(18px + env(safe-area-inset-bottom));
@@ -15,11 +15,11 @@
 }
 
 /* Si la página tiene barra inferior o botón flotante de WhatsApp abajo a la derecha, se ubica encima */
-.cy-maya-raiz.cy-maya-raiz--con-barra {
+.cy-cili-raiz.cy-cili-raiz--con-barra {
   bottom: calc(82px + env(safe-area-inset-bottom));
 }
 
-.cy-maya-burbuja {
+.cy-cili-burbuja {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -36,22 +36,22 @@
   transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.18s ease;
 }
 
-.cy-maya-burbuja:hover {
+.cy-cili-burbuja:hover {
   background: #0A59DA;
   transform: translateY(-2px);
 }
 
-.cy-maya-burbuja:active {
+.cy-cili-burbuja:active {
   transform: translateY(0) scale(0.98);
 }
 
-.cy-maya-burbuja:focus-visible,
-.cy-maya-panel :where(button, a, input, select):focus-visible {
+.cy-cili-burbuja:focus-visible,
+.cy-cili-panel :where(button, a, input, select):focus-visible {
   outline: 3px solid #FF8A00;
   outline-offset: 2px;
 }
 
-.cy-maya-avatar {
+.cy-cili-avatar {
   position: relative;
   width: 38px;
   height: 38px;
@@ -68,14 +68,14 @@
   border: 2px solid rgba(255, 255, 255, 0.85);
 }
 
-.cy-maya-avatar img {
+.cy-cili-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.cy-maya-estado-punto {
+.cy-cili-estado-punto {
   position: absolute;
   right: 2px;
   bottom: 2px;
@@ -87,7 +87,7 @@
 }
 
 /* Panel del chat */
-.cy-maya-panel {
+.cy-cili-panel {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
   bottom: calc(80px + env(safe-area-inset-bottom));
@@ -103,11 +103,11 @@
   z-index: 951;
 }
 
-.cy-maya-panel[hidden] {
+.cy-cili-panel[hidden] {
   display: none !important;
 }
 
-.cy-maya-cabecera {
+.cy-cili-cabecera {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,26 +117,26 @@
   color: #FFFFFF;
 }
 
-.cy-maya-cabecera__info {
+.cy-cili-cabecera__info {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
 }
 
-.cy-maya-cabecera__titulo {
+.cy-cili-cabecera__titulo {
   margin: 0;
   font: 800 16px/1.2 "Plus Jakarta Sans", system-ui, sans-serif;
   color: #FFFFFF;
 }
 
-.cy-maya-cabecera__sub {
+.cy-cili-cabecera__sub {
   margin: 2px 0 0;
   font: 600 12px/1.3 "Plus Jakarta Sans", system-ui, sans-serif;
   color: #CFE0FA;
 }
 
-.cy-maya-cerrar {
+.cy-cili-cerrar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -153,12 +153,12 @@
   flex: 0 0 44px;
 }
 
-.cy-maya-cerrar:hover {
+.cy-cili-cerrar:hover {
   background: rgba(255, 255, 255, 0.24);
 }
 
 /* Cuerpo de mensajes */
-.cy-maya-mensajes {
+.cy-cili-mensajes {
   flex: 1;
   overflow-y: auto;
   padding: 14px 14px 10px;
@@ -168,7 +168,7 @@
   gap: 10px;
 }
 
-.cy-maya-msg {
+.cy-cili-msg {
   max-width: 88%;
   padding: 11px 14px;
   border-radius: 16px;
@@ -176,7 +176,7 @@
   word-wrap: break-word;
 }
 
-.cy-maya-msg--maya {
+.cy-cili-msg--cili {
   align-self: flex-start;
   background: #FFFFFF;
   color: #09294A;
@@ -184,7 +184,7 @@
   border-bottom-left-radius: 4px;
 }
 
-.cy-maya-msg--usuario {
+.cy-cili-msg--usuario {
   align-self: flex-end;
   background: #0A59DA;
   color: #FFFFFF;
@@ -193,14 +193,14 @@
 }
 
 /* Acciones sugeridas debajo de la respuesta */
-.cy-maya-acciones {
+.cy-cili-acciones {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 8px;
 }
 
-.cy-maya-accion-enlace {
+.cy-cili-accion-enlace {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -215,20 +215,20 @@
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.cy-maya-accion-enlace:hover {
+.cy-cili-accion-enlace:hover {
   background: #0A59DA;
   color: #FFFFFF;
 }
 
 /* Sugerencias iniciales */
-.cy-maya-sugerencias {
+.cy-cili-sugerencias {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   padding: 4px 0 2px;
 }
 
-.cy-maya-chip {
+.cy-cili-chip {
   min-height: 40px;
   padding: 6px 12px;
   border-radius: 12px;
@@ -241,14 +241,14 @@
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.cy-maya-chip:hover {
+.cy-cili-chip:hover {
   background: #E7EEF7;
   border-color: #0A59DA;
   color: #0A59DA;
 }
 
 /* Indicador de escritura */
-.cy-maya-escribiendo {
+.cy-cili-escribiendo {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -261,28 +261,28 @@
   color: #3D5573;
 }
 
-.cy-maya-escribiendo[hidden] {
+.cy-cili-escribiendo[hidden] {
   display: none !important;
 }
 
-.cy-maya-punto {
+.cy-cili-punto {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #0A59DA;
-  animation: cyMayaPulso 1s infinite ease-in-out;
+  animation: cyCiliPulso 1s infinite ease-in-out;
 }
 
-.cy-maya-punto:nth-child(2) { animation-delay: 0.15s; }
-.cy-maya-punto:nth-child(3) { animation-delay: 0.3s; }
+.cy-cili-punto:nth-child(2) { animation-delay: 0.15s; }
+.cy-cili-punto:nth-child(3) { animation-delay: 0.3s; }
 
-@keyframes cyMayaPulso {
+@keyframes cyCiliPulso {
   0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
   40% { transform: translateY(-4px); opacity: 1; }
 }
 
 /* Formulario corto de contacto dentro del chat */
-.cy-maya-form-contacto {
+.cy-cili-form-contacto {
   background: #FFFFFF;
   border: 1.5px solid #0A59DA;
   border-radius: 16px;
@@ -292,27 +292,27 @@
   margin-top: 4px;
 }
 
-.cy-maya-form-contacto[hidden] {
+.cy-cili-form-contacto[hidden] {
   display: none !important;
 }
 
-.cy-maya-form-contacto__titulo {
+.cy-cili-form-contacto__titulo {
   margin: 0;
   font: 800 14px/1.3 "Plus Jakarta Sans", system-ui, sans-serif;
   color: #09294A;
 }
 
-.cy-maya-form-contacto label {
+.cy-cili-form-contacto label {
   display: grid;
   gap: 3px;
   font: 700 12.5px/1.2 "Plus Jakarta Sans", system-ui, sans-serif;
   color: #3D5573;
 }
 
-.cy-maya-form-contacto input[type="text"],
-.cy-maya-form-contacto input[type="tel"],
-.cy-maya-form-contacto input[type="number"],
-.cy-maya-form-contacto select {
+.cy-cili-form-contacto input[type="text"],
+.cy-cili-form-contacto input[type="tel"],
+.cy-cili-form-contacto input[type="number"],
+.cy-cili-form-contacto select {
   width: 100%;
   min-height: 42px;
   padding: 6px 10px;
@@ -323,7 +323,7 @@
   background: #FFFFFF;
 }
 
-.cy-maya-form-contacto .cy-maya-consent {
+.cy-cili-form-contacto .cy-cili-consent {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -332,7 +332,7 @@
   cursor: pointer;
 }
 
-.cy-maya-form-contacto .cy-maya-consent input {
+.cy-cili-form-contacto .cy-cili-consent input {
   width: 18px;
   height: 18px;
   margin-top: 1px;
@@ -340,7 +340,7 @@
   flex: 0 0 18px;
 }
 
-.cy-maya-form-contacto__btn {
+.cy-cili-form-contacto__btn {
   min-height: 44px;
   border: 0;
   border-radius: 999px;
@@ -350,17 +350,17 @@
   cursor: pointer;
 }
 
-.cy-maya-form-contacto__btn:hover {
+.cy-cili-form-contacto__btn:hover {
   background: #FF9F2E;
 }
 
-.cy-maya-form-contacto__estado {
+.cy-cili-form-contacto__estado {
   font: 700 12.5px/1.3 "Plus Jakarta Sans", system-ui, sans-serif;
   margin: 0;
 }
 
 /* Pie de entrada de texto */
-.cy-maya-pie {
+.cy-cili-pie {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -369,7 +369,7 @@
   border-top: 1px solid #DCE5F0;
 }
 
-.cy-maya-input {
+.cy-cili-input {
   flex: 1;
   min-width: 0;
   min-height: 44px;
@@ -381,13 +381,13 @@
   background: #F4F7FB;
 }
 
-.cy-maya-input:focus {
+.cy-cili-input:focus {
   outline: none;
   border-color: #0A59DA;
   background: #FFFFFF;
 }
 
-.cy-maya-enviar {
+.cy-cili-enviar {
   min-height: 44px;
   padding: 0 16px;
   border-radius: 999px;
@@ -399,33 +399,33 @@
   flex: 0 0 auto;
 }
 
-.cy-maya-enviar:hover {
+.cy-cili-enviar:hover {
   background: #0743A6;
 }
 
-.cy-maya-enviar:disabled {
+.cy-cili-enviar:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
 /* Adaptación en teléfonos (375 px) para no tapar CTA principales */
 @media (max-width: 480px) {
-  .cy-maya-raiz {
+  .cy-cili-raiz {
     right: 12px;
     bottom: calc(14px + env(safe-area-inset-bottom));
   }
-  .cy-maya-burbuja {
+  .cy-cili-burbuja {
     min-height: 48px;
     padding: 5px 14px 5px 6px;
     font-size: 14px;
   }
-  .cy-maya-avatar {
+  .cy-cili-avatar {
     width: 34px;
     height: 34px;
     flex-basis: 34px;
     font-size: 15px;
   }
-  .cy-maya-panel {
+  .cy-cili-panel {
     right: 8px;
     left: 8px;
     width: auto;
@@ -435,8 +435,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cy-maya-burbuja,
-  .cy-maya-punto {
+  .cy-cili-burbuja,
+  .cy-cili-punto {
     transition: none;
     animation: none;
   }
@@ -444,36 +444,36 @@
 
 /* El panel es un <section>: las páginas tienen reglas globales «section { padding/margin }» que lo deformaban
    (recuadro blanco arriba y cabecera corrida). El panel define su propio espacio. */
-section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
+section.cy-cili-panel { padding: 0; margin: 0; min-height: 0; }
 
 /* ── Animaciones del avatar del asistente ──────────────────────────────────────────────────────────────
    Saludo de la burbuja una sola vez, panel que crece desde la burbuja, mensajes que entran, avatar que
-   «piensa» mientras Maya escribe y punto de estado que respira. Todo se apaga con reducir movimiento. */
+   «piensa» mientras Cili escribe y punto de estado que respira. Todo se apaga con reducir movimiento. */
 @media (prefers-reduced-motion: no-preference) {
-  .cy-maya-burbuja { animation: cyMayaSaludo 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 4s 1 both; }
-  .cy-maya-panel:not([hidden]) { transform-origin: 100% 100%; animation: cyMayaAbre 0.24s cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .cy-maya-msg { animation: cyMayaEntra 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  .cy-maya-msg--usuario { animation-name: cyMayaEntraDer; }
-  .cy-maya-estado-punto { animation: cyMayaRespira 2.6s ease-in-out infinite; }
-  .cy-maya-panel:has(.cy-maya-escribiendo:not([hidden])) .cy-maya-cabecera .cy-maya-avatar {
-    animation: cyMayaPiensa 1.2s ease-in-out infinite;
+  .cy-cili-burbuja { animation: cyCiliSaludo 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 4s 1 both; }
+  .cy-cili-panel:not([hidden]) { transform-origin: 100% 100%; animation: cyCiliAbre 0.24s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .cy-cili-msg { animation: cyCiliEntra 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .cy-cili-msg--usuario { animation-name: cyCiliEntraDer; }
+  .cy-cili-estado-punto { animation: cyCiliRespira 2.6s ease-in-out infinite; }
+  .cy-cili-panel:has(.cy-cili-escribiendo:not([hidden])) .cy-cili-cabecera .cy-cili-avatar {
+    animation: cyCiliPiensa 1.2s ease-in-out infinite;
   }
 }
-@keyframes cyMayaSaludo {
+@keyframes cyCiliSaludo {
   0%, 100% { transform: none; }
   20% { transform: translateY(-6px) rotate(-3deg); }
   40% { transform: translateY(0) rotate(2deg); }
   60% { transform: translateY(-3px) rotate(-1deg); }
 }
-@keyframes cyMayaAbre { from { opacity: 0; transform: scale(0.92) translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes cyMayaEntra { from { opacity: 0; transform: translate(-8px, 6px); } to { opacity: 1; transform: none; } }
-@keyframes cyMayaEntraDer { from { opacity: 0; transform: translate(8px, 6px); } to { opacity: 1; transform: none; } }
-@keyframes cyMayaRespira { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); } 50% { box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); } }
-@keyframes cyMayaPiensa { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.6); } 50% { box-shadow: 0 0 0 6px rgba(255, 138, 0, 0); } }
+@keyframes cyCiliAbre { from { opacity: 0; transform: scale(0.92) translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes cyCiliEntra { from { opacity: 0; transform: translate(-8px, 6px); } to { opacity: 1; transform: none; } }
+@keyframes cyCiliEntraDer { from { opacity: 0; transform: translate(8px, 6px); } to { opacity: 1; transform: none; } }
+@keyframes cyCiliRespira { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); } 50% { box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); } }
+@keyframes cyCiliPiensa { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.6); } 50% { box-shadow: 0 0 0 6px rgba(255, 138, 0, 0); } }
 
 /* ── Cili, la mascota, como asistente ───────────────────────────────────────────────── */
-.cy-maya-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.cy-maya-avatar { background: #0A59DA; overflow: visible; }
+.cy-cili-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.cy-cili-avatar { background: #0A59DA; overflow: visible; }
 
 /* Cili se asoma por encima de la burbuja con un globo de saludo */
 .cy-cili-asoma { position: absolute; right: 6px; bottom: calc(100% - 6px); width: 150px; display: flex;
@@ -485,7 +485,7 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   color: #09294A; background: #fff; border: 1.5px solid #DCE5F0; border-radius: 14px 14px 4px 14px; padding: 9px 12px;
   box-shadow: 0 10px 24px -12px rgba(9, 41, 74, .5); text-align: left; margin-bottom: 4px; }
 .cy-cili-asoma__globo:hover { border-color: #0A59DA; }
-.cy-cili-asoma__cerrar { pointer-events: auto; position: absolute; top: -10px; left: -6px; width: 26px; height: 26px;
+.cy-cili-asoma__cerrar { pointer-events: auto; position: absolute; top: -14px; left: -10px; width: 32px; height: 32px; z-index: 3;
   border-radius: 50%; border: 0; background: #09294A; color: #fff; font-size: 16px; line-height: 1; cursor: pointer; }
 @media (max-width: 480px) { .cy-cili-asoma__img { width: 74px; } .cy-cili-asoma { width: 140px; } }
 
@@ -493,8 +493,8 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   .cy-cili-asoma:not([hidden]) .cy-cili-asoma__img { animation: cyCiliAsoma 0.7s cubic-bezier(0.2, 0.8, 0.2, 1.2) both,
     cyCiliMira 4.5s ease-in-out 0.9s infinite; }
   .cy-cili-asoma:not([hidden]) .cy-cili-asoma__globo { animation: cyCiliGlobo 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.3) 0.55s both; }
-  .cy-maya-burbuja .cy-maya-avatar img { animation: cyCiliBalanceo 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
-  .cy-maya-panel:has(.cy-maya-escribiendo:not([hidden])) .cy-maya-cabecera .cy-maya-avatar img {
+  .cy-cili-burbuja .cy-cili-avatar img { animation: cyCiliBalanceo 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
+  .cy-cili-panel:has(.cy-cili-escribiendo:not([hidden])) .cy-cili-cabecera .cy-cili-avatar img {
     animation: cyCiliPiensa 0.9s ease-in-out infinite; }
 }
 @keyframes cyCiliAsoma { from { opacity: 0; transform: translateY(60%) scale(.8); } to { opacity: 1; transform: none; } }
@@ -506,9 +506,9 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   60% { transform: translateY(0) rotate(8deg); } }
 
 /* Cili habla: la cara de video aparece solo mientras «dice» la respuesta; el saludo es Cili explicando */
-.cy-maya-avatar .cy-cili-habla { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+.cy-cili-avatar .cy-cili-habla { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   border-radius: 50%; opacity: 0; transition: opacity .18s ease; }
-.cy-cili--habla .cy-maya-avatar .cy-cili-habla { opacity: 1; }
+.cy-cili--habla .cy-cili-avatar .cy-cili-habla { opacity: 1; }
 .cy-cili-asoma video.cy-cili-asoma__img { width: 104px; height: auto; border-radius: 16px; border: 3px solid #fff;
   box-shadow: 0 12px 26px -12px rgba(9, 41, 74, .55); filter: none; background: #EAF1FE; }
 @media (max-width: 480px) { .cy-cili-asoma video.cy-cili-asoma__img { width: 86px; } }
@@ -520,14 +520,14 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
 }
 
 /* ── Modo Voz Primero (Cili habla, escucha y guía como vendedor) ────────────────────────────────── */
-.cy-maya-cabecera__acciones {
+.cy-cili-cabecera__acciones {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   flex: 0 0 auto;
 }
 
-.cy-maya-silencio {
+.cy-cili-silencio {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -543,15 +543,15 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   flex: 0 0 44px;
 }
 
-.cy-maya-silencio:hover {
+.cy-cili-silencio:hover {
   background: rgba(255, 255, 255, 0.26);
 }
 
-.cy-maya-silencio[aria-pressed="true"] {
+.cy-cili-silencio[aria-pressed="true"] {
   background: rgba(255, 138, 0, 0.28);
 }
 
-.cy-maya-escenario {
+.cy-cili-escenario {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -563,7 +563,7 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   flex: 0 0 auto;
 }
 
-.cy-maya-escenario__avatar-wrap {
+.cy-cili-escenario__avatar-wrap {
   position: relative;
   width: 120px;
   height: 120px;
@@ -572,7 +572,7 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   justify-content: center;
 }
 
-.cy-maya-avatar.cy-maya-avatar--grande {
+.cy-cili-avatar.cy-cili-avatar--grande {
   width: 120px;
   height: 120px;
   flex: 0 0 120px;
@@ -580,7 +580,7 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   box-shadow: 0 10px 24px rgba(9, 41, 74, 0.22);
 }
 
-.cy-maya-avatar.cy-maya-avatar--grande .cy-maya-estado-punto {
+.cy-cili-avatar.cy-cili-avatar--grande .cy-cili-estado-punto {
   right: 6px;
   bottom: 6px;
   width: 14px;
@@ -588,7 +588,7 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   border-width: 2.5px;
 }
 
-.cy-maya-anillo-voz {
+.cy-cili-anillo-voz {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
@@ -599,11 +599,11 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   transition: transform 0.08s ease-out, opacity 0.15s ease;
 }
 
-.cy-cili--escuchando .cy-maya-anillo-voz {
+.cy-cili--escuchando .cy-cili-anillo-voz {
   opacity: 0.75;
 }
 
-.cy-maya-subtitulo {
+.cy-cili-subtitulo {
   width: 100%;
   max-height: 86px;
   overflow-y: auto;
@@ -616,22 +616,22 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   box-shadow: 0 2px 8px rgba(9, 41, 74, 0.05);
 }
 
-.cy-maya-acciones--escenario {
+.cy-cili-acciones--escenario {
   justify-content: center;
   margin-top: 2px;
 }
 
-.cy-maya-acciones--escenario[hidden] {
+.cy-cili-acciones--escenario[hidden] {
   display: none !important;
 }
 
-.cy-maya-mic-zona {
+.cy-cili-mic-zona {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.cy-maya-mic-btn {
+.cy-cili-mic-btn {
   width: 100%;
   min-height: 48px;
   padding: 8px 18px;
@@ -649,29 +649,29 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.cy-maya-mic-btn:hover {
+.cy-cili-mic-btn:hover {
   background: #FF9F2E;
 }
 
-.cy-maya-mic-btn[aria-pressed="true"] {
+.cy-cili-mic-btn[aria-pressed="true"] {
   background: #D92D20;
   border-color: #FFFFFF;
   color: #FFFFFF;
   box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.25);
 }
 
-.cy-maya-ondas {
+.cy-cili-ondas {
   display: none;
   align-items: center;
   gap: 3px;
   height: 20px;
 }
 
-.cy-cili--escuchando .cy-maya-ondas {
+.cy-cili--escuchando .cy-cili-ondas {
   display: inline-flex;
 }
 
-.cy-maya-ondas span {
+.cy-cili-ondas span {
   width: 3px;
   height: 8px;
   border-radius: 999px;
@@ -679,14 +679,14 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   transition: height 0.08s ease;
 }
 
-.cy-maya-opciones {
+.cy-cili-opciones {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 6px;
 }
 
-.cy-maya-opcion-btn {
+.cy-cili-opcion-btn {
   min-height: 44px;
   padding: 7px 11px;
   border-radius: 12px;
@@ -699,41 +699,41 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.cy-maya-opcion-btn:hover {
+.cy-cili-opcion-btn:hover {
   background: #0A59DA;
   color: #FFFFFF;
 }
 
-.cy-maya-privacidad {
+.cy-cili-privacidad {
   margin: 0;
   font: 500 11px/1.3 "Plus Jakarta Sans", system-ui, sans-serif;
   color: #4A607A;
 }
 
 @media (max-width: 480px) {
-  .cy-maya-escenario {
+  .cy-cili-escenario {
     padding: 8px 10px;
     gap: 6px;
   }
-  .cy-maya-escenario__avatar-wrap,
-  .cy-maya-avatar.cy-maya-avatar--grande {
+  .cy-cili-escenario__avatar-wrap,
+  .cy-cili-avatar.cy-cili-avatar--grande {
     width: 96px;
     height: 96px;
     flex-basis: 96px;
   }
-  .cy-maya-subtitulo {
+  .cy-cili-subtitulo {
     font-size: 13px;
     max-height: 72px;
     padding: 6px 10px;
   }
-  .cy-maya-mic-btn {
+  .cy-cili-mic-btn {
     min-height: 44px;
     font-size: 14px;
   }
-  .cy-maya-opciones {
+  .cy-cili-opciones {
     grid-template-columns: 1fr 1fr;
   }
-  .cy-maya-opcion-btn {
+  .cy-cili-opcion-btn {
     min-height: 42px;
     font-size: 12.5px;
     padding: 6px 8px;
@@ -741,9 +741,9 @@ section.cy-maya-panel { padding: 0; margin: 0; min-height: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cy-maya-anillo-voz,
-  .cy-maya-ondas span,
-  .cy-maya-mic-btn {
+  .cy-cili-anillo-voz,
+  .cy-cili-ondas span,
+  .cy-cili-mic-btn {
     transition: none !important;
     animation: none !important;
   }

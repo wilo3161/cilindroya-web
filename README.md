@@ -4,7 +4,11 @@ Sitio web de **CilindroYa**, plataforma de gas doméstico a domicilio en Imbabur
 cilindro desde el celular, un distribuidor autorizado lo lleva a la puerta y cobra al entregar.
 
 Proyecto presentado al reto **«Hazte visible en internet y vende más»** (Hostinger × Irremplazables, 14–15 de
-noviembre de 2026). Autor: Wilson Pérez (Ibarra, Ecuador).
+noviembre de 2026). Autor: **Ing. Wilson Pérez**, ingeniero en Logística y Transporte (Ibarra, Ecuador).
+
+**El problema:** en Imbabura los camiones de gas recorren los barrios perifoneando para encontrar clientes; gastan
+combustible en vueltas sin pedido y generan ruido. CilindroYa lleva el pedido al celular: el distribuidor autorizado
+recibe la dirección, arma su ruta por cercanía y entrega en unos 15 a 20 minutos.
 
 - Sitio en vivo: https://cilindroya.com
 - Alojamiento: Hostinger (plan Premium), dominio propio con Cloudflare al frente (SSL y caché).
@@ -70,3 +74,23 @@ robots.txt · sitemap.xml · llms.txt · 404.html · .htaccess
 ```
 
 No se inventan datos: precios, zonas, horarios y condiciones salen de la operación real de CilindroYa.
+
+## Documentos del reto
+
+| Documento | Contenido |
+|---|---|
+| [docs/mapa-de-preguntas.md](docs/mapa-de-preguntas.md) | Preguntas reales de clientes por momento de decisión y dónde se responden |
+| [docs/prueba-de-respuestas.md](docs/prueba-de-respuestas.md) | Prueba de respuestas: 10 de 10 preguntas respondidas con el contenido publicado |
+| [docs/auditoria.md](docs/auditoria.md) | Auditoría técnica: HTTPS, robots, sitemap, llms.txt, datos estructurados y Lighthouse |
+| [docs/roadmap-90-dias.md](docs/roadmap-90-dias.md) | Plan de visibilidad a 90 días y cómo se mide |
+
+## Cómo verificarlo
+
+1. `https://cilindroya.com/robots.txt`, `/sitemap.xml` y `/llms.txt`.
+2. `/preguntas/` en la [Prueba de resultados enriquecidos de Google](https://search.google.com/test/rich-results): detecta `FAQPage`.
+3. Lighthouse o PageSpeed Insights de `/hogar/` en celular y escritorio.
+4. Una dirección que no existe muestra la página 404 con Cili.
+
+## Licencia
+
+MIT. Ver [LICENSE](LICENSE).

@@ -19,10 +19,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/brand/brand.css">
-  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Article","headline":"Distribuidor de gas en Imbabura: cómo salir con la carga ya vendida",
@@ -37,201 +38,130 @@
   {"@type":"Question","name":"¿Cuánto cuesta?","acceptedAnswer":{"@type":"Answer","text":"Los primeros 30 días no hay comisión. Después se paga $0,10 por cilindro entregado, sin mensualidad."}},
   {"@type":"Question","name":"¿Cómo me pagan los clientes?","acceptedAnswer":{"@type":"Answer","text":"El cobro es directo al distribuidor: en efectivo, con su QR de DeUna o a su cuenta."}},
   {"@type":"Question","name":"¿Qué necesito para la factura automática?","acceptedAnswer":{"@type":"Answer","text":"RUC y firma electrónica en archivo .p12. Con eso la factura se emite sola al entregar."}},
-  {"@type":"Question","name":"¿A qué hora piden los clientes?","acceptedAnswer":{"@type":"Answer","text":"El cliente programa la hora de entrega entre las 06:30 y las 19:30."}}]}]}
+  {"@type":"Question","name":"¿A qué hora piden los clientes?","acceptedAnswer":{"@type":"Answer","text":"El cliente programa la hora de entrega entre las 06:30 y las 19:30."}},
+  {"@type":"Question","name":"¿Quién está detrás de CilindroYa?","acceptedAnswer":{"@type":"Answer","text":"Un ingeniero en logística de Imbabura que quiso ordenar la entrega de gas para las familias y para quienes la reparten."}}]}]}
   </script>
-  <style>
-    :root {
-      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
-      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00;
-      --m: clamp(20px, 4vw, 56px);
-      --s-display: clamp(32px, 5vw, 60px);
-      --s-h2: clamp(24px, 3.4vw, 36px);
-      --s-lead: clamp(18px, 1.5vw, 21px);
-      --s-body: 17px;
-      --s-small: 14px;
-      --ease: cubic-bezier(.2, .7, .2, 1);
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 var(--s-body)/1.65 "Plus Jakarta Sans", system-ui, sans-serif; overflow-x: clip; }
-    img { display: block; max-width: 100%; height: auto; }
-    a { color: var(--accent); }
-    h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.12; color: var(--ink); }
-    p { margin: 0; }
-    .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; }
-    .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; border-radius: 999px;
-             background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; font-size: var(--s-body); border: 0; cursor: pointer;
-             transition: background .18s var(--ease), transform .18s var(--ease); }
-    .boton:hover { background: var(--accent-press); transform: translateY(-2px); }
-    .boton--naranja { background: var(--naranja); color: var(--ink); }
-    .boton--naranja:hover { background: #FF9F2E; }
-    .boton--claro { background: rgba(255, 255, 255, .12); color: #fff; border: 1.5px solid rgba(255, 255, 255, .4); }
-    .boton--claro:hover { background: rgba(255, 255, 255, .22); }
-
-    /* Barra superior */
-    .barra { display: flex; align-items: center; gap: 28px; padding: 24px var(--m); background: #fff; border-bottom: 1px solid #E4E9F1; }
-    .barra img { height: 40px; width: auto; }
-    .barra nav { margin-left: auto; display: flex; gap: 26px; }
-    .barra nav a { text-decoration: none; font-weight: 700; font-size: var(--s-body); color: var(--ink); }
-    .barra nav a:hover, .barra nav a[aria-current="page"] { color: var(--accent); }
-    .barra .boton { min-height: 46px; padding: 0 22px; font-size: 16px; color: #fff; }
-
-    /* Artículo */
-    .articulo { max-width: 820px; margin: 0 auto; padding: clamp(36px, 6vw, 72px) var(--m); }
-    .migas { display: flex; flex-wrap: wrap; gap: 8px; font-size: var(--s-small); font-weight: 700; color: var(--muted); margin-bottom: 20px; }
-    .migas a { text-decoration: none; color: var(--accent); }
-    .migas a:hover { text-decoration: underline; }
-    .etiqueta { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EAF2FF; color: var(--accent);
-                font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; }
-    .articulo h1 { font-size: var(--s-display); }
-    .articulo .meta { margin-top: 14px; color: var(--muted); font-size: 15px; font-weight: 600; }
-
-    .resumen { margin-top: 28px; background: #fff; border: 1px solid #DCE5F0; border-left: 5px solid var(--naranja);
-               border-radius: 20px; padding: 22px 24px; box-shadow: 0 12px 30px -20px rgba(9, 41, 74, .3); }
-    .resumen strong { display: block; font-size: 18px; color: var(--ink); margin-bottom: 8px; }
-
-    .articulo h2 { margin-top: 44px; margin-bottom: 14px; font-size: var(--s-h2); }
-    .articulo p + p { margin-top: 14px; }
-    .articulo ol, .articulo ul { margin: 16px 0 0; padding-left: 22px; display: grid; gap: 12px; }
-    .articulo li { line-height: 1.6; }
-    .articulo li strong { color: var(--ink); }
-
-    /* Preguntas frecuentes */
-    .faq-lista { margin-top: 20px; display: grid; gap: 12px; }
-    .articulo details { background: #fff; border: 1px solid #DCE5F0; border-radius: 16px; padding: 0 20px; transition: background .2s; }
-    .articulo details[open] { background: var(--surface); padding-bottom: 18px; }
-    .articulo summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-                        padding: 18px 0; font-size: 18px; font-weight: 700; color: var(--ink); min-height: 48px; }
-    .articulo summary::-webkit-details-marker { display: none; }
-    .articulo summary::after { content: ""; flex: 0 0 10px; height: 10px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
-                              transform: rotate(45deg); transition: transform .2s var(--ease); }
-    .articulo details[open] summary::after { transform: rotate(-135deg); }
-    .articulo details p { color: var(--muted); }
-
-    /* Caja CTA */
-    .caja-cta { margin-top: 52px; border-radius: 28px; padding: clamp(28px, 5vw, 48px); color: #fff;
-                background: radial-gradient(45% 70% at 90% 10%, rgba(255, 138, 0, .28) 0%, rgba(255, 138, 0, 0) 70%),
-                            radial-gradient(50% 70% at 0% 100%, rgba(10, 89, 218, .5) 0%, rgba(10, 89, 218, 0) 70%), #051428; }
-    .caja-cta h2 { margin-top: 0; color: #fff; }
-    .caja-cta p { margin-top: 10px; color: #DCE6F2; font-size: var(--s-lead); }
-    .caja-cta .acciones { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
-
-    /* Pie */
-    footer { background: var(--accent); color: #fff; padding: 48px var(--m) 32px; display: flex; flex-direction: column; gap: 32px; margin-top: 48px; }
-    footer .arriba { display: flex; justify-content: space-between; gap: 24px; font-size: var(--s-small); flex-wrap: wrap; }
-    footer .arriba img { height: 34px; width: auto; margin-bottom: 14px; }
-    footer .arriba a { font-weight: 700; color: #fff; text-decoration: none; }
-    footer .contacto { font-size: clamp(36px, 8vw, 96px); font-weight: 800; letter-spacing: -.04em; line-height: .95; color: #fff; text-decoration: none; display: block; }
-    footer .contacto:hover { color: #FFE2BF; }
-    footer .meta { display: flex; justify-content: space-between; gap: 16px; font-size: var(--s-small); flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.2); padding-top: 24px; }
-    footer .meta a { margin-right: 18px; color: #fff; text-decoration: none; font-weight: 700; }
-    footer .meta a:hover { text-decoration: underline; }
-
-    @media (max-width: 760px) {
-      .barra { padding: 16px var(--m); }
-      .barra img { height: 32px; }
-      .barra nav { display: none; }
-      .barra .boton { margin-left: auto; min-height: 44px; padding: 0 16px; font-size: 15px; }
-      .caja-cta .acciones .boton { width: 100%; }
-      footer .arriba, footer .meta { flex-direction: column; }
-    }
-  </style>
 </head>
 <body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
+
+  <!-- Header corporativo (idéntico a la portada) -->
   <header class="barra">
-    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
-    <nav aria-label="Principal">
-      <a href="/hogar/">Familias</a>
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
+      <a href="/gas-a-domicilio/">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/">Preguntas</a>
       <a href="/distribuidores/">Distribuidores</a>
       <a href="/guias/" aria-current="page">Guías</a>
-      <a href="/cliente/">Pedir gas</a>
     </nav>
-    <a class="boton" href="/distribuidores/">Soy distribuidor</a>
+    <a class="boton" href="/cliente/">Pedir gas</a>
   </header>
 
-  <main class="articulo">
-    <nav class="migas" aria-label="Ruta de navegación">
-      <a href="/hogar/">Inicio</a> <span>/</span> <a href="/guias/">Guías</a> <span>/</span> <span>Carga ya vendida</span>
-    </nav>
-    <span class="etiqueta">Guía para distribuidores</span>
-    <h1>Distribuidor de gas en Imbabura: cómo salir con la carga ya vendida</h1>
-    <p class="meta">Por Wilson Pérez, ingeniero en logística y transporte · 15 de noviembre de 2026 · 5 min de lectura</p>
-
-    <div class="resumen">
-      <strong>En pocas palabras</strong>
-      Un distribuidor de gas vende más y gasta menos cuando sale con los pedidos ya confirmados: dirección, referencia y
-      hora acordada con el cliente. <a href="/hogar/">CilindroYa</a> hace eso en Imbabura: el pedido llega al celular, la ruta se arma por
-      cercanía, el cliente recibe un aviso por WhatsApp, el cobro es directo y la factura se emite al entregar. Los
-      primeros 30 días no tienen comisión; después, $0,10 por cilindro, sin mensualidad.
-    </div>
-
-    <h2>El problema: dar vueltas buscando quién compra</h2>
-    <p>El reparto de gas casa por casa tiene un costo que no se ve en la factura: las vueltas. Cada calle recorrida sin
-      vender es combustible, tiempo y desgaste del vehículo. A eso se suma el cliente que no está, el que no tiene el
-      dinero listo o el que ya compró a otro camión que pasó antes.</p>
-    <p>Del lado de las <a href="/hogar/">familias de Imbabura</a> pasa lo mismo al revés: esperan escuchar la bocina, salen corriendo con el cilindro vacío y
-      no saben a qué hora va a pasar el gas.</p>
-
-    <h2>La idea: que la venta ocurra antes de salir</h2>
-    <p>Si la familia pide antes y elige la hora, el distribuidor sale con la carga ya vendida. Así funciona el <a href="/distribuidores/">programa de distribuidores de CilindroYa</a>:</p>
-    <ol>
-      <li><strong>El pedido llega a tu celular</strong> con la dirección y una referencia («casa verde, junto a la tienda»).</li>
-      <li><strong>El cliente programa la hora</strong>, entre las 06:30 y las 19:30, así no hay viajes a ciegas.</li>
-      <li><strong>Armas la ruta por cercanía</strong>: menos vueltas y menos combustible.</li>
-      <li><strong>Aviso de llegada por WhatsApp</strong>: «saca tu cilindro y ten listo tu pago».</li>
-      <li><strong>Cobras directo</strong>: efectivo, tu QR de DeUna o tu cuenta. CilindroYa no se queda con tu dinero.</li>
-      <li><strong>Factura al entregar</strong>: se emite sola si tienes RUC y firma electrónica .p12, y ves tus ventas en tu panel.</li>
-    </ol>
-
-    <h2>Qué ganas como distribuidor</h2>
-    <ul>
-      <li><strong>Menos kilómetros por cilindro vendido</strong>, porque cada parada ya es una venta.</li>
-      <li><strong>Clientes fijos</strong>: la familia que pidió una vez vuelve a pedir por el mismo camino.</li>
-      <li><strong>Trazabilidad</strong>: queda registrado quién entregó, a quién y cuándo. Más seguridad para todos.</li>
-      <li><strong>Orden en tus cuentas</strong>: facturas y ventas del día en un solo lugar.</li>
-    </ul>
-
-    <h2>Quién puede entrar</h2>
-    <p>CilindroYa es solo para <strong>distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de
-      Ibarra</strong>. No es para cualquier persona con un camión o una camioneta, y por aquí no se venden cilindros: el
-      objetivo es ordenar la entrega de quienes ya están autorizados. Es un piloto con pocas plazas por zona.</p>
-
-    <h2>Preguntas frecuentes</h2>
-    <div class="faq-lista">
-      <details><summary>¿Quién puede usar CilindroYa como distribuidor?</summary><p>Solo distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra. No es para cualquier persona con camión o camioneta.</p></details>
-      <details><summary>¿Cuánto cuesta?</summary><p>Los primeros 30 días no hay comisión. Después se paga $0,10 por cilindro entregado, sin mensualidad.</p></details>
-      <details><summary>¿Cómo me pagan los clientes?</summary><p>El cobro es directo al distribuidor: en efectivo, con su QR de DeUna o a su cuenta.</p></details>
-      <details><summary>¿Qué necesito para la factura automática?</summary><p>RUC y firma electrónica en archivo .p12. Con eso la factura se emite sola al entregar.</p></details>
-      <details><summary>¿A qué hora piden los clientes?</summary><p>El cliente programa la hora de entrega entre las 06:30 y las 19:30.</p></details>
-      <details><summary>¿Quién está detrás de CilindroYa?</summary><p>Un ingeniero en logística de Imbabura que quiso ordenar la
-        entrega de gas para las familias y para quienes la reparten.</p></details>
-    </div>
-
-    <div class="caja-cta">
-      <h2>¿Eres distribuidor autorizado en Imbabura?</h2>
-      <p>Postula en tres minutos o conoce todos los detalles en nuestra página de distribuidores.</p>
-      <div class="acciones">
-        <a class="boton boton--naranja" href="/distribuidores/?c=hostinger-web">Postular ahora como distribuidor</a>
-        <a class="boton boton--claro" href="/hogar/">Ver página para familias</a>
+  <main>
+    <!-- Héroe estilizado con degradado #09294A → #0A59DA → #2EC3FB y render nítido de Cili cuerpo -->
+    <section class="cy-heroe-interior" aria-labelledby="titular">
+      <div class="cy-heroe-interior__grid">
+        <div class="cy-heroe-interior__texto">
+          <nav class="cy-migas" aria-label="Ruta de navegación">
+            <a href="/hogar/">Inicio</a> <span class="separador">/</span> <a href="/guias/">Guías</a> <span class="separador">/</span> <span>Carga ya vendida</span>
+          </nav>
+          <span class="cy-insignia"><i></i> Guía para distribuidores · Imbabura</span>
+          <h1 id="titular">Distribuidor de gas en Imbabura: cómo salir con la <span>carga ya vendida</span></h1>
+          <p class="respuesta-rapida">
+            Por Wilson Pérez, ingeniero en logística y transporte · 15 de noviembre de 2026 · 5 min de lectura
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-naranja" href="/distribuidores/registro/">Registrarme como distribuidor</a>
+            <a class="boton boton-celeste" href="/distribuidores/">Ver programa completo</a>
+          </div>
+        </div>
+        <div class="cy-heroe-interior__visual">
+          <img src="/static/assets/web/cili_cuerpo.webp" alt="Cili, mascota oficial de CilindroYa" width="410" height="900" fetchpriority="high">
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Contenido del artículo -->
+    <section class="contenedor">
+      <article class="cy-caja cy-reveal">
+        <div style="background:#EAF2FF;border-left:5px solid var(--naranja);border-radius:var(--radio-md);padding:20px 24px;margin-bottom:32px;">
+          <strong style="display:block;font-size:18px;color:var(--noche);margin-bottom:8px;">En pocas palabras</strong>
+          <p style="margin:0;font-size:16.5px;color:var(--noche);line-height:1.6;">
+            Un distribuidor de gas vende más y gasta menos cuando sale con los pedidos ya confirmados: dirección, referencia y hora acordada con el cliente. <a href="/hogar/" style="color:var(--azul);font-weight:700;">CilindroYa</a> hace eso en Imbabura: el pedido llega al celular, la ruta se arma por cercanía, el cliente recibe un aviso por WhatsApp, el cobro es directo y la factura se emite al entregar. Los primeros 30 días no tienen comisión; después, $0,10 por cilindro, sin mensualidad.
+          </p>
+        </div>
+
+        <h2>El problema: dar vueltas buscando quién compra</h2>
+        <p>El reparto de gas casa por casa tiene un costo que no se ve en la factura: las vueltas. Cada calle recorrida sin vender es combustible, tiempo y desgaste del vehículo. A eso se suma el cliente que no está, el que no tiene el dinero listo o el que ya compró a otro camión que pasó antes.</p>
+        <p>Del lado de las <a href="/hogar/" style="color:var(--azul);font-weight:700;">familias de Imbabura</a> pasa lo mismo al revés: esperan escuchar la bocina, salen corriendo con el cilindro vacío y no saben a qué hora va a pasar el gas.</p>
+
+        <h2>La idea: que la venta ocurra antes de salir</h2>
+        <p>Si la familia pide antes y elige la hora, el distribuidor sale con la carga ya vendida. Así funciona el <a href="/distribuidores/" style="color:var(--azul);font-weight:700;">programa de distribuidores de CilindroYa</a>:</p>
+        <ol class="cy-pasos-lista">
+          <li><strong>El pedido llega a tu celular</strong> con la dirección y una referencia («casa verde, junto a la tienda»).</li>
+          <li><strong>El cliente programa la hora</strong>, entre las 06:30 y las 19:30, así no hay viajes a ciegas.</li>
+          <li><strong>Armas la ruta por cercanía</strong>: menos vueltas y menos combustible.</li>
+          <li><strong>Aviso de llegada por WhatsApp</strong>: «saca tu cilindro y ten listo tu pago».</li>
+          <li><strong>Cobras directo</strong>: efectivo, tu QR de DeUna o tu cuenta. CilindroYa no se queda con tu dinero.</li>
+          <li><strong>Factura al entregar</strong>: se emite sola si tienes RUC y firma electrónica .p12, y ves tus ventas en tu panel.</li>
+        </ol>
+
+        <h2>Qué ganas como distribuidor</h2>
+        <ul style="margin-top:16px;padding-left:22px;display:grid;gap:12px;line-height:1.6;">
+          <li><strong>Menos kilómetros por cilindro vendido</strong>, porque cada parada ya es una venta.</li>
+          <li><strong>Clientes fijos</strong>: la familia que pidió una vez vuelve a pedir por el mismo camino.</li>
+          <li><strong>Trazabilidad</strong>: queda registrado quién entregó, a quién y cuándo. Más seguridad para todos.</li>
+          <li><strong>Orden en tus cuentas</strong>: facturas y ventas del día en un solo lugar.</li>
+        </ul>
+
+        <h2>Quién puede entrar</h2>
+        <p>CilindroYa es solo para <strong>distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra</strong>. No es para cualquier persona con un camión o una camioneta, y por aquí no se venden cilindros: el objetivo es ordenar la entrega de quienes ya están autorizados. Es un piloto con pocas plazas por zona.</p>
+      </article>
+
+      <section class="cy-caja cy-reveal" aria-labelledby="t-faq-guia">
+        <h2 id="t-faq-guia">Preguntas frecuentes</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq" open><summary>¿Quién puede usar CilindroYa como distribuidor?</summary><p>Solo distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra. No es para cualquier persona con camión o camioneta.</p></details>
+          <details class="cy-faq"><summary>¿Cuánto cuesta?</summary><p>Los primeros 30 días no hay comisión. Después se paga $0,10 por cilindro entregado, sin mensualidad.</p></details>
+          <details class="cy-faq"><summary>¿Cómo me pagan los clientes?</summary><p>El cobro es directo al distribuidor: en efectivo, con su QR de DeUna o a su cuenta.</p></details>
+          <details class="cy-faq"><summary>¿Qué necesito para la factura automática?</summary><p>RUC y firma electrónica en archivo .p12. Con eso la factura se emite sola al entregar.</p></details>
+          <details class="cy-faq"><summary>¿A qué hora piden los clientes?</summary><p>El cliente programa la hora de entrega entre las 06:30 y las 19:30.</p></details>
+          <details class="cy-faq"><summary>¿Quién está detrás de CilindroYa?</summary><p>Un ingeniero en logística de Imbabura que quiso ordenar la entrega de gas para las familias y para quienes la reparten.</p></details>
+        </div>
+      </section>
+
+      <section class="cy-caja cy-reveal" style="background:var(--noche);color:#fff;margin-top:48px;" aria-labelledby="t-cta-dist">
+        <h2 id="t-cta-dist" style="color:#fff;">¿Eres distribuidor autorizado en Imbabura?</h2>
+        <p style="color:#DCE6F2;font-size:18px;margin-top:10px;">Postula en tres minutos o conoce todos los detalles en nuestra página de distribuidores.</p>
+        <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+          <a class="boton boton-naranja" href="/distribuidores/registro/">Postular ahora como distribuidor</a>
+          <a class="boton boton-celeste" href="/hogar/">Ver página para familias</a>
+        </div>
+      </section>
+    </section>
   </main>
 
-  <footer aria-labelledby="t-pie">
-    <h2 class="oculto" id="t-pie">Contacto CilindroYa</h2>
-    <div class="arriba">
+  <!-- Pie corporativo idéntico a la portada -->
+  <footer class="pie" aria-labelledby="t-pie">
+    <div class="pie-arriba">
       <div>
         <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
         <p>Ibarra, Imbabura · Lunes a domingo, 06:30 a 19:30</p>
         <p>Zona piloto: Ibarra, Otavalo, Antonio Ante y Cotacachi.</p>
       </div>
-      <a href="#top">Volver arriba</a>
+      <a href="#top" style="color:#fff;font-weight:700;text-decoration:none;">Volver arriba ↑</a>
     </div>
-    <a class="contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20ser%20distribuidor" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
-    <div class="meta">
+    <a class="pie-contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20ser%20distribuidor" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
+    <div class="pie-meta">
       <div>
         <a href="/hogar/">Inicio</a>
+        <a href="/gas-a-domicilio/">Zonas</a>
         <a href="/cliente/">Pedir gas</a>
         <a href="/distribuidores/">Soy distribuidor</a>
         <a href="/guias/">Más guías</a>

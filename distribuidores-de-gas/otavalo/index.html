@@ -19,10 +19,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/brand/brand.css">
-  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -93,233 +94,152 @@
     ]
   }
   </script>
-  <style>
-    :root {
-      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
-      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00;
-      --m: clamp(20px, 4vw, 56px);
-      --s-display: clamp(32px, 5vw, 60px);
-      --s-h2: clamp(24px, 3.4vw, 36px);
-      --s-lead: clamp(18px, 1.5vw, 21px);
-      --s-body: 17px;
-      --s-small: 14px;
-      --ease: cubic-bezier(.2, .7, .2, 1);
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 var(--s-body)/1.65 "Plus Jakarta Sans", system-ui, sans-serif; overflow-x: clip; }
-    img { display: block; max-width: 100%; height: auto; }
-    a { color: var(--accent); }
-    h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.12; color: var(--ink); }
-    p { margin: 0; }
-    .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; }
-    .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; border-radius: 999px;
-             background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; font-size: var(--s-body); border: 0; cursor: pointer;
-             transition: background .18s var(--ease), transform .18s var(--ease); text-align: center; }
-    .boton:hover { background: var(--accent-press); transform: translateY(-2px); }
-    .boton--naranja { background: var(--naranja); color: var(--ink); }
-    .boton--naranja:hover { background: #FF9F2E; }
-    .boton--wa { background: #fff; color: #0B7A43; border: 2px solid #0B7A43; }
-    .boton--wa:hover { background: #E8F7EF; color: #085D32; }
-
-    /* Barra superior */
-    .barra { display: flex; align-items: center; gap: 28px; padding: 24px var(--m); background: #fff; border-bottom: 1px solid #E4E9F1; }
-    .barra img { height: 40px; width: auto; }
-    .barra nav { margin-left: auto; display: flex; gap: 26px; }
-    .barra nav a { text-decoration: none; font-weight: 700; font-size: var(--s-body); color: var(--ink); }
-    .barra nav a:hover, .barra nav a[aria-current="page"] { color: var(--accent); }
-    .barra .boton { min-height: 46px; padding: 0 22px; font-size: 16px; color: #fff; }
-
-    /* Artículo / Página de ciudad */
-    .articulo { max-width: 860px; margin: 0 auto; padding: clamp(36px, 6vw, 72px) var(--m); }
-    .migas { display: flex; flex-wrap: wrap; gap: 8px; font-size: var(--s-small); font-weight: 700; color: var(--muted); margin-bottom: 20px; }
-    .migas a { text-decoration: none; color: var(--accent); }
-    .migas a:hover { text-decoration: underline; }
-    .etiqueta { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EAF2FF; color: var(--accent);
-                font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; }
-    .articulo h1 { font-size: var(--s-display); }
-    .respuesta-rapida { margin-top: 20px; background: #fff; border: 1px solid #DCE5F0; border-left: 5px solid var(--naranja);
-                        border-radius: 20px; padding: 22px 24px; font-size: var(--s-lead); color: var(--ink);
-                        box-shadow: 0 12px 30px -20px rgba(9, 41, 74, .28); }
-
-    .articulo h2 { margin-top: 48px; margin-bottom: 14px; font-size: var(--s-h2); }
-    .articulo h3 { margin-top: 24px; margin-bottom: 10px; font-size: 20px; }
-    .articulo p + p { margin-top: 14px; }
-    .articulo ol, .articulo ul { margin: 16px 0 0; padding-left: 22px; display: grid; gap: 10px; }
-    .articulo li { line-height: 1.6; }
-    .articulo li strong { color: var(--ink); }
-
-    /* Chips de parroquias */
-    .grupo-parroquias { margin-top: 18px; background: #fff; border: 1px solid #DCE5F0; border-radius: 20px; padding: 22px 24px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; padding: 0; list-style: none; }
-    .chips li { background: var(--surface); color: var(--ink); font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
-
-    /* 3 Tarjetas de Lo que hacemos */
-    .tarjetas-tres { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; margin-top: 20px; }
-    .tarjeta-hacer { background: #fff; border: 1px solid #DCE5F0; border-radius: 20px; padding: 22px; box-shadow: 0 10px 26px -18px rgba(9, 41, 74, .25); }
-    .tarjeta-hacer span.num { display: inline-block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
-                              background: #EAF2FF; color: var(--accent); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; }
-    .tarjeta-hacer h3 { margin-top: 0; margin-bottom: 8px; font-size: 19px; }
-    .tarjeta-hacer p { font-size: 15.5px; color: var(--muted); line-height: 1.55; }
-
-    .acciones-como { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
-
-    /* Preguntas frecuentes */
-    .faq-lista { margin-top: 20px; display: grid; gap: 12px; }
-    .articulo details { background: #fff; border: 1px solid #DCE5F0; border-radius: 16px; padding: 0 20px; transition: background .2s; }
-    .articulo details[open] { background: var(--surface); padding-bottom: 18px; }
-    .articulo summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-                        padding: 18px 0; font-size: 18px; font-weight: 700; color: var(--ink); min-height: 48px; }
-    .articulo summary::-webkit-details-marker { display: none; }
-    .articulo summary::after { content: ""; flex: 0 0 10px; height: 10px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
-                              transform: rotate(45deg); transition: transform .2s var(--ease); }
-    .articulo details[open] summary::after { transform: rotate(-135deg); }
-    .articulo details p { color: var(--muted); }
-
-    /* Enlaces a otras ciudades */
-    .otras-ciudades { margin-top: 44px; background: #fff; border: 1px solid #DCE5F0; border-radius: 20px; padding: 24px; }
-    .otras-ciudades h2 { margin-top: 0; font-size: 22px; }
-    .otras-ciudades .enlaces-ciudades { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    .otras-ciudades .enlaces-ciudades a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
-                                          background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; }
-    .otras-ciudades .enlaces-ciudades a:hover { background: var(--accent); color: #fff; }
-
-    /* Pie */
-    footer { background: var(--accent); color: #fff; padding: 48px var(--m) 32px; display: flex; flex-direction: column; gap: 32px; margin-top: 48px; }
-    footer .arriba { display: flex; justify-content: space-between; gap: 24px; font-size: var(--s-small); flex-wrap: wrap; }
-    footer .arriba img { height: 34px; width: auto; margin-bottom: 14px; }
-    footer .arriba a { font-weight: 700; color: #fff; text-decoration: none; }
-    footer .contacto { font-size: clamp(36px, 8vw, 96px); font-weight: 800; letter-spacing: -.04em; line-height: .95; color: #fff; text-decoration: none; display: block; }
-    footer .contacto:hover { color: #FFE2BF; }
-    footer .meta { display: flex; justify-content: space-between; gap: 16px; font-size: var(--s-small); flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.2); padding-top: 24px; }
-    footer .meta a { margin-right: 18px; color: #fff; text-decoration: none; font-weight: 700; }
-    footer .meta a:hover { text-decoration: underline; }
-
-    @media (max-width: 760px) {
-      .barra { padding: 16px var(--m); }
-      .barra img { height: 32px; }
-      .barra nav { display: none; }
-      .barra .boton { margin-left: auto; min-height: 44px; padding: 0 16px; font-size: 15px; }
-      .acciones-como .boton { width: 100%; }
-      footer .arriba, footer .meta { flex-direction: column; }
-    }
-  </style>
 </head>
 <body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
+
+  <!-- Header corporativo (idéntico a la portada) -->
   <header class="barra">
-    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
-    <nav aria-label="Principal">
-      <a href="/hogar/">Familias</a>
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
       <a href="/gas-a-domicilio/">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/">Preguntas</a>
       <a href="/distribuidores/" aria-current="page">Distribuidores</a>
       <a href="/guias/">Guías</a>
-      <a href="/preguntas/">Preguntas</a>
-      <a href="/cliente/">Pedir gas</a>
     </nav>
-    <a class="boton" href="/distribuidores/registro/">Registrarme</a>
+    <a class="boton" href="/cliente/">Pedir gas</a>
   </header>
 
-  <main class="articulo">
-    <nav class="migas" aria-label="Ruta de navegación">
-      <a href="/hogar/">Inicio</a> <span>/</span> <a href="/distribuidores-de-gas/">Distribuidores de gas</a> <span>/</span> <span>Otavalo</span>
-    </nav>
-
-    <span class="etiqueta">Exclusivo Vepagas planta Ibarra · Cantón Otavalo</span>
-    <h1>Programa para distribuidores de gas en Otavalo</h1>
-
-    <p class="respuesta-rapida">
-      Si eres distribuidor de gas autorizado de Vepagas que carga en la planta envasadora de Ibarra y repartes en <strong>Otavalo</strong>, CilindroYa envía a tu celular los pedidos confirmados de las parroquias urbanas y rurales de tu ruta. Cuentas con <strong>30 días sin comisión</strong> y luego pagas únicamente <strong>$0,10 por cilindro entregado por la app</strong>, sin mensualidad ni exclusividad y con cobro directo al cliente.
-    </p>
-
-    <h2>Zonas que cubrimos en Otavalo</h2>
-    <p>Canalizamos pedidos de familias en las 2 parroquias urbanas y las 9 parroquias rurales del cantón Otavalo todos los días de <strong>06:30 a 19:30</strong>:</p>
-
-    <div class="grupo-parroquias">
-      <h3>Parroquias urbanas de Otavalo</h3>
-      <ul class="chips" aria-label="Parroquias urbanas de Otavalo">
-        <li>El Jordán</li>
-        <li>San Luis</li>
-      </ul>
-      <h3>Parroquias rurales de Otavalo</h3>
-      <ul class="chips" aria-label="Parroquias rurales de Otavalo">
-        <li>San Pablo del Lago</li>
-        <li>González Suárez</li>
-        <li>Eugenio Espejo</li>
-        <li>San Rafael</li>
-        <li>San Juan de Ilumán</li>
-        <li>Dr. Miguel Egas Cabezas (Peguche)</li>
-        <li>San José de Quichinche</li>
-        <li>Selva Alegre</li>
-        <li>Pataquí</li>
-      </ul>
-    </div>
-
-    <h2>Lo que hacemos en Otavalo</h2>
-    <div class="tarjetas-tres" aria-label="Beneficios para distribuidores en Otavalo">
-      <article class="tarjeta-hacer">
-        <span class="num">01 · En tu cabina</span>
-        <h3>Pedidos confirmados al celular</h3>
-        <p>Recibes en la pantalla de tu celular los pedidos de las familias de Otavalo con calle, referencia y hora programada entre las 06:30 y las 19:30, sin dar vueltas en vano.</p>
-      </article>
-      <article class="tarjeta-hacer">
-        <span class="num">02 · Menos vueltas</span>
-        <h3>Ruta por cercanía</h3>
-        <p>Asignamos cada pedido al camión autorizado más próximo en Otavalo. Aceptas con un toque, sigues la ruta en el mapa y el cliente recibe un aviso por WhatsApp antes de que llegues.</p>
-      </article>
-      <article class="tarjeta-hacer">
-        <span class="num">03 · Tu dinero en mano</span>
-        <h3>Cobro directo y cuadre de caja</h3>
-        <p>Cobras directamente al cliente en efectivo o con tu QR de DeUna ($1,65 cilindro ARCH + $1,85 de tu entrega + $0,10 de plataforma). Llevas el cuadre de caja diario en la app y emites factura electrónica automática con tu RUC y firma .p12.</p>
-      </article>
-    </div>
-
-    <h2>¿Cómo trabajamos?</h2>
-    <p>Participan <strong>solo distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra</strong>. No tienes contratos de exclusividad ni cobros fijos mensuales: mantienes tus clientes de siempre en Otavalo y sumas las entregas programadas por la plataforma.</p>
-    <ol>
-      <li><strong>Afiliación guiada con Cili:</strong> registras tus datos desde el celular y validamos tu condición de distribuidor autorizado por WhatsApp.</li>
-      <li><strong>30 días sin comisión:</strong> utilizas la plataforma en tus rutas por Otavalo durante el primer mes sin pagar comisión.</li>
-      <li><strong>$0,10 por cilindro entregado:</strong> desde el segundo mes solo pagas $0,10 por cada cilindro entregado por la app, facturado al cierre del mes.</li>
-    </ol>
-
-    <div class="acciones-como">
-      <a class="boton boton--naranja" href="/distribuidores/registro/">Registrarme</a>
-      <a class="boton boton--wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20soy%20distribuidor%20autorizado%20de%20Vepagas%20en%20Otavalo%20y%20quiero%20unirme" target="_blank" rel="noopener">Escribir por WhatsApp · 099 305 2744</a>
-    </div>
-
-    <h2>Pregunta frecuente en Otavalo</h2>
-    <div class="faq-lista">
-      <details open>
-        <summary>¿Cómo funciona el cobro y la comisión para distribuidores de gas en Otavalo?</summary>
-        <p>El cliente en Otavalo le paga directamente al distribuidor autorizado de Vepagas al momento de la entrega, en efectivo o con QR de DeUna. Tienes 30 días sin comisión y después pagas únicamente $0,10 por cilindro entregado por la app, sin mensualidad ni exclusividad.</p>
-      </details>
-    </div>
-
-    <aside class="otras-ciudades" aria-labelledby="t-otras">
-      <h2 id="t-otras">Enlaces relacionados y otros cantones en Imbabura</h2>
-      <div class="enlaces-ciudades">
-        <a href="/distribuidores-de-gas/ibarra/">Distribuidores de gas en Ibarra</a>
-        <a href="/distribuidores-de-gas/antonio-ante/">Distribuidores de gas en Antonio Ante</a>
-        <a href="/distribuidores-de-gas/cotacachi/">Distribuidores de gas en Cotacachi</a>
-        <a href="/gas-a-domicilio/otavalo/">Gas a domicilio en Otavalo (familias)</a>
-        <a href="/distribuidores/">Programa para distribuidores</a>
-        <a href="/preguntas/">Preguntas frecuentes</a>
+  <main>
+    <!-- Héroe estilizado con degradado #09294A → #0A59DA → #2EC3FB y render nítido de Cili camión -->
+    <section class="cy-heroe-interior" aria-labelledby="titular">
+      <div class="cy-heroe-interior__grid">
+        <div class="cy-heroe-interior__texto">
+          <nav class="cy-migas" aria-label="Ruta de navegación">
+            <a href="/hogar/">Inicio</a> <span class="separador">/</span> <a href="/distribuidores-de-gas/">Distribuidores de gas</a> <span class="separador">/</span> <span>Otavalo</span>
+          </nav>
+          <span class="cy-insignia"><i></i> Exclusivo Vepagas planta Ibarra · Cantón Otavalo</span>
+          <h1 id="titular">Programa para distribuidores de gas en <span>Otavalo</span></h1>
+          <p class="respuesta-rapida">
+            Si eres distribuidor de gas autorizado de Vepagas que carga en la planta envasadora de Ibarra y repartes en <strong>Otavalo</strong>, CilindroYa envía a tu celular los pedidos confirmados de las parroquias urbanas y rurales de tu ruta. Cuentas con <strong>30 días sin comisión</strong> y luego pagas únicamente <strong>$0,10 por cilindro entregado por la app</strong>, sin mensualidad ni exclusividad y con cobro directo al cliente.
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-naranja" href="/distribuidores/registro/">Registrarme como distribuidor</a>
+            <a class="boton boton-wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20soy%20distribuidor%20autorizado%20de%20Vepagas%20en%20Otavalo%20y%20quiero%20unirme" target="_blank" rel="noopener">Escribir por WhatsApp · 099 305 2744</a>
+          </div>
+        </div>
+        <div class="cy-heroe-interior__visual">
+          <img src="/static/assets/web/cili_render_camion.webp" alt="Cili con el camión repartidor de cilindros de gas en Otavalo" width="900" height="502" fetchpriority="high">
+        </div>
       </div>
-    </aside>
+    </section>
+
+    <!-- Contenido estructurado -->
+    <section class="contenedor">
+      <article class="cy-caja cy-reveal">
+        <h2>Zonas que cubrimos en Otavalo</h2>
+        <p>Canalizamos pedidos de familias en las 2 parroquias urbanas y las 9 parroquias rurales del cantón Otavalo todos los días de <strong>06:30 a 19:30</strong>:</p>
+
+        <div style="margin-top:20px;">
+          <h3 style="font-size:18px;color:var(--noche);margin-bottom:10px;">Parroquias urbanas de Otavalo</h3>
+          <ul class="cy-chips" aria-label="Parroquias urbanas de Otavalo">
+            <li>El Jordán</li>
+            <li>San Luis</li>
+          </ul>
+
+          <h3 style="font-size:18px;color:var(--noche);margin-top:20px;margin-bottom:10px;">Parroquias rurales de Otavalo</h3>
+          <ul class="cy-chips" aria-label="Parroquias rurales de Otavalo">
+            <li>San Pablo del Lago</li>
+            <li>González Suárez</li>
+            <li>Eugenio Espejo</li>
+            <li>San Rafael</li>
+            <li>San Juan de Ilumán</li>
+            <li>Dr. Miguel Egas Cabezas (Peguche)</li>
+            <li>San José de Quichinche</li>
+            <li>Selva Alegre</li>
+            <li>Pataquí</li>
+          </ul>
+        </div>
+      </article>
+
+      <section class="cy-caja cy-reveal" aria-labelledby="t-hacemos">
+        <h2 id="t-hacemos">Lo que hacemos en Otavalo</h2>
+        <div class="cy-tarjetas-tres" aria-label="Beneficios para distribuidores en Otavalo">
+          <article class="cy-tarjeta-beneficio">
+            <span class="num">01 · En tu cabina</span>
+            <h3>Pedidos confirmados al celular</h3>
+            <p>Recibes en la pantalla de tu celular los pedidos de las familias de Otavalo con calle, referencia y hora programada entre las 06:30 y las 19:30, sin dar vueltas en vano.</p>
+          </article>
+          <article class="cy-tarjeta-beneficio">
+            <span class="num">02 · Menos vueltas</span>
+            <h3>Ruta por cercanía</h3>
+            <p>Asignamos cada pedido al camión autorizado más próximo en Otavalo. Aceptas con un toque, sigues la ruta en el mapa y el cliente recibe un aviso por WhatsApp antes de que llegues.</p>
+          </article>
+          <article class="cy-tarjeta-beneficio">
+            <span class="num">03 · Tu dinero en mano</span>
+            <h3>Cobro directo y cuadre de caja</h3>
+            <p>Cobras directamente al cliente en efectivo o con tu QR de DeUna ($1,65 cilindro ARCH + $1,85 de tu entrega + $0,10 de plataforma). Llevas el cuadre de caja diario en la app y emites factura electrónica automática con tu RUC y firma .p12.</p>
+          </article>
+        </div>
+      </section>
+
+      <article class="cy-caja cy-reveal">
+        <h2>¿Cómo trabajamos?</h2>
+        <p>Participan <strong>solo distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra</strong>. No tienes contratos de exclusividad ni cobros fijos mensuales: mantienes tus clientes de siempre en Otavalo y sumas las entregas programadas por la plataforma.</p>
+        <ol class="cy-pasos-lista">
+          <li><strong>Afiliación guiada con Cili:</strong> registras tus datos desde el celular y validamos tu condición de distribuidor autorizado por WhatsApp.</li>
+          <li><strong>30 días sin comisión:</strong> utilizas la plataforma en tus rutas por Otavalo durante el primer mes sin pagar comisión.</li>
+          <li><strong>$0,10 por cilindro entregado:</strong> desde el segundo mes solo pagas $0,10 por cada cilindro entregado por la app, facturado al cierre del mes.</li>
+        </ol>
+
+        <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+          <a class="boton boton-naranja" href="/distribuidores/registro/">Registrarme</a>
+          <a class="boton boton-wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20soy%20distribuidor%20autorizado%20de%20Vepagas%20en%20Otavalo%20y%20quiero%20unirme" target="_blank" rel="noopener">Escribir por WhatsApp · 099 305 2744</a>
+        </div>
+      </article>
+
+      <section class="cy-caja cy-reveal" aria-labelledby="t-faq">
+        <h2 id="t-faq">Pregunta frecuente en Otavalo</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq" open>
+            <summary>¿Cómo funciona el cobro y la comisión para distribuidores de gas en Otavalo?</summary>
+            <p>El cliente en Otavalo le paga directamente al distribuidor autorizado de Vepagas al momento de la entrega, en efectivo o con QR de DeUna. Tienes 30 días sin comisión y después pagas únicamente $0,10 por cilindro entregado por la app, sin mensualidad ni exclusividad.</p>
+          </details>
+        </div>
+      </section>
+
+      <aside class="cy-caja cy-reveal" aria-labelledby="t-otras">
+        <h2 id="t-otras">Enlaces relacionados y otros cantones en Imbabura</h2>
+        <div class="cy-enlaces-grid">
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/ibarra/">Distribuidores de gas en Ibarra</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/antonio-ante/">Distribuidores de gas en Antonio Ante</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/cotacachi/">Distribuidores de gas en Cotacachi</a>
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/otavalo/">Gas a domicilio en Otavalo (familias)</a>
+          <a class="cy-chip-enlace" href="/distribuidores/">Programa para distribuidores</a>
+          <a class="cy-chip-enlace" href="/preguntas/">Preguntas frecuentes</a>
+        </div>
+      </aside>
+    </section>
   </main>
 
-  <footer aria-labelledby="t-pie">
-    <h2 class="oculto" id="t-pie">Contacto CilindroYa</h2>
-    <div class="arriba">
+  <!-- Pie corporativo idéntico a la portada -->
+  <footer class="pie" aria-labelledby="t-pie">
+    <div class="pie-arriba">
       <div>
         <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
         <p>Ibarra, Imbabura · Lunes a domingo, 06:30 a 19:30</p>
         <p>Zona piloto: Ibarra, Otavalo, Antonio Ante y Cotacachi.</p>
       </div>
-      <a href="#top">Volver arriba</a>
+      <a href="#top" style="color:#fff;font-weight:700;text-decoration:none;">Volver arriba ↑</a>
     </div>
-    <a class="contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20soy%20distribuidor%20autorizado%20de%20Vepagas%20en%20Otavalo" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
-    <div class="meta">
+    <a class="pie-contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20soy%20distribuidor%20autorizado%20de%20Vepagas%20en%20Otavalo" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
+    <div class="pie-meta">
       <div>
         <a href="/hogar/">Inicio</a>
         <a href="/gas-a-domicilio/">Zonas</a>

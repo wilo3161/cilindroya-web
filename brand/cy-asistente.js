@@ -106,6 +106,9 @@
   }
 
   function montarWidget() {
+    // El registro de distribuidores ya es una conversación con Cili paso a paso; el botón flotante quedaba
+    // encima de «Empezar» y «Siguiente» en el celular y abría el chat en vez de avanzar (15/11/2026).
+    if (/^\/distribuidores\/registro(\/|$)/.test(location.pathname)) return;
     if (document.getElementById('cyMayaRaiz')) return;
 
     var raiz = document.createElement('div');

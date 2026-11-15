@@ -1,276 +1,303 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-900">
+<html lang="es-EC">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="robots" content="noindex">
   <title>Encuesta de Calidad — CilindroYa Ibarra</title>
-  
-  <!-- Tailwind CSS CDN -->
-<!-- Google Fonts: Inter & Material Symbols -->
+  <meta name="theme-color" content="#09294A">
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="shortcut icon" href="/static/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <!-- Canvas Confetti -->
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .star-rating button { transition: transform 0.15s ease, color 0.15s ease; }
+    .star-rating button { transition: transform 0.15s ease, color 0.15s ease; cursor: pointer; background: none; border: none; }
     .star-rating button:active { transform: scale(1.3); }
-    .nps-btn.active { background-color: #005A9C; color: white; border-color: #005A9C; transform: scale(1.05); }
+    .nps-btn { cursor: pointer; transition: all .15s ease; border-radius: 8px; font-weight: 800; font-size: 13px; min-height: 40px; }
+    .nps-btn.active { background-color: var(--azul) !important; color: white !important; border-color: var(--azul) !important; transform: scale(1.05); }
+    .cy-feedback-caja { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio-lg); padding: 24px; box-shadow: var(--sombra); margin-bottom: 24px; }
+    .cy-feedback-caja h3 { font-size: 17px; color: var(--noche); font-weight: 800; margin-bottom: 16px; border-bottom: 1px solid #EDF2F7; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .cy-feedback-opcion { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #F8FAFC; border: 1.5px solid var(--borde); border-radius: var(--radio-md); cursor: pointer; font-size: 14px; font-weight: 600; color: var(--noche); transition: border-color .15s; }
+    .cy-feedback-opcion:hover { border-color: var(--azul); }
+    .cy-input-text { width: 100%; background: #F8FAFC; border: 1.5px solid var(--borde); border-radius: var(--radio-md); padding: 12px 14px; font-size: 14px; color: var(--noche); font-family: inherit; }
+    .cy-input-text:focus { outline: none; border-color: var(--azul); background: #fff; }
   </style>
-  <link rel="stylesheet" href="/static/brand/tw/cliente-feedback.css?v=554255e8ad" data-tw>
 </head>
-<body class="min-h-full bg-[#0B132B] text-slate-100 flex flex-col justify-between antialiased selection:bg-[#005A9C] selection:text-white">
+<body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
 
-  <!-- Header Institucional -->
-  <header class="bg-[#1C2541]/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-40">
-    <div class="max-w-xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <div class="flex items-center space-x-2.5">
-        <div class="w-9 h-9 rounded-2xl bg-[#005A9C] flex items-center justify-center text-white shadow-md">
-          <span class="material-symbols-outlined text-xl">local_fire_department</span>
-        </div>
-        <div>
-          <h1 class="font-extrabold text-sm text-white leading-tight">CilindroYa</h1>
-          <p class="text-[10px] text-sky-200 font-semibold uppercase tracking-wider">Encuesta de Testers • Ibarra</p>
-        </div>
-      </div>
-      <a href="/cliente" class="text-xs text-sky-300 hover:text-white font-bold flex items-center space-x-1 bg-white/10 px-2.5 py-1.5 rounded-xl border border-white/10 transition">
-        <span class="material-symbols-outlined text-sm">arrow_back</span>
-        <span>Volver a la App</span>
-      </a>
-    </div>
+  <!-- Header corporativo (idéntico a la portada) -->
+  <header class="barra">
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
+      <a href="/gas-a-domicilio/">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/">Preguntas</a>
+      <a href="/distribuidores/">Distribuidores</a>
+      <a href="/guias/">Guías</a>
+    </nav>
+    <a class="boton boton-celeste" href="/cliente/" style="font-size:14px;min-height:42px;padding:0 18px;">← Volver a la App</a>
   </header>
 
-  <!-- Contenedor Principal del Formulario -->
-  <main class="flex-1 max-w-xl w-full mx-auto px-4 py-6">
-
-    <!-- Tarjeta de Bienvenida -->
-    <div id="surveyIntroCard" class="bg-gradient-to-br from-[#1C2541] to-[#0B132B] border border-white/10 rounded-3xl p-5 mb-5 shadow-xl text-center space-y-2">
-      <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-400/20 text-amber-300 border border-amber-400/30 flex items-center justify-center mb-1">
-        <span class="material-symbols-outlined text-3xl">science</span>
-      </div>
-      <h2 class="text-xl font-black text-white tracking-tight">¡Tu opinión decide el lanzamiento!</h2>
-      <p class="text-xs text-slate-300 font-medium leading-relaxed">
-        Gracias por probar <strong class="text-sky-300">CilindroYa</strong> en Ibarra. Ayúdanos a responder estas preguntas rápidas para corregir cualquier fallo antes de abrir el servicio a toda la ciudad. (Toma menos de 3 minutos).
-      </p>
-    </div>
-
-    <!-- Formulario Interactivo -->
-    <form id="feedbackForm" onsubmit="submitFeedback(event)" class="space-y-5">
-
-      <!-- ── BLOQUE 1: PERFIL ── -->
-      <div class="bg-[#1C2541] border border-white/10 rounded-3xl p-5 shadow-lg space-y-4">
-        <div class="flex items-center space-x-2 border-b border-white/10 pb-2.5">
-          <span class="material-symbols-outlined text-[#00b4d8] text-xl">person</span>
-          <h3 class="text-sm font-black uppercase tracking-wider text-white">1. Tu Perfil y Consumo de Gas</h3>
+  <main>
+    <!-- Héroe estilizado con degradado y render de Cili celular -->
+    <section class="cy-heroe-interior" aria-labelledby="titular">
+      <div class="cy-heroe-interior__grid">
+        <div class="cy-heroe-interior__texto">
+          <span class="cy-insignia"><i></i> Encuesta de Testers · Ibarra</span>
+          <h1 id="titular">¡Tu opinión decide el <span>lanzamiento</span>!</h1>
+          <p class="respuesta-rapida">
+            Gracias por probar <strong>CilindroYa</strong> en Ibarra. Ayúdanos a responder estas preguntas rápidas para corregir cualquier fallo antes de abrir el servicio a toda la ciudad. (Toma menos de 3 minutos).
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-naranja" href="#feedbackForm">Comenzar encuesta</a>
+            <a class="boton boton-celeste" href="/cliente/">Pedir gas ($3,60)</a>
+          </div>
         </div>
+        <div class="cy-heroe-interior__visual">
+          <img src="/static/assets/web/cili_render_celular.webp" alt="Cili con el celular listo para escuchar tu opinión" width="584" height="1100" fetchpriority="high">
+        </div>
+      </div>
+    </section>
 
-        <!-- Pregunta 1: Uso principal -->
-        <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-200">¿Para qué usas principalmente el gas? *</label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="use_case" value="Casa / Familia" required class="text-sky-500 focus:ring-0">
-              <span>Para mi casa (cocina diaria)</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="use_case" value="Restaurante / Comedor" class="text-sky-500 focus:ring-0">
-              <span>Restaurante / Comedor</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="use_case" value="Tienda / Negocio" class="text-sky-500 focus:ring-0">
-              <span>Tienda de abarrotes</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="use_case" value="Hostal / Turismo" class="text-sky-500 focus:ring-0">
-              <span>Hostal / Cabañas</span>
-            </label>
+    <!-- Contenedor del Formulario -->
+    <section class="contenedor" style="max-width:760px;">
+      <form id="feedbackForm" onsubmit="submitFeedback(event)" class="space-y-5">
+
+        <!-- ── BLOQUE 1: PERFIL ── -->
+        <div class="cy-feedback-caja cy-reveal">
+          <h3>
+            <span class="material-symbols-outlined" style="color:var(--azul);">person</span>
+            1. Tu Perfil y Consumo de Gas
+          </h3>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:10px;">¿Para qué usas principalmente el gas? *</label>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:10px;">
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="use_case" value="Casa / Familia" required>
+                <span>Para mi casa (cocina diaria)</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="use_case" value="Restaurante / Comedor">
+                <span>Restaurante / Comedor</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="use_case" value="Tienda / Negocio">
+                <span>Tienda de abarrotes</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="use_case" value="Hostal / Turismo">
+                <span>Hostal / Cabañas</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <label for="neighborhoodInput" style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:8px;">¿En qué sector o barrio de Ibarra vives o tienes tu local? *</label>
+            <input type="text" id="neighborhoodInput" name="neighborhood" required placeholder="Ej: Los Ceibos, Caranqui, El Alpargate, Azaya..." class="cy-input-text">
+          </div>
+
+          <div>
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:10px;">¿Qué color de cilindro usas habitualmente? *</label>
+            <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;">
+              <label class="cy-feedback-opcion" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+                <input type="radio" name="cylinder_color" value="CilindroYa" required>
+                <span style="font-weight:800;color:var(--azul);">CilindroYa</span>
+              </label>
+              <label class="cy-feedback-opcion" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+                <input type="radio" name="cylinder_color" value="Gas Tomate">
+                <span style="font-weight:800;color:#EA580C;">Gas Tomate</span>
+              </label>
+              <label class="cy-feedback-opcion" style="justify-content:center;text-align:center;flex-direction:column;gap:4px;">
+                <input type="radio" name="cylinder_color" value="Gas Amarillo">
+                <span style="font-weight:800;color:#D97706;">Gas Amarillo</span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <!-- Pregunta 2: Barrio en Ibarra -->
-        <div class="space-y-1.5">
-          <label for="neighborhoodInput" class="block text-xs font-bold text-slate-200">¿En qué sector o barrio de Ibarra vives o tienes tu local? *</label>
-          <input type="text" id="neighborhoodInput" name="neighborhood" required placeholder="Ej: Los Ceibos, Caranqui, El Alpargate, Azaya..." class="w-full bg-black/30 border border-white/20 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition">
-        </div>
+        <!-- ── BLOQUE 2: EXPERIENCIA AL PEDIR ── -->
+        <div class="cy-feedback-caja cy-reveal">
+          <h3>
+            <span class="material-symbols-outlined" style="color:var(--azul);">touch_app</span>
+            2. Tu Experiencia con la Aplicación
+          </h3>
 
-        <!-- Pregunta 3: Color del cilindro -->
-        <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-200">¿Qué color de cilindro usas habitualmente? *</label>
-          <div class="grid grid-cols-3 gap-2 text-xs">
-            <label class="flex flex-col items-center justify-center p-2.5 bg-blue-950/40 rounded-xl border border-blue-500/40 hover:border-blue-400 cursor-pointer transition text-center">
-              <input type="radio" name="cylinder_color" value="CilindroYa" required class="mb-1">
-              <span class="font-bold text-sky-300">CilindroYa</span>
-            </label>
-            <label class="flex flex-col items-center justify-center p-2.5 bg-orange-950/40 rounded-xl border border-orange-500/40 hover:border-orange-400 cursor-pointer transition text-center">
-              <input type="radio" name="cylinder_color" value="Gas Tomate" class="mb-1">
-              <span class="font-bold text-orange-300">Gas Tomate</span>
-            </label>
-            <label class="flex flex-col items-center justify-center p-2.5 bg-yellow-950/40 rounded-xl border border-yellow-500/40 hover:border-yellow-400 cursor-pointer transition text-center">
-              <input type="radio" name="cylinder_color" value="Gas Amarillo" class="mb-1">
-              <span class="font-bold text-yellow-300">Gas Amarillo</span>
-            </label>
+          <div style="margin-bottom:18px;text-align:center;">
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:8px;text-align:left;">¿Qué tan fácil te pareció registrarte y pedir tu cilindro? *</label>
+            <div class="flex justify-center items-center space-x-2 py-1 star-rating" id="easeStarContainer" style="display:flex;justify-content:center;gap:8px;">
+              <button type="button" onclick="setEaseRating(1)" class="text-amber-400 text-3xl" style="font-size:36px;color:#F59E0B;">★</button>
+              <button type="button" onclick="setEaseRating(2)" class="text-amber-400 text-3xl" style="font-size:36px;color:#F59E0B;">★</button>
+              <button type="button" onclick="setEaseRating(3)" class="text-amber-400 text-3xl" style="font-size:36px;color:#F59E0B;">★</button>
+              <button type="button" onclick="setEaseRating(4)" class="text-amber-400 text-3xl" style="font-size:36px;color:#F59E0B;">★</button>
+              <button type="button" onclick="setEaseRating(5)" class="text-amber-400 text-3xl" style="font-size:36px;color:#F59E0B;">★</button>
+            </div>
+            <p id="easeRatingLabel" style="font-size:14px;font-weight:800;color:var(--azul);margin-top:6px;">5 de 5 — ¡Facilito, en un minuto!</p>
+            <input type="hidden" name="ease_rating" id="easeRatingInput" value="5">
           </div>
-        </div>
-      </div>
 
-      <!-- ── BLOQUE 2: EXPERIENCIA AL PEDIR ── -->
-      <div class="bg-[#1C2541] border border-white/10 rounded-3xl p-5 shadow-lg space-y-4">
-        <div class="flex items-center space-x-2 border-b border-white/10 pb-2.5">
-          <span class="material-symbols-outlined text-[#00b4d8] text-xl">touch_app</span>
-          <h3 class="text-sm font-black uppercase tracking-wider text-white">2. Tu Experiencia con la Aplicación</h3>
-        </div>
-
-        <!-- Pregunta 4: Facilidad de Registro y Pedido -->
-        <div class="space-y-2 text-center">
-          <label class="block text-xs font-bold text-slate-200 text-left">¿Qué tan fácil te pareció registrarte y pedir tu cilindro? *</label>
-          <div class="flex justify-center items-center space-x-2 py-1 star-rating" id="easeStarContainer">
-            <button type="button" onclick="setEaseRating(1)" class="text-amber-400 text-3xl">★</button>
-            <button type="button" onclick="setEaseRating(2)" class="text-amber-400 text-3xl">★</button>
-            <button type="button" onclick="setEaseRating(3)" class="text-amber-400 text-3xl">★</button>
-            <button type="button" onclick="setEaseRating(4)" class="text-amber-400 text-3xl">★</button>
-            <button type="button" onclick="setEaseRating(5)" class="text-amber-400 text-3xl">★</button>
-          </div>
-          <p id="easeRatingLabel" class="text-xs font-bold text-sky-300">5 de 5 — ¡Facilito, en un minuto!</p>
-          <input type="hidden" name="ease_rating" id="easeRatingInput" value="5">
-        </div>
-
-        <!-- Pregunta 5: Errores o confusión -->
-        <div class="space-y-1.5">
-          <label for="issuesInput" class="block text-xs font-bold text-slate-200">¿Tuviste algún problema o momento de confusión en la pantalla?</label>
-          <textarea id="issuesInput" name="issues" rows="2" placeholder="Ej: No me cargó el mapa, no sabía qué botón aplastar, me confundió el color del gas... (Si no tuviste fallas escribe 'Ninguno')" class="w-full bg-black/30 border border-white/20 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition resize-none"></textarea>
-        </div>
-      </div>
-
-      <!-- ── BLOQUE 3: LA ENTREGA DEL CAMIÓN ── -->
-      <div class="bg-[#1C2541] border border-white/10 rounded-3xl p-5 shadow-lg space-y-4">
-        <div class="flex items-center space-x-2 border-b border-white/10 pb-2.5">
-          <span class="material-symbols-outlined text-[#00b4d8] text-xl">local_shipping</span>
-          <h3 class="text-sm font-black uppercase tracking-wider text-white">3. La Llegada del Camión y Cobro</h3>
-        </div>
-
-        <!-- Pregunta 6: Rapidez de llegada -->
-        <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-200">¿Cómo calificarías la rapidez de llegada del camión? *</label>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="speed_rating" value="Muy rápido (< 15 min)" required class="text-sky-500 focus:ring-0">
-              <span>Llegó rapidísimo (&lt; 15 min)</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="speed_rating" value="A tiempo (15-30 min)" class="text-sky-500 focus:ring-0">
-              <span>A tiempo (15-30 min)</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="speed_rating" value="Demoró un poco" class="text-sky-500 focus:ring-0">
-              <span>Demoró un poco</span>
-            </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-sky-400 cursor-pointer transition">
-              <input type="radio" name="speed_rating" value="Demoró demasiado" class="text-sky-500 focus:ring-0">
-              <span>Demoró demasiado</span>
-            </label>
+          <div>
+            <label for="issuesInput" style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:8px;">¿Tuviste algún problema o momento de confusión en la pantalla?</label>
+            <textarea id="issuesInput" name="issues" rows="2" placeholder="Ej: No me cargó el mapa, no sabía qué botón aplastar, me confundió el color del gas... (Si no tuviste fallas escribe 'Ninguno')" class="cy-input-text" style="resize:none;"></textarea>
           </div>
         </div>
 
-        <!-- Pregunta 7: Cobro justo de $3.50 -->
-        <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-200">¿El chofer te cobró el valor justo ($3,60 por cilindro a domicilio)? *</label>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-emerald-400 cursor-pointer transition">
-              <input type="radio" name="fair_price" value="Sí, exactamente $3.50" required class="text-emerald-500 focus:ring-0">
-              <span>Sí, exactamente $3,60</span>
+        <!-- ── BLOQUE 3: LA ENTREGA DEL CAMIÓN ── -->
+        <div class="cy-feedback-caja cy-reveal">
+          <h3>
+            <span class="material-symbols-outlined" style="color:var(--azul);">local_shipping</span>
+            3. La Llegada del Camión y Cobro
+          </h3>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:10px;">¿Cómo calificarías la rapidez de llegada del camión? *</label>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:10px;">
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="speed_rating" value="Muy rápido (< 15 min)" required>
+                <span>Llegó rapidísimo (&lt; 15 min)</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="speed_rating" value="A tiempo (15-30 min)">
+                <span>A tiempo (15-30 min)</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="speed_rating" value="Demoró un poco">
+                <span>Demoró un poco</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="speed_rating" value="Demoró demasiado">
+                <span>Demoró demasiado</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:10px;">¿El chofer te cobró el valor justo ($3,60 por cilindro a domicilio)? *</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="fair_price" value="Sí, exactamente $3.50" required>
+                <span style="color:#059669;font-weight:700;">Sí, exactamente $3,60</span>
+              </label>
+              <label class="cy-feedback-opcion">
+                <input type="radio" name="fair_price" value="Me cobró más">
+                <span style="color:#DC2626;font-weight:700;">Me cobró más de $3,60</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── BLOQUE 4: RECOMENDACIÓN (NPS) Y MEJORAS ── -->
+        <div class="cy-feedback-caja cy-reveal">
+          <h3>
+            <span class="material-symbols-outlined" style="color:var(--azul);">recommend</span>
+            4. Tu Recomendación y Sugerencias
+          </h3>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:10px;">
+              Del 0 al 10: ¿Qué tan probable es que le recomiendes CilindroYa a un vecino, amigo o familiar en Ibarra? *
             </label>
-            <label class="flex items-center space-x-2 p-2.5 bg-black/20 rounded-xl border border-white/10 hover:border-rose-400 cursor-pointer transition">
-              <input type="radio" name="fair_price" value="Me cobró más" class="text-rose-500 focus:ring-0">
-              <span>Me cobró más de $3,60</span>
-            </label>
+            <div style="display:grid;grid-template-columns:repeat(11, 1fr);gap:4px;text-align:center;">
+              <button type="button" onclick="setNps(0)" class="nps-btn" style="background:#FEE2E2;border:1px solid #FCA5A5;color:#B91C1C;">0</button>
+              <button type="button" onclick="setNps(1)" class="nps-btn" style="background:#FEE2E2;border:1px solid #FCA5A5;color:#B91C1C;">1</button>
+              <button type="button" onclick="setNps(2)" class="nps-btn" style="background:#FEE2E2;border:1px solid #FCA5A5;color:#B91C1C;">2</button>
+              <button type="button" onclick="setNps(3)" class="nps-btn" style="background:#FEE2E2;border:1px solid #FCA5A5;color:#B91C1C;">3</button>
+              <button type="button" onclick="setNps(4)" class="nps-btn" style="background:#FEE2E2;border:1px solid #FCA5A5;color:#B91C1C;">4</button>
+              <button type="button" onclick="setNps(5)" class="nps-btn" style="background:#FEF3C7;border:1px solid #FCD34D;color:#B45309;">5</button>
+              <button type="button" onclick="setNps(6)" class="nps-btn" style="background:#FEF3C7;border:1px solid #FCD34D;color:#B45309;">6</button>
+              <button type="button" onclick="setNps(7)" class="nps-btn" style="background:#E0F2FE;border:1px solid #BAE6FD;color:#0369A1;">7</button>
+              <button type="button" onclick="setNps(8)" class="nps-btn" style="background:#E0F2FE;border:1px solid #BAE6FD;color:#0369A1;">8</button>
+              <button type="button" onclick="setNps(9)" class="nps-btn" style="background:#D1FAE5;border:1px solid #A7F3D0;color:#047857;">9</button>
+              <button type="button" onclick="setNps(10)" class="nps-btn active" style="background:var(--azul);color:#fff;border:1px solid var(--azul);">10</button>
+            </div>
+            <p id="npsLabel" style="text-align:center;font-size:14px;font-weight:800;color:#059669;margin-top:8px;">10 — Totalmente seguro, se lo diré a todos mis vecinos</p>
+            <input type="hidden" name="nps_score" id="npsScoreInput" value="10">
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <label for="suggestionInput" style="display:block;font-size:14px;font-weight:700;color:var(--noche);margin-bottom:8px;">Si pudieras cambiarle o mejorarle UNA SOLA COSA al servicio, ¿qué sería? *</label>
+            <textarea id="suggestionInput" name="suggestion" required rows="2" placeholder="Dinos con total sinceridad: ¿la hora de llegada, el mapa, los métodos de pago, el chofer...?" class="cy-input-text" style="resize:none;"></textarea>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label for="testerNameInput" style="display:block;font-size:13px;font-weight:700;color:var(--noche);margin-bottom:6px;">Tu Nombre completo:</label>
+              <input type="text" id="testerNameInput" name="tester_name" placeholder="Ej: María Gómez" class="cy-input-text">
+            </div>
+            <div>
+              <label for="testerPhoneInput" style="display:block;font-size:13px;font-weight:700;color:var(--noche);margin-bottom:6px;">Tu Celular para agradecerte:</label>
+              <input type="tel" id="testerPhoneInput" name="tester_phone" placeholder="Ej: 0993052744" class="cy-input-text">
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- ── BLOQUE 4: RECOMENDACIÓN (NPS) Y MEJORAS ── -->
-      <div class="bg-[#1C2541] border border-white/10 rounded-3xl p-5 shadow-lg space-y-4">
-        <div class="flex items-center space-x-2 border-b border-white/10 pb-2.5">
-          <span class="material-symbols-outlined text-[#00b4d8] text-xl">recommend</span>
-          <h3 class="text-sm font-black uppercase tracking-wider text-white">4. Tu Recomendación y Sugerencias</h3>
+        <!-- Botón de Envío -->
+        <button type="submit" id="submitBtn" class="boton boton-naranja" style="width:100%;min-height:56px;font-size:16px;">
+          <span class="material-symbols-outlined" style="margin-right:8px;">send</span>
+          <span>ENVIAR MI RETROALIMENTACIÓN</span>
+        </button>
+      </form>
+
+      <!-- Pantalla de Éxito / Agradecimiento (Oculta al inicio) -->
+      <div id="successCard" class="hidden cy-feedback-caja text-center space-y-4" style="display:none;text-align:center;padding:48px 32px;">
+        <div style="width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#D1FAE5;color:#059669;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="font-size:42px;">check_circle</span>
+        </div>
+        <div>
+          <h2 style="font-size:26px;font-weight:800;color:var(--noche);">¡Muchas Gracias! 🎉</h2>
+          <p style="font-size:15px;color:var(--gris-texto);margin-top:8px;max-width:48ch;margin-left:auto;margin-right:auto;">
+            Tus respuestas han sido guardadas y notificadas al equipo de CilindroYa en Ibarra. Gracias a ti, el servicio saldrá al mercado mucho más rápido, fácil y seguro.
+          </p>
         </div>
 
-        <!-- Pregunta 8: NPS (0 al 10) -->
-        <div class="space-y-2">
-          <label class="block text-xs font-bold text-slate-200">
-            Del 0 al 10: ¿Qué tan probable es que le recomiendes CilindroYa a un vecino, amigo o familiar en Ibarra? *
-          </label>
-          <div class="grid grid-cols-11 gap-1 text-center py-1">
-            <button type="button" onclick="setNps(0)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-rose-400 text-rose-300">0</button>
-            <button type="button" onclick="setNps(1)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-rose-400 text-rose-300">1</button>
-            <button type="button" onclick="setNps(2)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-rose-400 text-rose-300">2</button>
-            <button type="button" onclick="setNps(3)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-rose-400 text-rose-300">3</button>
-            <button type="button" onclick="setNps(4)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-rose-400 text-rose-300">4</button>
-            <button type="button" onclick="setNps(5)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-amber-400 text-amber-300">5</button>
-            <button type="button" onclick="setNps(6)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-amber-400 text-amber-300">6</button>
-            <button type="button" onclick="setNps(7)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-sky-400 text-sky-300">7</button>
-            <button type="button" onclick="setNps(8)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-sky-400 text-sky-300">8</button>
-            <button type="button" onclick="setNps(9)" class="nps-btn py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-emerald-400 text-emerald-300">9</button>
-            <button type="button" onclick="setNps(10)" class="nps-btn active py-2 text-xs font-extrabold rounded-lg bg-black/30 border border-white/10 hover:border-emerald-400 text-emerald-300">10</button>
-          </div>
-          <p id="npsLabel" class="text-center text-xs font-bold text-emerald-400">10 — Totalmente seguro, se lo diré a todos mis vecinos</p>
-          <input type="hidden" name="nps_score" id="npsScoreInput" value="10">
-        </div>
-
-        <!-- Pregunta 9: Mejora prioritaria -->
-        <div class="space-y-1.5">
-          <label for="suggestionInput" class="block text-xs font-bold text-slate-200">Si pudieras cambiarle o mejorarle UNA SOLA COSA al servicio, ¿qué sería? *</label>
-          <textarea id="suggestionInput" name="suggestion" required rows="2" placeholder="Dinos con total sinceridad: ¿la hora de llegada, el mapa, los métodos de pago, el chofer...?" class="w-full bg-black/30 border border-white/20 rounded-2xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition resize-none"></textarea>
-        </div>
-
-        <!-- Pregunta 10: Nombre y Celular del Tester -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div class="space-y-1">
-            <label for="testerNameInput" class="block text-xs font-bold text-slate-200">Tu Nombre completo:</label>
-            <input type="text" id="testerNameInput" name="tester_name" placeholder="Ej: María Gómez" class="w-full bg-black/30 border border-white/20 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition">
-          </div>
-          <div class="space-y-1">
-            <label for="testerPhoneInput" class="block text-xs font-bold text-slate-200">Tu Celular para agradecerte:</label>
-            <input type="tel" id="testerPhoneInput" name="tester_phone" placeholder="Ej: 0993052744" class="w-full bg-black/30 border border-white/20 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 transition">
-          </div>
+        <div style="margin-top:24px;border-top:1px solid #EDF2F7;padding-top:20px;">
+          <a href="/cliente/" class="boton boton-celeste" style="font-size:15px;">
+            <span class="material-symbols-outlined" style="margin-right:6px;">home</span>
+            <span>Volver a la App Principal</span>
+          </a>
         </div>
       </div>
-
-      <!-- Botón de Envío -->
-      <button type="submit" id="submitBtn" class="w-full py-4 bg-gradient-to-r from-[#005A9C] to-[#0077b6] hover:from-[#004A80] hover:to-[#005A9C] text-white font-extrabold text-sm rounded-2xl shadow-xl shadow-[#005A9C]/30 transition transform active:scale-95 flex items-center justify-center space-x-2">
-        <span class="material-symbols-outlined text-lg">send</span>
-        <span>ENVIAR MI RETROALIMENTACIÓN</span>
-      </button>
-
-    </form>
-
-    <!-- Pantalla de Éxito / Agradecimiento (Oculta al inicio) -->
-    <div id="successCard" class="hidden bg-[#1C2541] border border-emerald-400/40 rounded-3xl p-7 text-center space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
-      <div class="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/50 flex items-center justify-center">
-        <span class="material-symbols-outlined text-5xl">check_circle</span>
-      </div>
-      <div>
-        <h2 class="text-2xl font-black text-white tracking-tight">¡Muchas Gracias! 🎉</h2>
-        <p class="text-xs text-slate-300 font-medium mt-1">
-          Tus respuestas han sido guardadas y notificadas al equipo de CilindroYa en Ibarra. Gracias a ti, el servicio saldrá al mercado mucho más rápido, fácil y seguro.
-        </p>
-      </div>
-
-      <div class="pt-3 border-t border-white/10 space-y-2">
-        <a href="/cliente" class="w-full py-3.5 bg-[#005A9C] hover:bg-[#004A80] text-white font-black text-xs rounded-2xl shadow-md transition flex items-center justify-center space-x-1.5">
-          <span class="material-symbols-outlined text-sm">home</span>
-          <span>Volver a la App Principal</span>
-        </a>
-      </div>
-    </div>
-
+    </section>
   </main>
 
-  <footer class="py-4 text-center text-[11px] text-slate-400 border-t border-white/10">
-    CilindroYa • Plataforma Tecnológica para Imbabura • 2026
+  <!-- Pie corporativo idéntico a la portada -->
+  <footer class="pie" aria-labelledby="t-pie">
+    <div class="pie-arriba">
+      <div>
+        <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
+        <p>Ibarra, Imbabura · Lunes a domingo, 06:30 a 19:30</p>
+        <p>Zona piloto: Ibarra, Otavalo, Antonio Ante y Cotacachi.</p>
+      </div>
+      <a href="#top" style="color:#fff;font-weight:700;text-decoration:none;">Volver arriba ↑</a>
+    </div>
+    <a class="pie-contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20pedir%20gas" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
+    <div class="pie-meta">
+      <div>
+        <a href="/hogar/">Inicio</a>
+        <a href="/gas-a-domicilio/">Zonas</a>
+        <a href="/cliente/">Pedir gas</a>
+        <a href="/distribuidores/">Soy distribuidor</a>
+        <a href="/guias/">Guías</a>
+        <a href="/preguntas/">Preguntas frecuentes</a>
+        <a href="/privacidad.html">Privacidad</a>
+      </div>
+      <span>© 2026 CilindroYa · Ibarra, Ecuador</span>
+    </div>
   </footer>
 
   <script>
@@ -279,11 +306,9 @@
       const buttons = document.querySelectorAll('#easeStarContainer button');
       buttons.forEach((btn, idx) => {
         if (idx < val) {
-          btn.classList.add('text-amber-400');
-          btn.classList.remove('text-slate-600');
+          btn.style.color = '#F59E0B';
         } else {
-          btn.classList.add('text-slate-600');
-          btn.classList.remove('text-amber-400');
+          btn.style.color = '#CBD5E1';
         }
       });
       const labels = [
@@ -318,7 +343,7 @@
       const form = document.getElementById('feedbackForm');
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span><span>Guardando respuestas...</span>';
+      submitBtn.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin" style="margin-right:8px;">sync</span><span>Guardando respuestas...</span>';
 
       const formData = new FormData(form);
       const payload = Object.fromEntries(formData.entries());
@@ -331,9 +356,8 @@
         });
 
         // Mostrar pantalla de éxito
-        form.classList.add('hidden');
-        document.getElementById('surveyIntroCard').classList.add('hidden');
-        document.getElementById('successCard').classList.remove('hidden');
+        form.style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
 
         // Lanzar confeti de celebración
         if (window.confetti) {
@@ -342,9 +366,8 @@
       } catch (err) {
         console.error('Error enviando encuesta:', err);
         // Mostrar éxito de todos modos (fallback local)
-        form.classList.add('hidden');
-        document.getElementById('surveyIntroCard').classList.add('hidden');
-        document.getElementById('successCard').classList.remove('hidden');
+        form.style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
       }
     }
   </script>

@@ -11,161 +11,118 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/brand/brand.css">
-  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <style>
-    :root {
-      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
-      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00;
-      --m: clamp(20px, 4vw, 56px);
-      --ease: cubic-bezier(.2, .7, .2, 1);
+    .cy-heroe-404 {
+      background: radial-gradient(40% 60% at 85% 20%, rgba(46, 195, 251, .25) 0%, transparent 65%),
+                  linear-gradient(135deg, #09294A 0%, #0A59DA 55%, #2EC3FB 100%);
+      color: #fff;
+      padding: clamp(36px, 6vw, 64px) clamp(20px, 4vw, 56px);
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
     }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
-    body { margin: 0; min-height: 100svh; display: flex; flex-direction: column; background: var(--bg); color: var(--ink);
-           font: 500 17px/1.6 "Plus Jakarta Sans", system-ui, sans-serif; overflow-x: clip; }
-    img { display: block; max-width: 100%; height: auto; }
-    a { color: inherit; }
-    h1, h2 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); }
-    p { margin: 0; }
-    .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; }
-    .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px;
-             background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; font-size: 17px; border: 0; cursor: pointer;
-             transition: background .18s var(--ease), transform .18s var(--ease); text-align: center; }
-    .boton:hover { background: var(--accent-press); transform: translateY(-2px); }
-    .boton.naranja { background: var(--naranja); color: var(--ink); }
-    .boton.naranja:hover { background: #FF9F2E; }
-    .boton.linea { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px #C3CCDA; }
-    .boton.linea:hover { background: var(--surface); }
-
-    .barra { display: flex; align-items: center; gap: 28px; padding: 24px var(--m); background: #fff; border-bottom: 1px solid #E4E9F1; }
-    .barra img { height: 40px; width: auto; }
-    .barra nav { margin-left: auto; display: flex; gap: 26px; }
-    .barra nav a { text-decoration: none; font-weight: 700; font-size: 17px; color: var(--ink); }
-    .barra nav a:hover { color: var(--accent); }
-    .barra .boton { min-height: 46px; padding: 0 22px; font-size: 16px; color: #fff; }
-
-    main { flex: 1; display: grid; place-items: center; padding: clamp(36px, 6vw, 72px) var(--m); }
-    .tarjeta-404 { max-width: 600px; width: 100%; background: #fff; border: 1px solid #DCE5F0; border-radius: 28px;
-                   padding: clamp(28px, 5vw, 48px); text-align: center; box-shadow: 0 18px 42px -22px rgba(9, 41, 74, .28); }
-    .etiqueta { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EAF2FF; color: var(--accent);
-                font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 16px; }
-    .tarjeta-404 h1 { font-size: clamp(28px, 4.5vw, 42px); }
-    .tarjeta-404 h1 span { color: var(--accent); }
-    .tarjeta-404 p { margin-top: 14px; color: var(--muted); }
-    .acciones { margin-top: 28px; display: grid; gap: 12px; }
-    .acciones .boton { width: 100%; }
-
-    footer { background: var(--accent); color: #fff; padding: 36px var(--m) 28px; display: flex; flex-direction: column; gap: 20px; }
-    footer .arriba { display: flex; justify-content: space-between; gap: 24px; font-size: 14px; flex-wrap: wrap; align-items: center; }
-    footer .arriba img { height: 32px; width: auto; }
-    footer .meta { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.2); padding-top: 18px; }
-    footer .meta a { margin-right: 18px; text-decoration: none; font-weight: 700; color: #fff; }
-    footer .meta a:hover { text-decoration: underline; }
-
-
-    /* Cili, la mascota, se asoma desde una ventana circular y busca la página perdida */
-    .tarjeta-404 { max-width: 920px; display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px);
-                   align-items: center; text-align: left; }
-    .cili-escena { position: relative; justify-self: center; width: min(300px, 70vw); aspect-ratio: 1 / 1.08; }
-    .cili-ventana { position: absolute; inset: 0; border-radius: 50% 50% 46% 46% / 52% 52% 44% 44%; overflow: hidden;
-                    background: radial-gradient(circle at 50% 35%, #2F7BEA 0%, #0A59DA 55%, #09294A 100%); }
-    .cili-ventana img { position: absolute; left: 50%; bottom: -6%; width: 82%; transform-origin: 50% 100%;
-                        animation: cili-asoma 5.5s var(--ease) infinite; }
-    .cili-globo { position: absolute; top: -6%; right: -14%; background: #fff; color: var(--ink); font-weight: 800; font-size: 15px;
-                  line-height: 1.25; padding: 10px 14px; border-radius: 16px 16px 16px 4px; box-shadow: 0 10px 24px -12px rgba(9,41,74,.45);
-                  border: 1.5px solid #DCE5F0; max-width: 180px; animation: globo 5.5s var(--ease) infinite; }
-    .cili-lupa { position: absolute; left: -4%; bottom: 14%; width: 64px; height: 64px; border-radius: 50%; border: 7px solid var(--naranja);
-                 background: rgba(255,255,255,.18); animation: lupa 5.5s ease-in-out infinite; }
-    .cili-lupa::after { content: ""; position: absolute; width: 10px; height: 34px; background: var(--naranja); border-radius: 6px;
-                        right: -14px; bottom: -28px; transform: rotate(-40deg); }
-    .numero-404 { font-size: clamp(64px, 11vw, 112px); font-weight: 800; line-height: .9; letter-spacing: -.05em; color: var(--accent); }
-    .numero-404 span { color: var(--naranja); display: inline-block; animation: cero 5.5s var(--ease) infinite; }
-    @keyframes cili-asoma {
-      0%   { transform: translate(-50%, 18%) rotate(0deg); }
-      14%  { transform: translate(-50%, 0) rotate(0deg); }
-      30%  { transform: translate(-50%, 0) rotate(-7deg); }
-      48%  { transform: translate(-50%, -2%) rotate(6deg); }
-      64%  { transform: translate(-50%, 0) rotate(0deg); }
-      78%  { transform: translate(-50%, -4%) rotate(0deg); }
-      100% { transform: translate(-50%, 18%) rotate(0deg); }
+    .cy-grid-404 {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: clamp(24px, 4vw, 48px);
+      align-items: center;
+      width: 100%;
     }
-    @keyframes globo { 0%, 12% { opacity: 0; transform: scale(.6) translateY(8px); } 20%, 86% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: scale(.8); } }
-    @keyframes lupa { 0%, 100% { transform: translate(0, 0); } 30% { transform: translate(14px, -18px) rotate(-8deg); } 55% { transform: translate(-6px, -6px) rotate(6deg); } }
-    @keyframes cero { 0%, 40%, 100% { transform: none; } 50% { transform: rotate(-12deg) scale(1.08); } 60% { transform: rotate(10deg); } }
-    @media (prefers-reduced-motion: reduce) {
-      .cili-ventana img { animation: none; transform: translate(-50%, 0); }
-      .cili-globo, .cili-lupa, .numero-404 span { animation: none; }
+    .cy-numero-404 {
+      font-size: clamp(64px, 10vw, 110px);
+      font-weight: 800;
+      line-height: .9;
+      color: var(--naranja);
+      margin-bottom: 12px;
+      letter-spacing: -.04em;
     }
-    @media (max-width: 760px) {
-      .tarjeta-404 { grid-template-columns: 1fr; text-align: center; }
-      .cili-globo { right: -4%; }
+    .cy-visual-404 img {
+      max-width: 320px;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 16px 36px rgba(0, 0, 0, .28));
     }
-
-    @media (max-width: 760px) {
-      .barra { padding: 16px var(--m); }
-      .barra img { height: 32px; }
-      .barra nav { display: none; }
-      .barra .boton { margin-left: auto; min-height: 44px; padding: 0 16px; font-size: 15px; }
-      footer .arriba, footer .meta { flex-direction: column; align-items: flex-start; }
+    @media (max-width: 768px) {
+      .cy-grid-404 { grid-template-columns: 1fr; text-align: center; }
+      .cy-visual-404 { order: -1; }
+      .cy-visual-404 img { max-width: 220px; }
+      .cy-heroe-interior__cta { justify-content: center; }
     }
   </style>
 </head>
-<body>
+<body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
+
+  <!-- Header corporativo (idéntico a la portada) -->
   <header class="barra">
-    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
-    <nav aria-label="Principal">
-      <a href="/hogar/">Familias</a>
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
       <a href="/gas-a-domicilio/">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/">Preguntas</a>
       <a href="/distribuidores/">Distribuidores</a>
       <a href="/guias/">Guías</a>
-      <a href="/cliente/">Pedir gas</a>
     </nav>
     <a class="boton" href="/cliente/">Pedir gas</a>
   </header>
 
   <main>
-    <div class="tarjeta-404">
-      <div class="cili-escena" aria-hidden="true">
-        <div class="cili-ventana">
-          <picture>
-            <source srcset="/assets/web/cili_404.webp" type="image/webp">
-            <img src="/assets/web/cili_404.png" alt="" width="520" height="792">
-          </picture>
+    <section class="cy-heroe-404" aria-labelledby="titular">
+      <div class="cy-grid-404">
+        <div class="cy-texto-404">
+          <span class="cy-insignia"><i></i> Error 404 · Ruta no encontrada</span>
+          <div class="cy-numero-404" aria-hidden="true">404</div>
+          <h1 id="titular" style="font-size:clamp(32px, 4.5vw, 48px);line-height:1.15;margin-bottom:16px;">Ruta <span>no encontrada</span></h1>
+          <p style="font-size:17px;line-height:1.6;color:#E7EEF7;max-width:48ch;margin-bottom:28px;">
+            Cili, nuestra mascota, buscó esta página y no la encontró: puede que el enlace esté mal escrito o que la página ya no exista. Tu gas sí te lo llevamos: pídelo a domicilio por $3,60 o revisa si llegamos a tu zona en Imbabura.
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-naranja" href="/cliente/">Pedir gas a domicilio ($3,60)</a>
+            <a class="boton boton-celeste" href="/hogar/">Ir a la portada</a>
+            <a class="boton" href="/gas-a-domicilio/" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);">Ver zonas</a>
+          </div>
         </div>
-        <span class="cili-lupa"></span>
-        <span class="cili-globo">¡Ups! Busqué por todo Imbabura y esta página no está.</span>
-      </div>
-      <div>
-        <span class="etiqueta">Error 404</span>
-        <p class="numero-404" aria-hidden="true">4<span>0</span>4</p>
-        <h1>Ruta <span>no encontrada</span></h1>
-        <p>Cili, nuestra mascota, buscó esta página y no la encontró: puede que el enlace esté mal escrito o que la página ya no exista. Tu gas sí te lo llevamos: pídelo a domicilio por $3,60 o revisa si llegamos a tu zona en Imbabura.</p>
-        <div class="acciones">
-          <a class="boton naranja" href="/cliente/">Pedir gas a domicilio ($3,60)</a>
-          <a class="boton" href="/hogar/">Ir a la portada</a>
-          <a class="boton linea" href="/gas-a-domicilio/">Ver zonas de cobertura</a>
+        <div class="cy-visual-404">
+          <img src="/static/assets/web/cili_404.webp" alt="Cili, mascota de CilindroYa, buscando la página no encontrada con una lupa" width="520" height="792" fetchpriority="high">
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer aria-labelledby="t-pie">
-    <h2 class="oculto" id="t-pie">Contacto CilindroYa</h2>
-    <div class="arriba">
-      <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
-      <span>Ibarra, Otavalo, Antonio Ante y Cotacachi · Lunes a domingo, 06:30 a 19:30</span>
+  <!-- Pie corporativo idéntico a la portada -->
+  <footer class="pie" aria-labelledby="t-pie">
+    <div class="pie-arriba">
+      <div>
+        <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
+        <p>Ibarra, Imbabura · Lunes a domingo, 06:30 a 19:30</p>
+        <p>Zona piloto: Ibarra, Otavalo, Antonio Ante y Cotacachi.</p>
+      </div>
+      <a href="#top" style="color:#fff;font-weight:700;text-decoration:none;">Volver arriba ↑</a>
     </div>
-    <div class="meta">
+    <a class="pie-contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20pedir%20gas" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
+    <div class="pie-meta">
       <div>
         <a href="/hogar/">Inicio</a>
-        <a href="/cliente/">Pedir gas</a>
         <a href="/gas-a-domicilio/">Zonas</a>
+        <a href="/cliente/">Pedir gas</a>
         <a href="/distribuidores/">Soy distribuidor</a>
         <a href="/guias/">Guías</a>
+        <a href="/preguntas/">Preguntas frecuentes</a>
+        <a href="/privacidad.html">Privacidad</a>
       </div>
       <span>© 2026 CilindroYa · Ibarra, Ecuador</span>
     </div>

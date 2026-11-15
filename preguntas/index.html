@@ -19,10 +19,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/brand/brand.css">
-  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -233,314 +234,237 @@
   ]
 }
   </script>
-  <style>
-    :root {
-      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
-      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00;
-      --m: clamp(20px, 4vw, 56px);
-      --s-display: clamp(32px, 5vw, 58px);
-      --s-h2: clamp(24px, 3.4vw, 36px);
-      --s-lead: clamp(18px, 1.5vw, 21px);
-      --s-body: 17px;
-      --s-small: 14px;
-      --ease: cubic-bezier(.2, .7, .2, 1);
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 var(--s-body)/1.65 "Plus Jakarta Sans", system-ui, sans-serif; overflow-x: clip; }
-    img { display: block; max-width: 100%; height: auto; }
-    a { color: var(--accent); }
-    h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; color: var(--ink); }
-    p { margin: 0; }
-    .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; }
-    .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px;
-             background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; font-size: var(--s-body); border: 0; cursor: pointer;
-             transition: background .18s var(--ease), transform .18s var(--ease); text-align: center; }
-    .boton:hover { background: var(--accent-press); transform: translateY(-2px); }
-    .boton--naranja { background: var(--naranja); color: var(--ink); }
-    .boton--naranja:hover { background: #FF9F2E; }
-    .boton--wa { background: #fff; color: #0B7A43; border: 2px solid #0B7A43; }
-    .boton--wa:hover { background: #E8F7EF; color: #085D32; }
-    .boton--claro { background: rgba(255, 255, 255, .12); color: #fff; border: 1.5px solid rgba(255, 255, 255, .4); }
-    .boton--claro:hover { background: rgba(255, 255, 255, .22); }
-
-    /* Barra superior */
-    .barra { display: flex; align-items: center; gap: 28px; padding: 24px var(--m); background: #fff; border-bottom: 1px solid #E4E9F1; }
-    .barra img { height: 40px; width: auto; }
-    .barra nav { margin-left: auto; display: flex; gap: 26px; }
-    .barra nav a { text-decoration: none; font-weight: 700; font-size: var(--s-body); color: var(--ink); }
-    .barra nav a:hover, .barra nav a[aria-current="page"] { color: var(--accent); }
-    .barra .boton { min-height: 46px; padding: 0 22px; font-size: 16px; color: #fff; }
-
-    /* Contenedor */
-    .contenedor { max-width: 960px; margin: 0 auto; padding: clamp(36px, 6vw, 72px) var(--m); }
-    .migas { display: flex; flex-wrap: wrap; gap: 8px; font-size: var(--s-small); font-weight: 700; color: var(--muted); margin-bottom: 18px; }
-    .migas a { text-decoration: none; color: var(--accent); }
-    .migas a:hover { text-decoration: underline; }
-    .etiqueta { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EAF2FF; color: var(--accent);
-                font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; }
-    .contenedor h1 { font-size: var(--s-display); max-width: 24ch; }
-    .respuesta-rapida { margin-top: 20px; background: #fff; border: 1px solid #DCE5F0; border-left: 5px solid var(--naranja);
-                        border-radius: 20px; padding: 22px 24px; font-size: var(--s-lead); color: var(--ink);
-                        box-shadow: 0 12px 30px -20px rgba(9, 41, 74, .28); }
-
-    /* Índice de categorías (Mapa de preguntas) */
-    .indice-temas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; list-style: none; }
-    .indice-temas a { display: inline-flex; align-items: center; min-height: 42px; padding: 0 16px; border-radius: 999px;
-                      background: #fff; border: 1px solid #DCE5F0; color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; }
-    .indice-temas a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    /* Bloques de categoría */
-    .grupo-preguntas { margin-top: 52px; }
-    .grupo-preguntas h2 { font-size: var(--s-h2); padding-bottom: 12px; border-bottom: 2px solid #DCE5F0; margin-bottom: 22px; }
-    .rejilla-preguntas { display: grid; gap: 18px; }
-    .ficha-pregunta { background: #fff; border: 1px solid #DCE5F0; border-radius: 20px; padding: 22px 24px;
-                      box-shadow: 0 10px 26px -20px rgba(9, 41, 74, .22); }
-    .ficha-pregunta h3 { font-size: 20px; margin-bottom: 10px; color: var(--ink); }
-    .ficha-pregunta p { color: var(--muted); font-size: 16.5px; line-height: 1.65; }
-    .ficha-pregunta p strong { color: var(--ink); }
-
-    /* Enlaces internos */
-    .otras-ciudades { margin-top: 48px; background: #fff; border: 1px solid #DCE5F0; border-radius: 20px; padding: 24px; }
-    .otras-ciudades h2 { margin-top: 0; font-size: 22px; }
-    .otras-ciudades .enlaces-ciudades { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    .otras-ciudades .enlaces-ciudades a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px;
-                                          background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; }
-    .otras-ciudades .enlaces-ciudades a:hover { background: var(--accent); color: #fff; }
-
-    /* Caja CTA */
-    .caja-cta { margin-top: 48px; border-radius: 28px; padding: clamp(28px, 5vw, 48px); color: #fff;
-                background: radial-gradient(45% 70% at 90% 10%, rgba(255, 138, 0, .28) 0%, rgba(255, 138, 0, 0) 70%),
-                            radial-gradient(50% 70% at 0% 100%, rgba(10, 89, 218, .5) 0%, rgba(10, 89, 218, 0) 70%), #051428; }
-    .caja-cta h2 { margin-top: 0; color: #fff; font-size: var(--s-h2); }
-    .caja-cta p { margin-top: 10px; color: #DCE6F2; font-size: var(--s-lead); }
-    .caja-cta .acciones { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
-
-    /* Pie */
-    footer { background: var(--accent); color: #fff; padding: 48px var(--m) 32px; display: flex; flex-direction: column; gap: 32px; margin-top: 56px; }
-    footer .arriba { display: flex; justify-content: space-between; gap: 24px; font-size: var(--s-small); flex-wrap: wrap; }
-    footer .arriba img { height: 34px; width: auto; margin-bottom: 14px; }
-    footer .arriba a { font-weight: 700; color: #fff; text-decoration: none; }
-    footer .contacto { font-size: clamp(36px, 8vw, 96px); font-weight: 800; letter-spacing: -.04em; line-height: .95; color: #fff; text-decoration: none; display: block; }
-    footer .contacto:hover { color: #FFE2BF; }
-    footer .meta { display: flex; justify-content: space-between; gap: 16px; font-size: var(--s-small); flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.2); padding-top: 24px; }
-    footer .meta a { margin-right: 18px; color: #fff; text-decoration: none; font-weight: 700; }
-    footer .meta a:hover { text-decoration: underline; }
-
-    @media (max-width: 760px) {
-      .barra { padding: 16px var(--m); }
-      .barra img { height: 32px; }
-      .barra nav { display: none; }
-      .barra .boton { margin-left: auto; min-height: 44px; padding: 0 16px; font-size: 15px; }
-      .caja-cta .acciones .boton { width: 100%; }
-      footer .arriba, footer .meta { flex-direction: column; }
-    }
-  </style>
 </head>
 <body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
+
+  <!-- Header corporativo (idéntico a la portada) -->
   <header class="barra">
-    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
-    <nav aria-label="Principal">
-      <a href="/hogar/">Familias</a>
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
       <a href="/gas-a-domicilio/">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/" aria-current="page">Preguntas</a>
       <a href="/distribuidores/">Distribuidores</a>
       <a href="/guias/">Guías</a>
-      <a href="/preguntas/" aria-current="page">Preguntas</a>
-      <a href="/cliente/">Pedir gas</a>
     </nav>
     <a class="boton" href="/cliente/">Pedir gas</a>
   </header>
 
-  <main class="contenedor">
-    <nav class="migas" aria-label="Ruta de navegación">
-      <a href="/hogar/">Inicio</a> <span>/</span> <span>Preguntas frecuentes</span>
-    </nav>
-
-    <span class="etiqueta">Mapa de preguntas reales · AEO Imbabura</span>
-    <h1>Preguntas frecuentes sobre gas a domicilio en Imbabura</h1>
-
-    <p class="respuesta-rapida">
-      Encuentra respuestas directas y verificadas sobre cómo pedir tu cilindro de gas doméstico de 15 kg por <strong>$3,60</strong> ($1,65 cilindro oficial ARCH + $1,85 entrega + $0,10 plataforma) en <strong>Ibarra, Otavalo, Antonio Ante y Cotacachi</strong>, horarios de atención (06:30 a 19:30), canje universal y el programa exclusivo para distribuidores autorizados de Vepagas. Si tienes otra consulta, escríbenos por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a> o habla con <strong>Cili</strong> en el chat.
-    </p>
-
-    <ul class="indice-temas" aria-label="Categorías de preguntas">
-      <li><a href="#precio-y-pago">1. Precio y pago</a></li>
-      <li><a href="#cobertura-y-horario">2. Cobertura y horario</a></li>
-      <li><a href="#pedido-y-entrega">3. Pedido y entrega</a></li>
-      <li><a href="#cilindros-y-seguridad">4. Cilindros y seguridad</a></li>
-      <li><a href="#distribuidores">5. Distribuidores</a></li>
-    </ul>
-
-    <!-- 1. Precio y pago -->
-    <section class="grupo-preguntas" id="precio-y-pago" aria-labelledby="t-precio-pago">
-      <h2 id="t-precio-pago">Precio y pago</h2>
-      <div class="rejilla-preguntas">
-        <article class="ficha-pregunta">
-          <h3>¿Cuánto cuesta el cilindro de gas de 15 kg a domicilio en Imbabura?</h3>
-          <p>El cilindro de gas doméstico de 15 kg puesto en la puerta de tu casa cuesta <strong>$3,60 en total</strong> en Ibarra, Otavalo, Antonio Ante y Cotacachi. Ese valor suma $1,65 del cilindro a precio oficial de la ARCH, $1,85 por el servicio de entrega a domicilio y $0,10 de tarifa de plataforma, sin recargos escondidos.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cómo puedo pagar mi pedido de gas cuando llega el camión?</h3>
-          <p>Pagas los <strong>$3,60 únicamente al recibir el cilindro en tu puerta</strong>, directamente al distribuidor autorizado que realiza la entrega. Puedes pagar en efectivo (el repartidor lleva cambio para entregarte en el momento), escaneando el código QR de DeUna del distribuidor o mediante transferencia bancaria a su cuenta, sin hacer pagos anticipados por internet.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cuánto cuesta la válvula reguladora y el cilindro de gas industrial de 45 kg?</h3>
-          <p>Además del cilindro doméstico de 15 kg ($3,60), en CilindroYa puedes pedir una <strong>válvula reguladora certificada con manguera por $12,00</strong> y el <strong>cilindro de gas industrial de 45 kg para negocios con factura electrónica por $22,50</strong>. Si necesitas consultar disponibilidad para tu local comercial, escríbenos por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cobran algún valor adicional por subir gradas o conectar el cilindro?</h3>
-          <p>La conexión de la válvula reguladora y la revisión de fugas al momento de entregar el cilindro <strong>no tienen ningún costo adicional</strong> si se lo pides al repartidor. El precio del cilindro de 15 kg en puerta es de $3,60; si tu domicilio tiene condiciones especiales de acceso, consúltanos antes por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
-        </article>
+  <main>
+    <!-- Héroe estilizado con degradado #09294A → #0A59DA → #2EC3FB y render nítido de Cili saluda -->
+    <section class="cy-heroe-interior" aria-labelledby="titular">
+      <div class="cy-heroe-interior__grid">
+        <div class="cy-heroe-interior__texto">
+          <nav class="cy-migas" aria-label="Ruta de navegación">
+            <a href="/hogar/">Inicio</a> <span class="separador">/</span> <span>Preguntas frecuentes</span>
+          </nav>
+          <span class="cy-insignia"><i></i> Respuestas verificadas · Imbabura</span>
+          <h1 id="titular">Preguntas frecuentes sobre <span>gas a domicilio</span> en Imbabura</h1>
+          <p class="respuesta-rapida">
+            Encuentra respuestas directas y verificadas sobre cómo pedir tu cilindro de gas doméstico de 15 kg por <strong>$3,60</strong> ($1,65 cilindro oficial ARCH + $1,85 entrega + $0,10 plataforma) en <strong>Ibarra, Otavalo, Antonio Ante y Cotacachi</strong>, horarios de atención (06:30 a 19:30), canje universal y el programa exclusivo para distribuidores autorizados de Vepagas. Si tienes otra consulta, escríbenos por WhatsApp al <a href="https://wa.me/593993052744" style="color:var(--azul);font-weight:700;">099 305 2744</a> o habla con <strong>Cili</strong> en el chat.
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-naranja" href="/cliente/">Pedir cilindro ($3,60)</a>
+            <a class="boton boton-wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20tengo%20una%20consulta" target="_blank" rel="noopener">WhatsApp 099 305 2744</a>
+          </div>
+        </div>
+        <div class="cy-heroe-interior__visual">
+          <img src="/static/assets/web/cili_render_saluda.webp" alt="Cili saludando listo para resolver dudas sobre el gas a domicilio" width="700" height="1096" fetchpriority="high">
+        </div>
       </div>
     </section>
 
-    <!-- 2. Cobertura y horario -->
-    <section class="grupo-preguntas" id="cobertura-y-horario" aria-labelledby="t-cobertura-horario">
-      <h2 id="t-cobertura-horario">Cobertura y horario</h2>
-      <div class="rejilla-preguntas">
-        <article class="ficha-pregunta">
-          <h3>¿En qué cantones y parroquias de Imbabura opera CilindroYa?</h3>
-          <p>CilindroYa opera hoy en los cuatro cantones de la zona piloto de Imbabura: <a href="/gas-a-domicilio/ibarra/">Ibarra</a> (5 parroquias urbanas y 7 rurales), <a href="/gas-a-domicilio/otavalo/">Otavalo</a> (2 urbanas y 9 rurales), <a href="/gas-a-domicilio/antonio-ante/">Antonio Ante</a> (Atuntaqui, Andrade Marín y 4 rurales) y <a href="/gas-a-domicilio/cotacachi/">Cotacachi</a> (2 urbanas y 8 rurales). Puedes revisar cada parroquia en nuestro buscador de zonas o consultar por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cuál es el horario de atención de lunes a domingo?</h3>
-          <p>El servicio de entrega de gas a domicilio en Ibarra, Otavalo, Antonio Ante y Cotacachi funciona <strong>todos los días de la semana, de lunes a domingo en horario continuo de 06:30 a 19:30</strong>. Dentro de esa franja puedes pedir tu cilindro desde el navegador del celular o hablando con Cili en la web.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Qué pasa si hago mi pedido de gas fuera del horario de atención?</h3>
-          <p>Nuestro horario de reparto en Imbabura es de 06:30 a 19:30 todos los días. Si envías tu solicitud por la página web o por WhatsApp después de las 19:30 o antes de las 06:30, <strong>tu pedido queda registrado y programado para primera hora de la mañana siguiente</strong>, y te avisamos por WhatsApp cuando salga el camión.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cuándo habrá servicio en Pimampiro y San Miguel de Urcuquí?</h3>
-          <p>Los cantones de <strong>Pimampiro y San Miguel de Urcuquí</strong> se encuentran actualmente en lista de espera y entrarán en operación después de la zona piloto. Puedes buscar tu parroquia en el verificador de nuestra <a href="/hogar/#barrio">portada</a> para anotarte sin costo, o escribirnos al WhatsApp <a href="https://wa.me/593993052744">099 305 2744</a> para avisarte apenas opere un distribuidor autorizado en tu sector.</p>
-        </article>
-      </div>
+    <!-- Contenido y acordeón por categorías -->
+    <section class="contenedor">
+      <nav class="cy-caja cy-reveal" aria-label="Categorías de preguntas">
+        <h2 style="font-size:20px;margin-bottom:14px;color:var(--noche);">Explorar preguntas por categoría:</h2>
+        <div class="cy-chips-temas">
+          <a class="cy-chip-enlace" href="#precio-y-pago">1. Precio y pago</a>
+          <a class="cy-chip-enlace" href="#cobertura-y-horario">2. Cobertura y horario</a>
+          <a class="cy-chip-enlace" href="#pedido-y-entrega">3. Pedido y entrega</a>
+          <a class="cy-chip-enlace" href="#cilindros-y-seguridad">4. Cilindros y seguridad</a>
+          <a class="cy-chip-enlace" href="#distribuidores">5. Distribuidores</a>
+        </div>
+      </nav>
+
+      <!-- 1. Precio y pago -->
+      <section class="cy-caja cy-reveal" id="precio-y-pago" aria-labelledby="t-precio-pago">
+        <h2 id="t-precio-pago">Precio y pago</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq" open>
+            <summary>¿Cuánto cuesta el cilindro de gas de 15 kg a domicilio en Imbabura?</summary>
+            <p>El cilindro de gas doméstico de 15 kg puesto en la puerta de tu casa cuesta <strong>$3,60 en total</strong> en Ibarra, Otavalo, Antonio Ante y Cotacachi. Ese valor suma $1,65 del cilindro a precio oficial de la ARCH, $1,85 por el servicio de entrega a domicilio y $0,10 de tarifa de plataforma, sin recargos escondidos.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cómo puedo pagar mi pedido de gas cuando llega el camión?</summary>
+            <p>Pagas los <strong>$3,60 únicamente al recibir el cilindro en tu puerta</strong>, directamente al distribuidor autorizado que realiza la entrega. Puedes pagar en efectivo (el repartidor lleva cambio para entregarte en el momento), escaneando el código QR de DeUna del distribuidor o mediante transferencia bancaria a su cuenta, sin hacer pagos anticipados por internet.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cuánto cuesta la válvula reguladora y el cilindro de gas industrial de 45 kg?</summary>
+            <p>Además del cilindro doméstico de 15 kg ($3,60), en CilindroYa puedes pedir una <strong>válvula reguladora certificada con manguera por $12,00</strong> y el <strong>cilindro de gas industrial de 45 kg para negocios con factura electrónica por $22,50</strong>. Si necesitas consultar disponibilidad para tu local comercial, escríbenos por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cobran algún valor adicional por subir gradas o conectar el cilindro?</summary>
+            <p>La conexión de la válvula reguladora y la revisión de fugas al momento de entregar el cilindro <strong>no tienen ningún costo adicional</strong> si se lo pides al repartidor. El precio del cilindro de 15 kg en puerta es de $3,60; si tu domicilio tiene condiciones especiales de acceso, consúltanos antes por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 2. Cobertura y horario -->
+      <section class="cy-caja cy-reveal" id="cobertura-y-horario" aria-labelledby="t-cobertura-horario">
+        <h2 id="t-cobertura-horario">Cobertura y horario</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq">
+            <summary>¿En qué cantones y parroquias de Imbabura opera CilindroYa?</summary>
+            <p>CilindroYa opera hoy en los cuatro cantones de la zona piloto de Imbabura: <a href="/gas-a-domicilio/ibarra/">Ibarra</a> (5 parroquias urbanas y 7 rurales), <a href="/gas-a-domicilio/otavalo/">Otavalo</a> (2 urbanas y 9 rurales), <a href="/gas-a-domicilio/antonio-ante/">Antonio Ante</a> (Atuntaqui, Andrade Marín y 4 rurales) y <a href="/gas-a-domicilio/cotacachi/">Cotacachi</a> (2 urbanas y 8 rurales). Puedes revisar cada parroquia en nuestro buscador de zonas o consultar por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cuál es el horario de atención de lunes a domingo?</summary>
+            <p>El servicio de entrega de gas a domicilio en Ibarra, Otavalo, Antonio Ante y Cotacachi funciona <strong>todos los días de la semana, de lunes a domingo en horario continuo de 06:30 a 19:30</strong>. Dentro de esa franja puedes pedir tu cilindro desde el navegador del celular o hablando con Cili en la web.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Qué pasa si hago mi pedido de gas fuera del horario de atención?</summary>
+            <p>Nuestro horario de reparto en Imbabura es de 06:30 a 19:30 todos los días. Si envías tu solicitud por la página web o por WhatsApp después de las 19:30 o antes de las 06:30, <strong>tu pedido queda registrado y programado para primera hora de la mañana siguiente</strong>, y te avisamos por WhatsApp cuando salga el camión.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cuándo habrá servicio en Pimampiro y San Miguel de Urcuquí?</summary>
+            <p>Los cantones de <strong>Pimampiro y San Miguel de Urcuquí</strong> se encuentran actualmente en lista de espera y entrarán en operación después de la zona piloto. Puedes buscar tu parroquia en el verificador de nuestra <a href="/hogar/#barrio">portada</a> para anotarte sin costo, o escribirnos al WhatsApp <a href="https://wa.me/593993052744">099 305 2744</a> para avisarte apenas opere un distribuidor autorizado en tu sector.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 3. Pedido y entrega -->
+      <section class="cy-caja cy-reveal" id="pedido-y-entrega" aria-labelledby="t-pedido-entrega">
+        <h2 id="t-pedido-entrega">Pedido y entrega</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq">
+            <summary>¿Cómo pido un cilindro de gas desde mi celular sin descargar una aplicación?</summary>
+            <p>No necesitas instalar ninguna aplicación ni ocupar memoria en tu teléfono. Solo abres el navegador de tu celular, entras a <a href="/hogar/">cilindroya.com/hogar/</a> o <a href="/cliente/">cilindroya.com/cliente</a>, eliges tu cantón y barrio, indicas tu dirección con una referencia y confirmas cuántos cilindros de 15 kg necesitas. También puedes pedir directamente por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cómo sé qué camión viene a mi casa y cómo sigo mi pedido?</summary>
+            <p>Cuando confirmas tu pedido, la plataforma lo asigna al <strong>distribuidor autorizado de Vepagas más cercano a tu barrio</strong> y te enviamos una confirmación por WhatsApp. Desde la pantalla de tu celular puedes ver el avance del camión en el mapa y recibes un aviso cuando el repartidor está por llegar a tu puerta.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Quién es Cili y cómo me ayuda a pedir gas en la web?</summary>
+            <p><strong>Cili</strong> es la mascota y asistente oficial de CilindroYa en la web (nuestro cilindro azul con chaleco reflectivo). Al abrir el botón «Habla con Cili» en cualquier página, Cili responde tus preguntas sobre cobertura, precios y horarios en Imbabura, te guía paso a paso para pedir tu cilindro y acompaña a los distribuidores autorizados a registrarse.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Puedo programar la hora de entrega o pedir por WhatsApp?</summary>
+            <p>Sí. En CilindroYa las familias piden desde el celular y programan su entrega dentro del horario diario de <strong>06:30 a 19:30</strong> para no esperar en la calle escuchando la bocina. Si prefieres atención directa, escríbenos por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a> indicando tu cantón, barrio y referencia para coordinar tu cilindro de $3,60.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 4. Cilindros y seguridad -->
+      <section class="cy-caja cy-reveal" id="cilindros-y-seguridad" aria-labelledby="t-cilindros-seguridad">
+        <h2 id="t-cilindros-seguridad">Cilindros y seguridad</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq">
+            <summary>¿Puedo entregar un cilindro vacío de cualquier color o marca?</summary>
+            <p>Sí. En el Ecuador rige la normativa de <strong>canje universal</strong>, por lo que nuestros distribuidores autorizados reciben tu cilindro vacío de 15 kg de cualquier marca o color (azul, tomate o amarillo), siempre que el envase se encuentre en buen estado físico. A cambio recibes un cilindro lleno de Vepagas por $3,60 en total.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿El repartidor me ayuda a conectar la válvula y revisar que no haya fugas?</summary>
+            <p>Sí, siempre que se lo pidas al momento de la entrega en tu domicilio. El distribuidor autorizado deja conectado el cilindro de 15 kg a tu válvula reguladora y <strong>verifica en el sitio que no existan fugas de gas</strong>, como parte del servicio sin ningún recargo adicional sobre los $3,60 del pedido.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿De dónde vienen los cilindros de gas que entregan en CilindroYa?</summary>
+            <p>Todos los cilindros entregados a través de CilindroYa provienen exclusivamente de <strong>distribuidores de gas autorizados de Vepagas que cargan directamente en la planta envasadora de Ibarra</strong>. Así cada familia tiene trazabilidad completa de quién le entregó su cilindro, a qué hora y con el respaldo de un distribuidor formal registrado en Imbabura.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Venden cilindros nuevos si no tengo un cilindro vacío para el canje?</summary>
+            <p>Sí. Si no tienes un cilindro vacío para el canje, puedes comprar el cilindro (el envase) de 15 kg por $42,00. Con tu cilindro vacío en buen estado solo pagas la recarga a domicilio: $3,60 en total. Pídelo en el mismo pedido o consulta por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cuánto tarda en llegar el gas a domicilio?</summary>
+            <p>El cilindro llega en alrededor de 15 a 20 minutos desde que un distribuidor autorizado acepta tu pedido, según tu zona y la ruta del camión. Te avisamos por WhatsApp cuando lo acepta y puedes seguir el camión en el mapa hasta tu puerta. También puedes elegir la hora en que lo quieres recibir.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Puedo pedir más de un cilindro a la vez?</summary>
+            <p>Sí, puedes pedir más de un cilindro en el mismo pedido: eliges la cantidad al hacerlo y pagas $3,60 por cada cilindro de 15 kg al recibirlos, en efectivo o con DeUna.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- 5. Distribuidores -->
+      <section class="cy-caja cy-reveal" id="distribuidores" aria-labelledby="t-distribuidores">
+        <h2 id="t-distribuidores">Distribuidores</h2>
+        <div class="cy-faq-lista">
+          <details class="cy-faq">
+            <summary>¿Quiénes pueden registrarse como distribuidores de gas en CilindroYa?</summary>
+            <p>El <a href="/distribuidores/">programa de distribuidores de CilindroYa</a> es <strong>exclusivo para distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra</strong> y reparten en Ibarra, Otavalo, Antonio Ante o Cotacachi. No está abierto a vehículos particulares sin permiso, porque garantizamos entregas formales, seguras y con precio oficial en los cantones donde operamos.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Cuánto paga el distribuidor por usar la aplicación de CilindroYa?</summary>
+            <p>Los primeros <strong>30 días son completamente gratis y sin comisión</strong> para que el distribuidor pruebe el sistema en su ruta habitual. A partir del segundo mes paga únicamente <strong>$0,10 por cada cilindro entregado por la app</strong>, sin mensualidades fijas, sin pagos por adelantado y con una sola factura electrónica al cierre del mes.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿El distribuidor tiene exclusividad o CilindroYa retiene el dinero de las ventas?</summary>
+            <p>No hay exclusividad ni retención de dinero. El distribuidor autorizado sigue atendiendo a sus clientes de siempre en la calle y usa CilindroYa para sumar pedidos confirmados en su ruta. Además, <strong>el cliente le paga los $3,60 directamente al distribuidor</strong> en efectivo o con su código QR de DeUna al momento de entregar.</p>
+          </details>
+          <details class="cy-faq">
+            <summary>¿Qué necesita un distribuidor autorizado para afiliarse y emitir factura electrónica?</summary>
+            <p>Para afiliarse basta un celular Android o iPhone con datos móviles y GPS, y completar el registro guiado en <a href="/distribuidores/registro/">cilindroya.com/distribuidores/registro/</a> o por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>. Para que la app emita facturas electrónicas automáticas al entregar y lleve el cuadre de caja diario, el distribuidor configura su RUC y su firma electrónica en archivo .p12.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Enlaces por servicio y cantón -->
+      <aside class="cy-caja cy-reveal" aria-labelledby="t-enlaces-mapa">
+        <h2 id="t-enlaces-mapa">Páginas por servicio y cantón en Imbabura</h2>
+        <div class="cy-enlaces-grid">
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/">Gas a domicilio en Imbabura</a>
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/ibarra/">Gas a domicilio en Ibarra</a>
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/otavalo/">Gas a domicilio en Otavalo</a>
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/antonio-ante/">Gas a domicilio en Antonio Ante</a>
+          <a class="cy-chip-enlace" href="/gas-a-domicilio/cotacachi/">Gas a domicilio en Cotacachi</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/">Distribuidores en Imbabura</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/ibarra/">Distribuidores en Ibarra</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/otavalo/">Distribuidores en Otavalo</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/antonio-ante/">Distribuidores en Antonio Ante</a>
+          <a class="cy-chip-enlace" href="/distribuidores-de-gas/cotacachi/">Distribuidores en Cotacachi</a>
+        </div>
+      </aside>
+
+      <!-- Banner de llamada a la acción -->
+      <section class="cy-caja cy-reveal" style="background:var(--noche);color:#fff;" aria-labelledby="t-cta">
+        <h2 id="t-cta" style="color:#fff;">¿Listo para pedir tu cilindro o afiliarte como distribuidor?</h2>
+        <p style="color:#DCE6F2;font-size:18px;margin-top:10px;">Pide tu gas doméstico de 15 kg por $3,60 desde el celular o escríbenos al WhatsApp 099 305 2744 si tienes otra pregunta.</p>
+        <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+          <a class="boton boton-naranja" href="/cliente/">Pedir cilindro ahora ($3,60)</a>
+          <a class="boton boton-celeste" href="/distribuidores/registro/">Soy distribuidor autorizado</a>
+          <a class="boton boton-wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20tengo%20una%20consulta" target="_blank" rel="noopener">WhatsApp 099 305 2744</a>
+        </div>
+      </section>
     </section>
-
-    <!-- 3. Pedido y entrega -->
-    <section class="grupo-preguntas" id="pedido-y-entrega" aria-labelledby="t-pedido-entrega">
-      <h2 id="t-pedido-entrega">Pedido y entrega</h2>
-      <div class="rejilla-preguntas">
-        <article class="ficha-pregunta">
-          <h3>¿Cómo pido un cilindro de gas desde mi celular sin descargar una aplicación?</h3>
-          <p>No necesitas instalar ninguna aplicación ni ocupar memoria en tu teléfono. Solo abres el navegador de tu celular, entras a <a href="/hogar/">cilindroya.com/hogar/</a> o <a href="/cliente/">cilindroya.com/cliente</a>, eliges tu cantón y barrio, indicas tu dirección con una referencia y confirmas cuántos cilindros de 15 kg necesitas. También puedes pedir directamente por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cómo sé qué camión viene a mi casa y cómo sigo mi pedido?</h3>
-          <p>Cuando confirmas tu pedido, la plataforma lo asigna al <strong>distribuidor autorizado de Vepagas más cercano a tu barrio</strong> y te enviamos una confirmación por WhatsApp. Desde la pantalla de tu celular puedes ver el avance del camión en el mapa y recibes un aviso cuando el repartidor está por llegar a tu puerta.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Quién es Cili y cómo me ayuda a pedir gas en la web?</h3>
-          <p><strong>Cili</strong> es la mascota y asistente oficial de CilindroYa en la web (nuestro cilindro azul con chaleco reflectivo). Al abrir el botón «Habla con Cili» en cualquier página, Cili responde tus preguntas sobre cobertura, precios y horarios en Imbabura, te guía paso a paso para pedir tu cilindro y acompaña a los distribuidores autorizados a registrarse.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Puedo programar la hora de entrega o pedir por WhatsApp?</h3>
-          <p>Sí. En CilindroYa las familias piden desde el celular y programan su entrega dentro del horario diario de <strong>06:30 a 19:30</strong> para no esperar en la calle escuchando la bocina. Si prefieres atención directa, escríbenos por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a> indicando tu cantón, barrio y referencia para coordinar tu cilindro de $3,60.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 4. Cilindros y seguridad -->
-    <section class="grupo-preguntas" id="cilindros-y-seguridad" aria-labelledby="t-cilindros-seguridad">
-      <h2 id="t-cilindros-seguridad">Cilindros y seguridad</h2>
-      <div class="rejilla-preguntas">
-        <article class="ficha-pregunta">
-          <h3>¿Puedo entregar un cilindro vacío de cualquier color o marca?</h3>
-          <p>Sí. En el Ecuador rige la normativa de <strong>canje universal</strong>, por lo que nuestros distribuidores autorizados reciben tu cilindro vacío de 15 kg de cualquier marca o color (azul, tomate o amarillo), siempre que el envase se encuentre en buen estado físico. A cambio recibes un cilindro lleno de Vepagas por $3,60 en total.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿El repartidor me ayuda a conectar la válvula y revisar que no haya fugas?</h3>
-          <p>Sí, siempre que se lo pidas al momento de la entrega en tu domicilio. El distribuidor autorizado deja conectado el cilindro de 15 kg a tu válvula reguladora y <strong>verifica en el sitio que no existan fugas de gas</strong>, como parte del servicio sin ningún recargo adicional sobre los $3,60 del pedido.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿De dónde vienen los cilindros de gas que entregan en CilindroYa?</h3>
-          <p>Todos los cilindros entregados a través de CilindroYa provienen exclusivamente de <strong>distribuidores de gas autorizados de Vepagas que cargan directamente en la planta envasadora de Ibarra</strong>. Así cada familia tiene trazabilidad completa de quién le entregó su cilindro, a qué hora y con el respaldo de un distribuidor formal registrado en Imbabura.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Venden cilindros nuevos si no tengo un cilindro vacío para el canje?</h3>
-          <p>Sí. Si no tienes un cilindro vacío para el canje, puedes comprar el cilindro (el envase) de 15 kg por $42,00. Con tu cilindro vacío en buen estado solo pagas la recarga a domicilio: $3,60 en total. Pídelo en el mismo pedido o consulta por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cuánto tarda en llegar el gas a domicilio?</h3>
-          <p>El cilindro llega en alrededor de 15 a 20 minutos desde que un distribuidor autorizado acepta tu pedido, según tu zona y la ruta del camión. Te avisamos por WhatsApp cuando lo acepta y puedes seguir el camión en el mapa hasta tu puerta. También puedes elegir la hora en que lo quieres recibir.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Puedo pedir más de un cilindro a la vez?</h3>
-          <p>Sí, puedes pedir más de un cilindro en el mismo pedido: eliges la cantidad al hacerlo y pagas $3,60 por cada cilindro de 15 kg al recibirlos, en efectivo o con DeUna.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- 5. Distribuidores -->
-    <section class="grupo-preguntas" id="distribuidores" aria-labelledby="t-distribuidores">
-      <h2 id="t-distribuidores">Distribuidores</h2>
-      <div class="rejilla-preguntas">
-        <article class="ficha-pregunta">
-          <h3>¿Quiénes pueden registrarse como distribuidores de gas en CilindroYa?</h3>
-          <p>El <a href="/distribuidores/">programa de distribuidores de CilindroYa</a> es <strong>exclusivo para distribuidores de gas autorizados de Vepagas que cargan en la planta envasadora de Ibarra</strong> y reparten en Ibarra, Otavalo, Antonio Ante o Cotacachi. No está abierto a vehículos particulares sin permiso, porque garantizamos entregas formales, seguras y con precio oficial en los cantones donde operamos.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Cuánto paga el distribuidor por usar la aplicación de CilindroYa?</h3>
-          <p>Los primeros <strong>30 días son completamente gratis y sin comisión</strong> para que el distribuidor pruebe el sistema en su ruta habitual. A partir del segundo mes paga únicamente <strong>$0,10 por cada cilindro entregado por la app</strong>, sin mensualidades fijas, sin pagos por adelantado y con una sola factura electrónica al cierre del mes.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿El distribuidor tiene exclusividad o CilindroYa retiene el dinero de las ventas?</h3>
-          <p>No hay exclusividad ni retención de dinero. El distribuidor autorizado sigue atendiendo a sus clientes de siempre en la calle y usa CilindroYa para sumar pedidos confirmados en su ruta. Además, <strong>el cliente le paga los $3,60 directamente al distribuidor</strong> en efectivo o con su código QR de DeUna al momento de entregar.</p>
-        </article>
-        <article class="ficha-pregunta">
-          <h3>¿Qué necesita un distribuidor autorizado para afiliarse y emitir factura electrónica?</h3>
-          <p>Para afiliarse basta un celular Android o iPhone con datos móviles y GPS, y completar el registro guiado en <a href="/distribuidores/registro/">cilindroya.com/distribuidores/registro/</a> o por WhatsApp al <a href="https://wa.me/593993052744">099 305 2744</a>. Para que la app emita facturas electrónicas automáticas al entregar y lleve el cuadre de caja diario, el distribuidor configura su RUC y su firma electrónica en archivo .p12.</p>
-        </article>
-      </div>
-    </section>
-
-    <aside class="otras-ciudades" aria-labelledby="t-enlaces-mapa">
-      <h2 id="t-enlaces-mapa">Páginas por servicio y cantón en Imbabura</h2>
-      <div class="enlaces-ciudades">
-        <a href="/gas-a-domicilio/">Gas a domicilio en Imbabura</a>
-        <a href="/gas-a-domicilio/ibarra/">Gas a domicilio en Ibarra</a>
-        <a href="/gas-a-domicilio/otavalo/">Gas a domicilio en Otavalo</a>
-        <a href="/gas-a-domicilio/antonio-ante/">Gas a domicilio en Antonio Ante</a>
-        <a href="/gas-a-domicilio/cotacachi/">Gas a domicilio en Cotacachi</a>
-        <a href="/distribuidores-de-gas/">Distribuidores en Imbabura</a>
-        <a href="/distribuidores-de-gas/ibarra/">Distribuidores en Ibarra</a>
-        <a href="/distribuidores-de-gas/otavalo/">Distribuidores en Otavalo</a>
-        <a href="/distribuidores-de-gas/antonio-ante/">Distribuidores en Antonio Ante</a>
-        <a href="/distribuidores-de-gas/cotacachi/">Distribuidores en Cotacachi</a>
-      </div>
-    </aside>
-
-    <div class="caja-cta">
-      <h2>¿Listo para pedir tu cilindro o afiliarte como distribuidor?</h2>
-      <p>Pide tu gas doméstico de 15 kg por $3,60 desde el celular o escríbenos al WhatsApp 099 305 2744 si tienes otra pregunta.</p>
-      <div class="acciones">
-        <a class="boton boton--naranja" href="/cliente/">Pedir cilindro ahora ($3,60)</a>
-        <a class="boton boton--claro" href="/distribuidores/registro/">Soy distribuidor autorizado</a>
-        <a class="boton boton--claro" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20tengo%20una%20consulta" target="_blank" rel="noopener">WhatsApp 099 305 2744</a>
-      </div>
-    </div>
   </main>
 
-  <footer aria-labelledby="t-pie">
-    <h2 class="oculto" id="t-pie">Contacto CilindroYa</h2>
-    <div class="arriba">
+  <!-- Pie corporativo idéntico a la portada -->
+  <footer class="pie" aria-labelledby="t-pie">
+    <div class="pie-arriba">
       <div>
         <img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120">
         <p>Ibarra, Imbabura · Lunes a domingo, 06:30 a 19:30</p>
         <p>Zona piloto: Ibarra, Otavalo, Antonio Ante y Cotacachi.</p>
       </div>
-      <a href="#top">Volver arriba</a>
+      <a href="#top" style="color:#fff;font-weight:700;text-decoration:none;">Volver arriba ↑</a>
     </div>
-    <a class="contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20pedir%20un%20cilindro%20de%20gas%20de%20%243%2C60" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
-    <div class="meta">
+    <a class="pie-contacto" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20pedir%20un%20cilindro%20de%20gas%20de%20%243%2C60" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al 099 305 2744">099 305 2744</a>
+    <div class="pie-meta">
       <div>
         <a href="/hogar/">Inicio</a>
         <a href="/gas-a-domicilio/">Zonas</a>
         <a href="/cliente/">Pedir gas</a>
         <a href="/distribuidores/">Soy distribuidor</a>
         <a href="/guias/">Guías</a>
-        <a href="/preguntas/">Preguntas frecuentes</a>
+        <a href="/preguntas/" aria-current="page">Preguntas frecuentes</a>
         <a href="/privacidad.html">Privacidad</a>
       </div>
       <span>© 2026 CilindroYa · Ibarra, Ecuador</span>

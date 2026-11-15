@@ -19,10 +19,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/brand/brand.css">
-  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=5">
-  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=7">
-  <script src="/static/brand/cy-asistente.js?v=5" defer></script>
+  <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
+  <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-asistente.css?v=8">
+  <script src="/static/brand/cy-asistente.js?v=6" defer></script>
+  <script src="/static/brand/cy-paginas.js?v=1" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -89,199 +90,139 @@
   }
   </script>
   <style>
-    :root {
-      --bg: #F4F7FB; --surface: #E7EEF7; --ink: #09294A; --muted: #3D5573;
-      --accent: #0A59DA; --accent-press: #0743A6; --naranja: #FF8A00;
-      --m: clamp(20px, 4vw, 56px);
-      --s-display: clamp(34px, 5.5vw, 68px);
-      --s-h2: clamp(24px, 3.6vw, 40px);
-      --s-lead: clamp(18px, 1.5vw, 21px);
-      --s-body: 17px;
-      --s-small: 14px;
-      --ease: cubic-bezier(.2, .7, .2, 1);
+    .rejilla-cantones { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 36px; }
+    .tarjeta-canton { display: flex; flex-direction: column; justify-content: space-between; gap: 16px; text-decoration: none; }
+    .bloque-espera {
+      margin-top: 40px; background: #FFFFFF; border: 1px solid var(--gris-borde); border-radius: var(--radio-card);
+      padding: clamp(24px, 4vw, 36px); display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+      box-shadow: 0 4px 16px rgba(9, 41, 74, 0.05);
     }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 var(--s-body)/1.6 "Plus Jakarta Sans", system-ui, sans-serif; overflow-x: clip; }
-    img { display: block; max-width: 100%; height: auto; }
-    a { color: inherit; }
-    h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: var(--ink); }
-    p { margin: 0; }
-    .oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    :focus-visible { outline: 3px solid var(--naranja); outline-offset: 3px; }
-    .boton { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px;
-             background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; font-size: var(--s-body); border: 0; cursor: pointer;
-             transition: background .18s var(--ease), transform .18s var(--ease); text-align: center; }
-    .boton:hover { background: var(--accent-press); transform: translateY(-2px); }
-    .boton.naranja { background: var(--naranja); color: var(--ink); }
-    .boton.naranja:hover { background: #FF9F2E; }
-    .boton.linea { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px #C3CCDA; }
-    .boton.linea:hover { background: var(--surface); }
-
-    /* Barra superior */
-    .barra { display: flex; align-items: center; gap: 28px; padding: 24px var(--m); background: #fff; border-bottom: 1px solid #E4E9F1; }
-    .barra img { height: 40px; width: auto; }
-    .barra nav { margin-left: auto; display: flex; gap: 26px; }
-    .barra nav a { text-decoration: none; font-weight: 700; font-size: var(--s-body); color: var(--ink); }
-    .barra nav a:hover, .barra nav a[aria-current="page"] { color: var(--accent); }
-    .barra .boton { min-height: 46px; padding: 0 22px; font-size: 16px; color: #fff; }
-
-    /* Contenido */
-    .contenedor { max-width: 1080px; margin: 0 auto; padding: clamp(36px, 6vw, 72px) var(--m); }
-    .migas { display: flex; flex-wrap: wrap; gap: 8px; font-size: var(--s-small); font-weight: 700; color: var(--muted); margin-bottom: 18px; }
-    .migas a { text-decoration: none; color: var(--accent); }
-    .migas a:hover { text-decoration: underline; }
-    .etiqueta { display: inline-block; padding: 6px 14px; border-radius: 999px; background: #EAF2FF; color: var(--accent);
-                font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; }
-    .cabecera h1 { font-size: var(--s-display); max-width: 20ch; }
-    .cabecera h1 span { color: var(--accent); }
-    .respuesta-rapida { margin-top: 20px; background: #fff; border: 1px solid #DCE5F0; border-left: 5px solid var(--naranja);
-                        border-radius: 20px; padding: 22px 24px; font-size: var(--s-lead); color: var(--ink); max-width: 64ch;
-                        box-shadow: 0 12px 30px -20px rgba(9, 41, 74, .28); }
-
-    .rejilla-cantones { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 40px; }
-    .tarjeta-canton { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; text-decoration: none;
-                      background: #fff; border: 1px solid #DCE5F0; border-radius: 24px; padding: clamp(22px, 3.5vw, 32px);
-                      box-shadow: 0 14px 34px -22px rgba(9, 41, 74, .32); transition: transform .18s var(--ease), border-color .18s var(--ease); }
-    .tarjeta-canton:hover { transform: translateY(-3px); border-color: var(--accent); }
-    .tarjeta-canton .estado { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; color: #0B7A43;
-                              background: #E8F7EF; padding: 4px 12px; border-radius: 999px; width: fit-content; }
-    .tarjeta-canton h2 { font-size: clamp(22px, 3vw, 28px); margin-top: 10px; }
-    .tarjeta-canton p { margin-top: 10px; color: var(--muted); font-size: 16px; }
-    .tarjeta-canton .parroquias-resumen { margin-top: 10px; font-size: 14px; color: var(--ink); font-weight: 600; }
-    .tarjeta-canton .ir { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--accent); margin-top: 4px; }
-
-    /* Lista de espera */
-    .bloque-espera { margin-top: 40px; background: #fff; border: 1px solid #DCE5F0; border-radius: 24px; padding: clamp(24px, 4vw, 36px);
-                     display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-    .bloque-espera .chip-espera { display: inline-block; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
-                                  background: #FFF5E0; color: #8A5300; padding: 4px 12px; border-radius: 999px; margin-bottom: 10px; }
-    .bloque-espera h2 { font-size: clamp(22px, 3vw, 30px); }
-    .bloque-espera p { margin-top: 10px; color: var(--muted); max-width: 56ch; }
-
-    /* Bloque de invitación */
-    .cierre-guia { margin-top: 48px; border-radius: 28px; padding: clamp(28px, 5vw, 52px); color: #fff;
-                   background: radial-gradient(45% 70% at 90% 10%, rgba(255, 138, 0, .25) 0%, rgba(255, 138, 0, 0) 70%),
-                               radial-gradient(50% 70% at 0% 100%, rgba(10, 89, 218, .45) 0%, rgba(10, 89, 218, 0) 70%), #051428;
-                   display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
-    .cierre-guia h2 { color: #fff; font-size: var(--s-h2); max-width: 20ch; }
-    .cierre-guia h2 span { color: var(--naranja); }
-    .cierre-guia p { margin-top: 10px; color: #DCE6F2; font-size: var(--s-lead); max-width: 48ch; }
-    .cierre-guia .acciones { display: flex; flex-wrap: wrap; gap: 12px; }
-
-    /* Pie */
-    footer { background: var(--accent); color: #fff; padding: 48px var(--m) 32px; display: flex; flex-direction: column; gap: 32px; margin-top: 64px; }
-    footer .arriba { display: flex; justify-content: space-between; gap: 24px; font-size: var(--s-small); flex-wrap: wrap; }
-    footer .arriba img { height: 34px; width: auto; margin-bottom: 14px; }
-    footer .arriba a { font-weight: 700; text-decoration: none; }
-    footer .contacto { font-size: clamp(36px, 8vw, 96px); font-weight: 800; letter-spacing: -.04em; line-height: .95; text-decoration: none; display: block; }
-    footer .contacto:hover { color: #FFE2BF; }
-    footer .meta { display: flex; justify-content: space-between; gap: 16px; font-size: var(--s-small); flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.2); padding-top: 24px; }
-    footer .meta a { margin-right: 18px; text-decoration: none; font-weight: 700; }
-    footer .meta a:hover { text-decoration: underline; }
-
+    .bloque-espera .chip-espera {
+      display: inline-block; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+      background: #FFF5E0; color: #8A5300; padding: 4px 12px; border-radius: var(--radio-sf); margin-bottom: 10px;
+    }
+    .bloque-espera h2 { font-size: clamp(20px, 2.8vw, 26px); color: var(--noche); }
+    .bloque-espera p { margin-top: 8px; color: var(--gris-texto); max-width: 56ch; line-height: 1.55; }
     @media (max-width: 760px) {
-      .barra { padding: 16px var(--m); }
-      .barra img { height: 32px; }
-      .barra nav { display: none; }
-      .barra .boton { margin-left: auto; min-height: 44px; padding: 0 16px; font-size: 15px; }
-      .bloque-espera, .cierre-guia { grid-template-columns: 1fr; }
-      .bloque-espera .boton, .cierre-guia .acciones .boton { width: 100%; }
-      footer .arriba, footer .meta { flex-direction: column; }
+      .bloque-espera { grid-template-columns: 1fr; }
+      .bloque-espera .boton { width: 100%; }
     }
   </style>
 </head>
 <body id="top">
+  <!-- Cinta superior de avisos (idéntica a la portada) -->
+  <div class="cinta" aria-label="Avisos">
+    <div class="cinta-pista"><span>Gas a domicilio en Imbabura</span><span>Cilindro de 15 kg a $3,60 en tu puerta</span><span>Pagas al recibir: efectivo o DeUna</span><span>De lunes a domingo, 06:30 a 19:30</span><span>Sigue tu pedido en el celular</span><span aria-hidden="true">Gas a domicilio en Imbabura</span><span aria-hidden="true">Cilindro de 15 kg a $3,60 en tu puerta</span><span aria-hidden="true">Pagas al recibir: efectivo o DeUna</span><span aria-hidden="true">De lunes a domingo, 06:30 a 19:30</span><span aria-hidden="true">Sigue tu pedido en el celular</span></div>
+  </div>
+
+  <!-- Header corporativo (idéntico a la portada) -->
   <header class="barra">
-    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-color.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
-    <nav aria-label="Principal">
-      <a href="/hogar/">Familias</a>
+    <a href="/hogar/" aria-label="CilindroYa, inicio"><img src="/static/brand/logo-white.svg?v=corporate-all-20261004" alt="CilindroYa" width="430" height="120"></a>
+    <nav aria-label="Secciones">
+      <a href="/hogar/#precio">Precio</a>
       <a href="/gas-a-domicilio/" aria-current="page">Zonas</a>
+      <a href="/hogar/#servicios">Servicios</a>
+      <a href="/hogar/#asi-llega">Cómo pedir</a>
+      <a href="/preguntas/">Preguntas</a>
       <a href="/distribuidores/">Distribuidores</a>
       <a href="/guias/">Guías</a>
-      <a href="/cliente/">Pedir gas</a>
     </nav>
     <a class="boton" href="/cliente/">Pedir gas</a>
   </header>
 
-  <main class="contenedor">
-    <nav class="migas" aria-label="Ruta de navegación">
-      <a href="/hogar/">Inicio</a> <span>/</span> <span>Gas a domicilio</span>
-    </nav>
-
-    <div class="cabecera">
-      <span class="etiqueta">Cobertura en Imbabura</span>
-      <h1>Gas a domicilio en <span>Imbabura</span> por cantón</h1>
-      <p class="respuesta-rapida">
-        Con <strong>CilindroYa</strong> pides tu cilindro de gas doméstico de 15 kg desde el celular por <strong>$3,60 en total</strong> ($1,65 precio oficial ARCH + $1,85 entrega + $0,10 plataforma) en <strong>Ibarra, Otavalo, Antonio Ante y Cotacachi</strong>. Entregamos todos los días de <strong>06:30 a 19:30</strong> con distribuidores autorizados de Vepagas y pagas al recibir en efectivo o DeUna.
-      </p>
-    </div>
-
-    <div class="rejilla-cantones" aria-label="Cantones con servicio activo">
-      <a class="tarjeta-canton" href="/gas-a-domicilio/ibarra/">
-        <div>
-          <span class="estado">Zona piloto activa · $3,60</span>
-          <h2>Gas a domicilio en Ibarra</h2>
-          <p>Entrega en las 5 parroquias urbanas (El Sagrario, San Francisco, Caranqui, Alpachaca, La Dolorosa del Priorato) y 7 parroquias rurales.</p>
-          <p class="parroquias-resumen">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+  <main>
+    <!-- Héroe estilizado con degradado #09294A → #0A59DA → #2EC3FB y render nítido de Cili -->
+    <section class="cy-heroe-interior" aria-labelledby="titular">
+      <div class="cy-heroe-interior__grid">
+        <div class="cy-heroe-interior__texto">
+          <nav class="cy-migas" aria-label="Ruta de navegación">
+            <a href="/hogar/">Inicio</a> <span class="separador">/</span> <span>Gas a domicilio</span>
+          </nav>
+          <span class="cy-insignia"><i></i> Cobertura en Imbabura</span>
+          <h1 id="titular">Gas a domicilio en <span>Imbabura</span> por cantón</h1>
+          <p class="respuesta-rapida">
+            Con <strong>CilindroYa</strong> pides tu cilindro de gas doméstico de 15 kg desde el celular por <strong>$3,60 en total</strong> ($1,65 precio oficial ARCH + $1,85 entrega + $0,10 plataforma) en <strong>Ibarra, Otavalo, Antonio Ante y Cotacachi</strong>. Entregamos todos los días de <strong>06:30 a 19:30</strong> con distribuidores autorizados de Vepagas y pagas al recibir en efectivo o DeUna.
+          </p>
+          <div class="cy-heroe-interior__cta">
+            <a class="boton boton-sf-azul" href="/cliente/">Pedir gas ahora ($3,60)</a>
+            <a class="boton boton-wa" href="https://wa.me/593993052744?text=Hola%20CilindroYa%2C%20quiero%20pedir%20gas%20en%20Imbabura" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+          </div>
         </div>
-        <span class="ir">Ver cobertura y pedir en Ibarra →</span>
-      </a>
-
-      <a class="tarjeta-canton" href="/gas-a-domicilio/otavalo/">
-        <div>
-          <span class="estado">Zona piloto activa · $3,60</span>
-          <h2>Gas a domicilio en Otavalo</h2>
-          <p>Cobertura en las parroquias urbanas El Jordán y San Luis, barrios de la ciudad y 9 parroquias rurales como San Pablo del Lago, Peguche e Ilumán.</p>
-          <p class="parroquias-resumen">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+        <div class="cy-heroe-interior__visual">
+          <img src="/static/assets/web/cili_render_puerta.webp" alt="Cili entregando cilindro de gas en tu puerta en Imbabura" width="725" height="900" fetchpriority="high">
         </div>
-        <span class="ir">Ver cobertura y pedir en Otavalo →</span>
-      </a>
-
-      <a class="tarjeta-canton" href="/gas-a-domicilio/antonio-ante/">
-        <div>
-          <span class="estado">Zona piloto activa · $3,60</span>
-          <h2>Gas a domicilio en Antonio Ante</h2>
-          <p>Servicio en Atuntaqui y Andrade Marín (urbanas) y en las parroquias rurales de San Roque, San José de Chaltura, San Francisco de Natabuela e Imbaya.</p>
-          <p class="parroquias-resumen">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
-        </div>
-        <span class="ir">Ver cobertura y pedir en Antonio Ante →</span>
-      </a>
-
-      <a class="tarjeta-canton" href="/gas-a-domicilio/cotacachi/">
-        <div>
-          <span class="estado">Zona piloto activa · $3,60</span>
-          <h2>Gas a domicilio en Cotacachi</h2>
-          <p>Reparto en las parroquias urbanas El Sagrario y San Francisco, y en las 8 parroquias rurales incluyendo Quiroga, Imantag y la zona de Intag.</p>
-          <p class="parroquias-resumen">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
-        </div>
-        <span class="ir">Ver cobertura y pedir en Cotacachi →</span>
-      </a>
-    </div>
-
-    <section class="bloque-espera" aria-labelledby="t-espera">
-      <div>
-        <span class="chip-espera">En lista de espera</span>
-        <h2 id="t-espera">Pimampiro y San Miguel de Urcuquí</h2>
-        <p><strong>Pimampiro</strong> y <strong>San Miguel de Urcuquí</strong> están en lista de espera y entran después de la zona piloto. Puedes buscar tu parroquia o barrio en nuestro verificador y anotarte para avisarte por WhatsApp apenas opere un distribuidor autorizado en tu sector.</p>
       </div>
-      <a class="boton linea" href="/hogar/#barrio">Anotarme en /hogar/#barrio</a>
     </section>
 
-    <section class="cierre-guia" aria-labelledby="t-inv">
-      <div>
-        <h2 id="t-inv">¿Listo para pedir tu cilindro o <span>eres distribuidor autorizado</span>?</h2>
-        <p>Pide tu gas doméstico de 15 kg ($3,60), válvula reguladora ($12,00) o cilindro industrial de 45 kg ($22,50), o únete a nuestra red de distribuidores autorizados de Vepagas.</p>
+    <!-- Contenido y tarjetas de cantones -->
+    <section class="contenedor">
+      <div class="rejilla-cantones" aria-label="Cantones con servicio activo">
+        <a class="tarjeta tarjeta-canton cy-reveal" href="/gas-a-domicilio/ibarra/">
+          <div>
+            <span class="estado">Zona piloto activa · $3,60</span>
+            <h2>Gas a domicilio en Ibarra</h2>
+            <p>Entrega en las 5 parroquias urbanas (El Sagrario, San Francisco, Caranqui, Alpachaca, La Dolorosa del Priorato) y 7 parroquias rurales.</p>
+            <p style="font-weight:700;color:var(--noche);margin-top:8px;font-size:14px;">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+          </div>
+          <span class="ir">Ver cobertura y pedir en Ibarra →</span>
+        </a>
+
+        <a class="tarjeta tarjeta-canton cy-reveal" href="/gas-a-domicilio/otavalo/">
+          <div>
+            <span class="estado">Zona piloto activa · $3,60</span>
+            <h2>Gas a domicilio en Otavalo</h2>
+            <p>Cobertura en las parroquias urbanas El Jordán y San Luis, barrios de la ciudad y 9 parroquias rurales como San Pablo del Lago, Peguche e Ilumán.</p>
+            <p style="font-weight:700;color:var(--noche);margin-top:8px;font-size:14px;">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+          </div>
+          <span class="ir">Ver cobertura y pedir en Otavalo →</span>
+        </a>
+
+        <a class="tarjeta tarjeta-canton cy-reveal" href="/gas-a-domicilio/antonio-ante/">
+          <div>
+            <span class="estado">Zona piloto activa · $3,60</span>
+            <h2>Gas a domicilio en Antonio Ante</h2>
+            <p>Servicio en Atuntaqui y Andrade Marín (urbanas) y en las parroquias rurales de San Roque, San José de Chaltura, San Francisco de Natabuela e Imbaya.</p>
+            <p style="font-weight:700;color:var(--noche);margin-top:8px;font-size:14px;">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+          </div>
+          <span class="ir">Ver cobertura y pedir en Antonio Ante →</span>
+        </a>
+
+        <a class="tarjeta tarjeta-canton cy-reveal" href="/gas-a-domicilio/cotacachi/">
+          <div>
+            <span class="estado">Zona piloto activa · $3,60</span>
+            <h2>Gas a domicilio en Cotacachi</h2>
+            <p>Reparto en las parroquias urbanas El Sagrario y San Francisco, y en las 8 parroquias rurales incluyendo Quiroga, Imantag y la zona de Intag.</p>
+            <p style="font-weight:700;color:var(--noche);margin-top:8px;font-size:14px;">06:30 a 19:30 · Efectivo o DeUna al recibir</p>
+          </div>
+          <span class="ir">Ver cobertura y pedir en Cotacachi →</span>
+        </a>
       </div>
-      <div class="acciones">
-        <a class="boton naranja" href="/cliente/">Pedir gas ahora ($3,60)</a>
-        <a class="boton" href="/distribuidores-de-gas/">Distribuidores por cantón</a>
-        <a class="boton" href="/preguntas/">Preguntas frecuentes</a>
-        <a class="boton" href="/guias/">Ver guías</a>
+
+      <div class="bloque-espera cy-reveal" aria-labelledby="t-espera">
+        <div>
+          <span class="chip-espera">En lista de espera</span>
+          <h2 id="t-espera">Pimampiro y San Miguel de Urcuquí</h2>
+          <p><strong>Pimampiro</strong> y <strong>San Miguel de Urcuquí</strong> están en lista de espera y entran después de la zona piloto. Puedes buscar tu parroquia o barrio en nuestro verificador y anotarte para avisarte por WhatsApp apenas opere un distribuidor autorizado en tu sector.</p>
+        </div>
+        <a class="boton boton-sec" href="/hogar/#barrio">Anotarme en /hogar/#barrio</a>
+      </div>
+
+      <div class="cierre-guia cy-reveal" aria-labelledby="t-inv">
+        <div>
+          <h2 id="t-inv">¿Listo para pedir tu cilindro o <span>eres distribuidor autorizado</span>?</h2>
+          <p>Pide tu gas doméstico de 15 kg ($3,60), válvula reguladora ($12,00) o cilindro industrial de 45 kg ($22,50), o únete a nuestra red de distribuidores autorizados de Vepagas.</p>
+        </div>
+        <div class="acciones">
+          <a class="boton boton-naranja" href="/cliente/">Pedir gas ahora ($3,60)</a>
+          <a class="boton boton-sf-azul" href="/distribuidores-de-gas/">Distribuidores por cantón</a>
+          <a class="boton boton-sec" href="/preguntas/">Preguntas frecuentes</a>
+          <a class="boton boton-linea" href="/guias/">Ver guías</a>
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- Pie corporativo idéntico a /hogar/ -->
   <footer aria-labelledby="t-pie">
     <h2 class="oculto" id="t-pie">Contacto CilindroYa</h2>
     <div class="arriba">
@@ -303,7 +244,8 @@
         <a href="/preguntas/">Preguntas frecuentes</a>
         <a href="/privacidad.html">Privacidad</a>
       </div>
-      <span>© 2026 CilindroYa · Ibarra, Ecuador</span>
+      <span>Escríbenos por WhatsApp</span>
+      <span>Ibarra · 2026</span>
     </div>
   </footer>
 </body>

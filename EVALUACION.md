@@ -69,6 +69,17 @@ la combinación exacta.
 - **Impacto en la comunidad:** menos perifoneo (ruido), rutas más cortas (combustible) y venta asegurada para el
   distribuidor autorizado.
 
+## Estado de la operación: por qué un pedido queda «en lista de espera»
+
+El pedido en línea (`/cliente/`) funciona de punta a punta: registra el pedido, avisa al equipo y permite seguir su
+estado. Hoy **todavía no hay distribuidores activos** en la plataforma (el programa de distribuidores autorizados está
+en captación), así que el sistema no promete una entrega que nadie puede hacer: el pedido queda **en lista de
+espera**, se le dice al cliente con claridad y se le avisa cuando haya un distribuidor en su zona.
+
+- Entre el 19/10 y el 15/11/2026 llegaron 14 pedidos reales; 11 quedaron en lista de espera, casi todos del centro
+  de Ibarra. Esa demanda es la que el programa de distribuidores ofrece como «carga ya vendida».
+- Si se prueba el pedido, quedará en lista de espera por este motivo, no por una falla.
+
 ## Presencia en redes con la misma identidad
 
 - Página de Facebook: https://www.facebook.com/profile.php?id=61594955714385

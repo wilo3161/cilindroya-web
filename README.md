@@ -3,6 +3,9 @@
 Sitio web de **CilindroYa**, plataforma de gas doméstico a domicilio en Imbabura (Ecuador): la familia pide su
 cilindro desde el celular, un distribuidor autorizado lo lleva a la puerta y cobra al entregar.
 
+> **Para evaluar:** [EVALUACION.md](EVALUACION.md) recorre los 20 puntos de la rúbrica con la evidencia de cada
+> uno y cómo comprobarla en el sitio publicado.
+
 Proyecto presentado al reto **«Hazte visible en internet y vende más»** (Hostinger × Irremplazables, 14–15 de
 noviembre de 2026). Autor: **Ing. Wilson Pérez**, ingeniero en Logística y Transporte (Ibarra, Ecuador).
 
@@ -51,6 +54,7 @@ recibe la dirección, arma su ruta por cercanía y entrega en unos 15 a 20 minut
   `BreadcrumbList`.
 - `llms.txt` con precios, zonas, horario, cómo pedir, programa de distribuidores y enlaces clave.
 - `robots.txt` permite GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot y Google-Extended.
+- Verificado en Google Search Console y Bing Webmaster Tools, con el sitemap enviado en ambos; perfil de negocio en Google creado.
 - Prueba de respuestas: un asistente que solo usa el contenido del sitio responde las preguntas de los
   clientes; donde faltaba un dato, se completó la página o se dejó dicho que se consulte por WhatsApp.
 
@@ -68,7 +72,7 @@ gas-a-domicilio/        páginas por cantón (familias)
 distribuidores-de-gas/  páginas por cantón (distribuidores)
 preguntas/              mapa de preguntas
 guias/                  guías
-brand/                  estilos, scripts y logos de la marca (cy-*.css, cili-*.js, vendor/)
+brand/                  estilos, scripts y logos de la marca (cy-*.css, cy-*.js)
 assets/                 imágenes de Cili y de la marca
 robots.txt · sitemap.xml · llms.txt · 404.html · .htaccess
 ```

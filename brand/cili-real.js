@@ -1,13 +1,9 @@
 /*
- * brand/cili-real.js — Cili real (cuerpo completo) interactivo en el héroe de /hogar/, al estilo del visor de
- * Sketchfab pero con la imagen oficial de la mascota (15/11/2026).
+ * brand/cili-real.js — Cili de cuerpo completo en el héroe de /hogar/.
  *
- * Reemplaza al modelo 3D hecho por código (cili3d.js), que no era fiel a Cili. Sin librerías:
- *  - Inclinación 3D que sigue al mouse o al dedo (perspective + rotateX/rotateY), con regreso suave.
- *  - Respiración y sombra en el piso que acompaña el movimiento (CSS).
- *  - Tres anotaciones numeradas con burbuja, como en Sketchfab.
+ *  - Tres puntos numerados con burbuja que explican precio, canje y forma de pago.
  *  - Tocar a Cili abre el asistente «Habla con Cili» (#cyMayaBtnAbrir).
- *  - Respeta prefers-reduced-motion: sin inclinación ni respiración.
+ *  - La imagen queda fija (cili-real.css anula la inclinación); con prefers-reduced-motion no hay animaciones.
  */
 (function () {
   'use strict';

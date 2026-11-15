@@ -1,4 +1,4 @@
-/* brand/cili-real.css — Cili real interactivo en el héroe (complementa cili-real.js; 15/11/2026) */
+/* brand/cili-real.css — Cili en el héroe de la portada, con sus puntos de información (complementa cili-real.js) */
 .cili-real .cili3d-lienzo { position: relative; perspective: 1100px; display: flex; align-items: flex-end; justify-content: center; }
 .cili-real canvas { display: none !important; }
 .cili-real__figura { position: relative; z-index: 1; cursor: pointer; transform-style: preserve-3d;
@@ -42,15 +42,6 @@
 /* Capa de puntos dentro de la figura: coordenadas relativas a la imagen de Cili */
 .cili-real__figura .cili3d-anotaciones { position: absolute; inset: 0; }
 
-/* ── Cili 3D real (cili-3d.js): el modelo ocupa el lugar de la imagen cuando termina de cargar ── */
-.cili-3d__modelo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; opacity: 0; pointer-events: none;
-  transition: opacity .5s ease; background: transparent; --poster-color: transparent; cursor: grab; }
-.cili-3d__modelo:active { cursor: grabbing; }
-.cili-3d--listo .cili-3d__modelo { opacity: 1; pointer-events: auto; }
-.cili-3d--listo .cili-real__figura { z-index: 2; pointer-events: none; transform: none; }
-.cili-3d--listo .cili-real__figura .cili3d-poster { opacity: 0 !important; transition: opacity .4s ease; animation: none; }
-.cili-3d--listo .cili-real__punto { pointer-events: auto; }
-.cili-3d--listo .cili-real__sombra { display: none; }
 .cili-real .cili3d-lienzo { min-height: clamp(360px, 46vw, 560px); width: 100%; }
 
 /* Sello con el logo oficial de Deuna sobre la foto del pago */
@@ -62,5 +53,5 @@
 /* Área táctil de 44 px para los puntos de Cili, sin cambiar su tamaño visual */
 .cili-real__punto::after{content:"";position:absolute;inset:-6px;border-radius:50%}
 
-/* 15/11/2026: Cili queda como imagen fija (sin 3D ni movimiento), a pedido de Wilo. */
+/* Cili se muestra como imagen fija, sin inclinación ni animación. */
 .cili-real__figura,.cili-real__figura.saluda{transform:none!important;transition:none!important}.cili-real .cili3d-poster,.cili-real__sombra,.cili-real__punto,.cili-real__figura.saluda .cili3d-poster{animation:none!important}

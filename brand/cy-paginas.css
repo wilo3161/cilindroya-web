@@ -928,9 +928,8 @@ html.js .cy-reveal.is-visible {
   }
 }
 
-/* ── Auditoría de Claude (15/11/2026) ─────────────────────────────────────────── */
-/* Registro: el panel lateral lleva el mismo héroe azul que el resto de páginas (antes quedaba blanco y la
-   insignia, blanca sobre blanco, se veía como un punto suelto). */
+/* ── Ajustes del registro y de la cabecera de la app de pedidos ── */
+/* Registro: el panel lateral usa el mismo degradado de héroe que el resto de páginas. */
 .registro-lado .pegado {
   background: var(--degradado-heroe);
   color: #FFFFFF;
@@ -951,8 +950,7 @@ html.js .cy-reveal.is-visible {
 .registro-lado figure img { width: 140px; filter: drop-shadow(0 14px 22px rgba(3, 18, 44, 0.45)); }
 .registro-lado figcaption { color: rgba(255, 255, 255, 0.92); padding-bottom: 26px; }
 
-/* App de pedidos: la regla general de imágenes de la barra mostraba el avatar vacío como imagen rota
-   («Avatar») y cortaba «Ingresar». */
+/* App de pedidos: el avatar oculto no se muestra y el nombre del usuario no se recorta. */
 .barra .hidden,
 #headerUserAvatar.hidden { display: none !important; }
 #headerUserAvatar { width: 20px; height: 20px; }

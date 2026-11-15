@@ -1,4 +1,4 @@
-# CilindroYa en Hostinger (15/11/2026). Equivale al _redirects de Cloudflare Pages.
+# CilindroYa en Hostinger: reglas de reescritura y redirección del sitio.
 # La ruta /api/* NO se sirve aquí: la atiende un Worker de Cloudflare que la envía a api.cilindroya.com.
 Options -Indexes
 DirectoryIndex index.html

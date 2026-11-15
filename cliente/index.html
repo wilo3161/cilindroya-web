@@ -42,7 +42,7 @@
   <!-- Google Fonts: Plus Jakarta Sans / Inter para máxima legibilidad -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
 <!-- Leaflet CSS & JS for OpenStreetMap -->
@@ -103,6 +103,8 @@
   <script src="/static/brand/cy-zonas.js?v=2" defer></script>
   <link rel="stylesheet" href="/static/brand/cy-sistema.css?v=6">
   <link rel="stylesheet" href="/static/brand/cy-paginas.css?v=2">
+  <link rel="stylesheet" href="/static/brand/cy-animaciones.css?v=1">
+  <script src="/static/brand/cy-animaciones.js?v=1" defer></script>
 </head>
 <body class="cy-client bg-[#F8FAFC] text-slate-800 min-h-screen flex flex-col font-sans pb-24 safe-area-bottom">
 <a class="cy-skip" href="#cy-main">Saltar al contenido</a>
@@ -572,10 +574,10 @@
               <div id="savedAddressesRow" class="hidden flex items-center space-x-2 pt-2 border-t border-[#D8E6FF] overflow-x-auto">
                 <span class="text-[11px] font-bold text-slate-500 shrink-0">Tus Direcciones:</span>
                 <button type="button" onclick="applySavedAddress('Casa')" id="btnSavedCasa" class="text-xs bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded-xl font-bold hover:border-[#0A59DA] hover:text-[#0A59DA] transition active:scale-95 shrink-0">
-                  🏠 Casa
+                  <span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">home</span>Casa
                 </button>
                 <button type="button" onclick="applySavedAddress('Negocio')" id="btnSavedNegocio" class="text-xs bg-white border border-slate-300 text-slate-700 px-3 py-1 rounded-xl font-bold hover:border-[#0A59DA] hover:text-[#0A59DA] transition active:scale-95 shrink-0">
-                  🏢 Negocio
+                  <span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">storefront</span>Negocio
                 </button>
               </div>
             </div>
@@ -668,10 +670,10 @@
                 <input type="text" id="custInstructionsInput" placeholder="Ej. Timbre no vale, llamar al cel al llegar" class="w-full bg-white border-2 border-slate-300 rounded-2xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0A59DA] focus:ring-4 focus:ring-[#0A59DA]/10 font-medium shadow-sm transition">
                 <!-- Quick Chips de Indicaciones -->
                 <div class="flex flex-wrap gap-1.5 mt-2">
-                  <button type="button" onclick="appendInstructionChip('Timbre no vale, llamar al cel')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60">🔔 Timbre no vale, llamar</button>
-                  <button type="button" onclick="appendInstructionChip('Pitar al llegar al portón')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60">🚗 Pitar al llegar</button>
-                  <button type="button" onclick="appendInstructionChip('Dejar en conserjería / guardia')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60">🏢 Dejar en guardia</button>
-                  <button type="button" onclick="appendInstructionChip('Tocar el timbre del 2do piso')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60">🚪 2do piso</button>
+                  <button type="button" onclick="appendInstructionChip('Timbre no vale, llamar al cel')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60"><span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">notifications_off</span>Timbre no vale, llamar</button>
+                  <button type="button" onclick="appendInstructionChip('Pitar al llegar al portón')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60"><span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">directions_car</span>Pitar al llegar</button>
+                  <button type="button" onclick="appendInstructionChip('Dejar en conserjería / guardia')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60"><span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">apartment</span>Dejar en guardia</button>
+                  <button type="button" onclick="appendInstructionChip('Tocar el timbre del 2do piso')" class="text-[11px] bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold px-2.5 py-1 rounded-lg transition active:scale-95 border border-amber-200/60"><span class="material-symbols-outlined cy-icono-chip" aria-hidden="true">door_front</span>2do piso</button>
                 </div>
               </div>
               </div>
@@ -991,7 +993,7 @@
 
       <!-- Encabezado con Icono Centrado y Marca CilindroYa -->
       <div class="text-center pt-1">
-        <div class="w-16 h-16 mx-auto rounded-3xl bg-[#D8E6FF] text-[#0A59DA] flex items-center justify-center shadow-inner mb-3"><img src="/static/brand/symbol.svg?v=flame-pin-20261004" alt="" width="32" height="48">
+        <div class="cy-auth-avatar w-16 h-16 mx-auto rounded-3xl bg-[#D8E6FF] text-[#0A59DA] flex items-center justify-center shadow-inner mb-3"><img src="/static/assets/web/cili_avatar.webp" alt="" width="64" height="64">
         </div>
         <h3 class="text-2xl font-black text-slate-900 tracking-tight">¡Bienvenido a CilindroYa!</h3>
         <p class="text-xs text-slate-500 font-medium mt-1">Es opcional: guarda tus datos con Google o tu correo y la próxima vez pides en 1 toque.</p>

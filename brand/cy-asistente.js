@@ -96,7 +96,7 @@
     var cls = 'cy-maya-avatar' + (claseExtra ? ' ' + claseExtra : '');
     return (
       '<span class="' + cls + '" aria-hidden="true">' +
-        '<img src="/assets/web/cili_cara.webp" alt="" width="' + px + '" height="' + px + '" decoding="async">' +
+        '<img src="/assets/web/cili_avatar.webp" alt="" width="' + px + '" height="' + px + '" decoding="async">' +
         '<video class="cy-cili-habla" muted playsinline loop preload="metadata" poster="/assets/web/cili_cara.webp">' +
           '<source src="/assets/web/cili_habla.webm" type="video/webm"><source src="/assets/web/cili_habla.mp4" type="video/mp4">' +
         '</video>' +
@@ -106,8 +106,8 @@
   }
 
   function montarWidget() {
-    // El registro de distribuidores ya es una conversación con Cili paso a paso; el botón flotante quedaba
-    // encima de «Empezar» y «Siguiente» en el celular y abría el chat en vez de avanzar (15/11/2026).
+    // El registro de distribuidores ya es una conversación guiada con Cili: ahí no se muestra el botón flotante,
+    // que taparía los botones del asistente en el celular.
     if (/^\/distribuidores\/registro(\/|$)/.test(location.pathname)) return;
     if (document.getElementById('cyMayaRaiz')) return;
 

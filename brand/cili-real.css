@@ -61,3 +61,6 @@
 
 /* Área táctil de 44 px para los puntos de Cili, sin cambiar su tamaño visual */
 .cili-real__punto::after{content:"";position:absolute;inset:-6px;border-radius:50%}
+
+/* 15/11/2026: Cili queda como imagen fija (sin 3D ni movimiento), a pedido de Wilo. */
+.cili-real__figura,.cili-real__figura.saluda{transform:none!important;transition:none!important}.cili-real .cili3d-poster,.cili-real__sombra,.cili-real__punto,.cili-real__figura.saluda .cili3d-poster{animation:none!important}

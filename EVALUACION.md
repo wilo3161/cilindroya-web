@@ -69,6 +69,16 @@ la combinación exacta.
 - **Impacto en la comunidad:** menos perifoneo (ruido), rutas más cortas (combustible) y venta asegurada para el
   distribuidor autorizado.
 
+## Presencia en redes con la misma identidad
+
+- Página de Facebook: https://www.facebook.com/profile.php?id=61594955714385
+- El 15/11/2026 se publicaron dos piezas con el diseño del sitio (mismos colores, tipografía y mascota): una para
+  familias (precio, tiempo de entrega y enlace a cilindroya.com) y otra para distribuidores autorizados (programa y
+  condiciones). Los datos coinciden con el sitio, `llms.txt` y los datos estructurados, para que buscadores e IA
+  encuentren la misma información en todas partes.
+- Juego completo (publicación, historia, LinkedIn, portada y foto de perfil) generado desde una plantilla HTML
+  parametrizada con los recursos de la marca.
+
 ## Documentos de respaldo
 
 | Documento | Contenido |

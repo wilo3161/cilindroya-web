@@ -16,6 +16,7 @@ recibe la dirección, arma su ruta por cercanía y entrega en unos 15 a 20 minut
 - Sitio en vivo: https://cilindroya.com
 - Alojamiento: Hostinger (plan Premium), dominio propio con Cloudflare al frente (SSL y caché).
 - Hecho con HTML, CSS y JavaScript sin frameworks, para que cargue rápido en celulares.
+- Facebook: https://www.facebook.com/profile.php?id=61594955714385
 
 ## Qué hay en el sitio
 

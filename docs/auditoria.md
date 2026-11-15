@@ -15,19 +15,22 @@
 | Diseño adaptable | Probado a 360, 390, 768, 1024 y 1366 px: sin desborde horizontal; botones de 44 px o más |
 | Accesibilidad | Contraste de texto 4,5:1, foco visible con teclado, animaciones desactivadas con `prefers-reduced-motion` |
 
-## Lighthouse (sitio en vivo)
+## Lighthouse (sitio en vivo, versión final)
 | Página | Dispositivo | Rendimiento | Accesibilidad | Buenas prácticas | SEO |
 |---|---|---|---|---|---|
-| `/hogar/` | Celular | 86 | 100 | 100 | 100 |
-| `/hogar/` | Escritorio | 98 | 100 | 100 | 100 |
-| `/preguntas/` | Celular | 86 | 100 | 100 | 100 |
-| `/preguntas/` | Escritorio | 98 | 95 | 100 | 100 |
+| `/hogar/` | Celular | 85 | 100 | 100 | 100 |
+| `/hogar/` | Escritorio | 97 | 100 | 100 | 100 |
+| `/preguntas/` | Celular | 91 | 100 | 100 | 100 |
+| `/preguntas/` | Escritorio | 88–98 | 100 | 100 | 100 |
 
-Corregido después de esta medición: caché larga para archivos estáticos, fuentes y hoja del chat sin bloquear el primer
-pintado, imagen del héroe en tamaño para celular y botón de cerrar del saludo de Cili con área táctil suficiente (el
-punto que bajaba la accesibilidad a 95).
+Aplicado para llegar aquí: caché larga para archivos estáticos, fuentes y hoja del chat sin bloquear el primer pintado,
+imagen del héroe en tamaño para celular y área táctil suficiente en todos los botones. El rendimiento varía unos puntos
+entre mediciones según la red.
+
+## Buscadores
+- Google Search Console: propiedad verificada y sitemap enviado.
+- Bing Webmaster Tools: sitio verificado (archivo `BingSiteAuth.xml`) y sitemap enviado.
 
 ## No verificado o pendiente
-- Bing Webmaster Tools: pendiente de la cuenta de Microsoft del autor.
 - Perfil de empresa en Google: creado; falta la verificación en video.
 - Publicación del enlace en Facebook, Instagram y LinkedIn.

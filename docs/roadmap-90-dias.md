@@ -2,7 +2,7 @@
 
 | Periodo | Acción | Cómo se mide |
 |---|---|---|
-| Días 1–15 | Indexación: sitemap enviado en Google Search Console y Bing Webmaster Tools; perfil de empresa en Google verificado; revisar errores de rastreo. | Páginas indexadas en Search Console; perfil verificado |
+| Días 1–15 | Indexación: sitemap ya enviado en Google Search Console y Bing Webmaster Tools; revisar la cobertura semanal; perfil de empresa en Google verificado; revisar errores de rastreo. | Páginas indexadas en Search Console; perfil verificado |
 | Días 1–15 | Publicar el enlace del sitio en Facebook, Instagram y LinkedIn de CilindroYa. | Visitas desde redes (Search Console / analítica) |
 | Días 15–45 | Reseñas reales de clientes en el perfil de Google después de cada entrega; responder todas. | Número y promedio de reseñas |
 | Días 15–45 | Una guía nueva al mes para familias y distribuidores, escrita a partir de preguntas reales que llegan por WhatsApp. | Impresiones y clics por guía |

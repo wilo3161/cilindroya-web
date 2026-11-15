@@ -1128,11 +1128,13 @@ main > section:nth-of-type(odd):not(.portada-a):not(.cierre) {
 .quien-ficha .cili-ficha img {
   position: absolute;
   left: 50%;
-  bottom: -12%;
-  width: 84%;
+  top: -9%;
+  bottom: auto;
+  width: 150%;
+  max-width: none;
   height: auto;
   max-height: none;
-  transform: translateX(-50%);
+  transform: translateX(-57.5%);
   object-fit: contain;
   border-radius: 0;
   background: none;

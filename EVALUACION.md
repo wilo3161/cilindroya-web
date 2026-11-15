@@ -78,7 +78,11 @@ espera**, se le dice al cliente con claridad y se le avisa cuando haya un distri
 
 - Entre el 19/10 y el 15/11/2026 llegaron 14 pedidos reales; 11 quedaron en lista de espera, casi todos del centro
   de Ibarra. Esa demanda es la que el programa de distribuidores ofrece como «carga ya vendida».
-- Si se prueba el pedido, quedará en lista de espera por este motivo, no por una falla.
+- Si se prueba el pedido con un nombre cualquiera, quedará en lista de espera por este motivo, no por una falla.
+- **Piloto de demostración:** para ver el ciclo completo, hacer el pedido en `/cliente/` con la palabra «Prueba» en el
+  nombre (por ejemplo «Prueba Jurado»). Lo atiende un «Distribuidor de demostración (simulación)», placa DEMO-000:
+  a los ~20 segundos pasa a «en camino» y a los ~2 minutos a «entregado». Es una simulación declarada para la
+  evaluación; los pedidos reales nunca pasan por ella.
 
 ## Presencia en redes con la misma identidad
 
